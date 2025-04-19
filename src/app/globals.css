@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+    --color-primary: #2C2C2C;
+    --color-secondary: #6495ED;
+    /* --color-secondary: #6763AC; */
+    /* --color-secondary: #395A88; */
+    /* --color-secondary: #274060; */
+    --color-tertiary: #FAF9F6;
+}
+
+/*  theme: {
+    extend: {
+      colors: {
+        primary: "#2C2C2C", // Charcoal
+        accent: "#800020", // Burgundy
+        background: "#FAF9F6", // Ivory
+      },
+      fontFamily: {
+        sans: ["Montserrat", "sans-serif"],
+      },
+    },
+    screens: {
+      lg: { min: "1300px", max: "3840px" },
+    },
+  }, */
