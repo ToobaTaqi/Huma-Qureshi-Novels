@@ -1,7 +1,13 @@
 import React from "react";
 import Novel from "../Cards/Novel";
 
-export default function Category({ CategoryName,flexType}: { CategoryName: string, flexType:string }) {
+export default function Category({
+  CategoryName,
+  flexType,
+}: {
+  CategoryName: string;
+  flexType: string;
+}) {
   return (
     <div className="py-5 flex flex-col gap-6">
       <div className="flex items-center gap-3">

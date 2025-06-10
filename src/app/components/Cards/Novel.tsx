@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Novel() {
   return (
-    <div className="w-[200px] rounded-xl flex flex-col justify-center items-center py-4 gap-3 shadow-2xl hover:border hover:border-secondary">
+    <div className="text-tertiary w-[200px] rounded-xl flex flex-col justify-center items-center py-4 gap-3 shadow-2xl hover:border hover:border-secondary">
       <img src={`https://cdn.pixabay.com/photo/2018/07/11/16/53/book-3531412_1280.jpg`} className="w-[170px] h-[120px] bg-secondary flex items-center justify-center text-2xl text-wrap text-center object-cover"/>
 
       <div className="flex flex-col gap-2">
@@ -15,7 +15,7 @@ export default function Novel() {
             <h2>Genre :</h2>
             <p>Horror</p>
         </div>
-        <button className="bg-tertiary w-fit px-2 py-1 text-xs font-bold text-primary active:bg-secondary active:text-tertiary rounded-sm self-center">
+        <button className="bg-tertiary w-fit px-2 py-1 font-bold text-primary active:bg-secondary active:text-tertiary rounded-sm self-center">
             Read
         </button>
       </div>
