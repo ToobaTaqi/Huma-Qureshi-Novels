@@ -53,9 +53,16 @@ export default function Header() {
   useEffect(() => {
     if (menu === false) {
       setMenuIcon(icons.list);
+      document.body.style.overflow = "auto";
     } else {
       setMenuIcon(icons.close);
+      document.body.style.overflow = "hidden";
     }
+
+    return () => {
+      // Clean up in case the component unmounts
+      document.body.style.overflow = "auto";
+    };
   }, [menu]);
 
   return (
@@ -109,7 +116,7 @@ export default function Header() {
           <Link href={`/categories`}>All Categories</Link>
           <Link href={`/all`}>All Novels</Link>
           {categories.map((category, index) => (
-            <Link href={'/categories'}>
+            <Link href={"/categories"}>
               <li key={index} className="active:text-primary">
                 {category}
               </li>
