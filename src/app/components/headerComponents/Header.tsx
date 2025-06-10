@@ -26,6 +26,18 @@ export default function Header() {
     "Category1",
     "category2",
     "c3",
+    "Category1",
+    "category2",
+    "c3",
+    "Category1",
+    "category2",
+    "c3",
+    "Category1",
+    "category2",
+    "c3",
+    "Category1",
+    "category2",
+    "c3",
   ];
 
   const [menu, setMenu] = useState(false);
