@@ -3,18 +3,19 @@ import React from "react";
 export default function Novel() {
   return (
     <div className="w-[200px] rounded-xl flex flex-col justify-center items-center py-4 gap-3 shadow-2xl hover:border hover:border-secondary">
-      <h1 className="w-[170px] h-[120px] bg-secondary flex items-center justify-center text-2xl text-wrap text-center">Novel Novel Novel Name</h1>
+      <img src={`https://cdn.pixabay.com/photo/2018/07/11/16/53/book-3531412_1280.jpg`} className="w-[170px] h-[120px] bg-secondary flex items-center justify-center text-2xl text-wrap text-center object-cover"/>
 
-      <div className="flex flex-col justify-start text-start gap-2">
-        <div className="flex gap-2 text-sm">
+      <div className="flex flex-col gap-2">
+        <h1 className="justify-center text-xl text-wrap text-center">Novel name Novel name</h1>
+        <div className="flex gap-2 text-sm justify-start text-start px-5 opacity-75">
             <h2>Writer :</h2>
             <p>HQ</p>
         </div>
-        <div className="flex gap-2 text-sm">
+        <div className="flex gap-2 text-sm justify-start text-start px-5 opacity-75">
             <h2>Genre :</h2>
             <p>Horror</p>
         </div>
-        <button className="bg-tertiary text-primary hover:bg-secondary hover:text-tertiary rounded-sm">
+        <button className="bg-tertiary w-fit px-2 py-1 text-xs font-bold text-primary active:bg-secondary active:text-tertiary rounded-sm self-center">
             Read
         </button>
       </div>
