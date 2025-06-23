@@ -16,11 +16,11 @@ export default function Category({
       </div>
 
       <div className={`flex gap-5 flex-wrap justify-center`}>
+        {/* <Novel />
         <Novel />
         <Novel />
         <Novel />
-        <Novel />
-        <Novel />
+        <Novel /> */}
       </div>
     </div>
   );

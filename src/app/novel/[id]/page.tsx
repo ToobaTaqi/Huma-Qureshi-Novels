@@ -1,40 +1,50 @@
 "use client";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 
 export default function Page() {
   const params = useParams();
   const id = params.id;
+  const [novel, setNovel] = useState<any>({});
+  const [body,setBody]=useState("")
 
-  const fullText = `
-  ٹی وی دیکھنے اور ویڈیو گیم کھیلنے کے بہت سے فاءدے اور نقصانات ہیں-
-  ٹی وی دیکھنے اور ویڈیو گیم کھیلنے سے بچے بہت سی نئ چیزیں سیکھتے ۂیں-
-  ان کو بہت سی نئ معلومات ملتی ہیں اور یۂ بچوں کی پسندیدہ تفریح ہے مگرٹی وی دیکھنے اور ویڈیو گیم کھیلنے کے بہت سے فاءدے اور نقصانات ہیں-
-  ٹی وی دیکھنے اور ویڈیو گیم کھیلنے سے بچے بہت سی نئ چیزیں سیکھتے ۂیں-
-  ان کو بہت سی نئ معلومات ملتی ہیں اور یۂ بچوں کی پسندیدہ تفریح ہے مگرٹی وی دیکھنے اور ویڈیو گیم کھیلنے کے بہت سے فاءدے اور نقصانات ہیں-
-  ٹی وی دیکھنے اور ویڈیو گیم کھیلنے سے بچے بہت سی نئ چیزیں سیکھتے ۂیں-
-  ان کو بہت سی نئ معلومات ملتی ہیں اور یۂ بچوں کی پسندیدہ تفریح ہے مگرٹی وی دیکھنے اور ویڈیو گیم کھیلنے کے بہت سے فاءدے اور نقصانات ہیں-
-  ٹی وی دیکھنے اور ویڈیو گیم کھیلنے سے بچے بہت سی نئ چیزیں سیکھتے ۂیں-
-  ان کو بہت سی نئ معلومات ملتی ہیں اور یۂ بچوں کی پسندیدہ تفریح ہے مگرٹی وی دیکھنے اور ویڈیو گیم کھیلنے کے بہت سے فاءدے اور نقصانات ہیں-
-  ٹی وی دیکھنے اور ویڈیو گیم کھیلنے سے بچے بہت سی نئ چیزیں سیکھتے ۂیں-
-  ان کو بہت سی نئ معلومات ملتی ہیں اور یۂ بچوں کی پسندیدہ تفریح ہے مگرٹی وی دیکھنے اور ویڈیو گیم کھیلنے کے بہت سے فاءدے اور نقصانات ہیں-
-  ٹی وی دیکھنے اور ویڈیو گیم کھیلنے سے بچے بہت سی نئ چیزیں سیکھتے ۂیں-
-  ان کو بہت سی نئ معلومات ملتی ہیں اور یۂ بچوں کی پسندیدہ تفریح ہے مگرٹی وی دیکھنے اور ویڈیو گیم کھیلنے کے بہت سے فاءدے اور نقصانات ہیں-
-  ٹی وی دیکھنے اور ویڈیو گیم کھیلنے سے بچے بہت سی نئ چیزیں سیکھتے ۂیں-
-  ان کو بہت سی نئ معلومات ملتی ہیں اور یۂ بچوں کی پسندیدہ تفریح ہے مگرٹی وی دیکھنے اور ویڈیو گیم کھیلنے کے بہت سے فاءدے اور نقصانات ہیں-
-  ٹی وی دیکھنے اور ویڈیو گیم کھیلنے سے بچے بہت سی نئ چیزیں سیکھتے ۂیں-
-  ان کو بہت سی نئ معلومات ملتی ہیں اور یۂ بچوں کی پسندیدہ تفریح ہے مگرٹی وی دیکھنے اور ویڈیو گیم کھیلنے کے بہت سے فاءدے اور نقصانات ہیں-
-  ٹی وی دیکھنے اور ویڈیو گیم کھیلنے سے بچے بہت سی نئ چیزیں سیکھتے ۂیں-
-  ان کو بہت سی نئ معلومات ملتی ہیں اور یۂ بچوں کی پسندیدہ تفریح ہے مگرٹی وی دیکھنے اور ویڈیو گیم کھیلنے کے بہت سے فاءدے اور نقصانات ہیں-
-  ٹی وی دیکھنے اور ویڈیو گیم کھیلنے سے بچے بہت سی نئ چیزیں سیکھتے ۂیں-
-  ان کو بہت سی نئ معلومات ملتی ہیں اور یۂ بچوں کی پسندیدہ تفریح ہے مگرٹی وی دیکھنے اور ویڈیو گیم کھیلنے کے بہت سے فاءدے اور نقصانات ہیں-
-  ٹی وی دیکھنے اور ویڈیو گیم کھیلنے سے بچے بہت سی نئ چیزیں سیکھتے ۂیں-
-  ان کو بہت سی نئ معلومات ملتی ہیں اور یۂ بچوں کی پسندیدہ تفریح ہے مگر
-  ...
-  `; // Use full novel text here
+  useEffect(() => {
+    const fetchNovels = async () => {
+      try {
+        const response = await fetch("/api/novel").then((response) =>
+          response.json()
+        );
+        console.log(response, "-----------");
+        //
+        const Novel = response.find((item: any) => item._id === id);
+        console.log(Novel.body, "---->>>");
 
-  const words = fullText.trim().split(/\s+/);
+        // if (Category.length > 0) {
+        //   const match = Category[0];
+        //   if (match.genre._id === id) {
+        //     setCategoryName(match.genre.genrename);
+        //   } else if (match.writer._id === id) {
+        //     setCategoryName(match.writer.writername);
+        //   }
+        // }
+
+        setNovel(Novel);
+        setBody(Novel.body)
+        // console.log("inside Category", Category);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchNovels();
+  }, []);
+
+  // const Body = novel.body || ""; // Use full novel text here
+
+  console.log(novel.title);
+
+  const words = body.trim().split(/\s+/);
   const wordsPerPage = 300;
   const totalPages = Math.ceil(words.length / wordsPerPage);
 
@@ -58,7 +68,7 @@ export default function Page() {
           className="w-full h-[300px] object-cover"
         />
         <h1 className="text-2xl text-primary font-bold px-3 py-2 rounded absolute top-[130px] w-fit bg-tertiary text-center ">
-          ایک طویل ناول کا نام
+          {novel.title}
         </h1>
       </div>
 
@@ -86,17 +96,26 @@ export default function Page() {
 
       {/* meta */}
       <div className="px-10 text-secondary text-xs opacity-70 flex gap-5">
-        <h1>Written by : HQ</h1>
-        <h1>Genre : suspense</h1>
+        <h1>Written by : {novel.writer?.writername || ""}</h1>
+        <h1>Genre : {novel.genre?.genrename}</h1>
       </div>
 
       {/* tags */}
       <div className="flex gap-3 text-xs px-10 font-semibold opacity-70">
-        <p className="text-secondary border border-secondary px-2 py-1">tag1</p>
+        {novel.tags?.map((t: any, index: number) => (
+          <p
+            key={index}
+            className="text-secondary border border-secondary px-2 py-1"
+          >
+            {t}
+          </p>
+        ))}
+
+        {/* <p className="text-secondary border border-secondary px-2 py-1">tag1</p>
         <p className="text-secondary border border-secondary px-2 py-1">tag2</p>
         <p className="text-secondary border border-secondary px-2 py-1">tag3</p>
         <p className="text-secondary border border-secondary px-2 py-1">tag4</p>
-        <p className="text-secondary border border-secondary px-2 py-1">tag5</p>
+        <p className="text-secondary border border-secondary px-2 py-1">tag5</p> */}
       </div>
     </div>
   );

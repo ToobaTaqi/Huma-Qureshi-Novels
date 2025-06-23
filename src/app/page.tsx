@@ -1,17 +1,77 @@
-import React from "react";
-import Logo from "./components/Logo";
+"use client";
+import React, { useEffect, useState } from "react";
 import Category from "./components/homePageComponents/Category";
+import Novel from "./components/Cards/Novel";
+import Heading from "./components/Heading";
 
 export default function page() {
+  const [latest, setLatest] = useState<any>([]);
+  const [trending, setTrending] = useState<any>([]);
+  const [popular, setPopular] = useState<any>([]);
+
+  useEffect(() => {
+    const fetching = async () => {
+      try {
+        const response = await fetch("/api/novel").then((response) =>
+          response.json()
+        );
+
+        // console.log(response)
+        console.log(response[0].latest);
+
+        // filtering latest
+        let Latest = response.filter((l: any) => l.latest);
+
+        setLatest(Latest);
+        console.log("inside Latest", Latest);
+
+        // filtering trending
+        let Trending = response.filter((t: any) => t.trending);
+
+        setTrending(Latest);
+        console.log("inside Trending", Trending);
+
+        // filtering popular
+        let Popular = response.filter((p: any) => p.popular);
+
+        setPopular(Popular);
+        console.log("inside Popular", Popular);
+      } catch (error) {}
+    };
+
+    fetching();
+  }, []);
+
+  console.log("outside latest", latest);
+  console.log("outside Trending", trending);
+  console.log("outside Poplular", popular);
+
   return (
     <div className="text-tertiary flex flex-col gap-6">
-      {/* <Category CategoryName="Latest" flexType="wrap" overflowx="hidden"/>
-      <Category CategoryName="Trending" flexType="nowrap" overflowx="auto"/>
-      <Category CategoryName="Popular" flexType="" overflowx="auto"/> */}
-
-      <Category CategoryName="Latest" flexType="wrap" />
-      <Category CategoryName="Trending" flexType="nowrap"  />
-      <Category CategoryName="Popular" flexType=""  />
+      <div className="py-5 flex flex-col gap-6">
+        <Heading name="Latest" />
+        <div className={`flex gap-5 flex-wrap justify-center`}>
+          {latest.map((l: any, index: any) => (
+            <Novel href={l._id} novelName={l.title} writer={l.writer.writername} genre={l.genre.genrename} key={index} />
+          ))}
+        </div>
+      </div>
+      <div className="py-5 flex flex-col gap-6">
+        <Heading name="Trending" />
+        <div className={`flex gap-5 flex-wrap justify-center`}>
+          {trending.map((t: any, index: any) => (
+            <Novel href={t._id} novelName={t.title} writer={t.writer.writername} genre={t.genre.genrename} key={index} />
+          ))}
+        </div>
+      </div>
+      <div className="py-5 flex flex-col gap-6">
+        <Heading name="Popular" />
+        <div className={`flex gap-5 flex-wrap justify-center`}>
+          {popular.map((p: any, index: any) => (
+            <Novel href={p._id} novelName={p.title} writer={p.writer.writername} genre={p.genre.genrename} key={index} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

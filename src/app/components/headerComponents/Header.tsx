@@ -131,7 +131,7 @@ export default function Header() {
             <Link href={`/categories`}>
               <button onClick={() => setMenu(false)}>All Categories</button>
             </Link>
-            <Link href={`/all`}>
+            <Link href={`/novel`}>
               <button onClick={() => setMenu(false)}>All Novels</button>
             </Link>
             {/* {categories.map((category, index) => (
