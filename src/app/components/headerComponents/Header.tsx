@@ -92,11 +92,10 @@ export default function Header() {
         </div>
 
         {/* search bar */}
-        <Search/>
-       
+        <Search />
 
         {/* Up */}
-         <Up/>
+        <Up />
 
         {/* the open and close section - sidebar */}
         <nav
@@ -105,39 +104,41 @@ export default function Header() {
         flex flex-col items-center justify-center gap-4 text-secondary`}
         >
           <div className="flex flex-col gap-2 justify-center items-center w-full px-20 py-5">
-            <Link href={`/categories`}>
+            <Link
+              href={`/categories`}
+              className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary"
+            >
               <button onClick={() => setMenu(false)}>All Categories</button>
             </Link>
-            <Link href={`/novel`}>
+            <Link href={`/novel`} className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary">
               <button onClick={() => setMenu(false)}>All Novels</button>
             </Link>
 
             <div className="w-full border "></div>
-             <Link href={`/about`}>
+            <Link href={`/about`} className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary">
               <button onClick={() => setMenu(false)}>Latest</button>
             </Link>
-            <Link href={`/about`}>
+            <Link href={`/about`} className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary">
               <button onClick={() => setMenu(false)}>Trending</button>
             </Link>
-           
-            <Link href={`/about`}>
+
+            <Link href={`/about`} className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary">
               <button onClick={() => setMenu(false)}>Popular</button>
             </Link>
 
             <div className="w-full border "></div>
-             <Link href={`/about`}>
+            <Link href={`/about`} className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary">
               <button onClick={() => setMenu(false)}>About US</button>
             </Link>
-            <Link href={`/contact`}>
+            <Link href={`/contact`} className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary">
               <button onClick={() => setMenu(false)}>Contact US</button>
             </Link>
-            <Link href={`/privacypolicy`}>
+            <Link href={`/privacypolicy`} className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary">
               <button onClick={() => setMenu(false)}>Privacy Policy</button>
             </Link>
-            <Link href={`/terms`}>
+            <Link href={`/terms`} className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary">
               <button onClick={() => setMenu(false)}>Terms</button>
             </Link>
-           
           </div>
         </nav>
       </header>
