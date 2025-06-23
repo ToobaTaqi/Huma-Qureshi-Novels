@@ -4,44 +4,15 @@ import Logo from "../Logo";
 import Image from "next/image";
 import { icons } from "../../assets";
 import Link from "next/link";
+import Up from "./Up";
+import Search from "./Search";
+// import Up from "./Up";
 
 export default function Header() {
-  // example categories (gonna make them dynamic)
-  const categories = [
-    "Category1",
-    "category2",
-    "c3",
-    "Category1",
-    "category2",
-    "c3",
-    "Category1",
-    "category2",
-    "c3",
-    "Category1",
-    "category2",
-    "c3",
-    "Category1",
-    "category2",
-    "c3",
-    "Category1",
-    "category2",
-    "c3",
-    "Category1",
-    "category2",
-    "c3",
-    "Category1",
-    "category2",
-    "c3",
-    "Category1",
-    "category2",
-    "c3",
-    "Category1",
-    "category2",
-    "c3",
-  ];
-
   const [menu, setMenu] = useState(false);
   const [menuIcon, setMenuIcon] = useState(icons.list);
+  const [writers, setWriters] = useState([]);
+
   const openMenu = () => {
     setMenu(!menu);
     if (menu === false) {
@@ -71,6 +42,23 @@ export default function Header() {
       document.body.style.overflow = "auto";
     };
   }, [menu]);
+
+  // fetching categories
+  useEffect(() => {
+    const fetchWriters = async () => {
+      try {
+        const response = await fetch("/api/genre").then((response) =>
+          response.json()
+        );
+        console.log("navbar======", response);
+        setWriters(response);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchWriters();
+  }, []);
 
   return (
     <>
@@ -104,48 +92,53 @@ export default function Header() {
         </div>
 
         {/* search bar */}
-        <div className=" w-full flex justify-center">
-          <div className="border border-tertiary rounded-full flex justify-between items-center w-[230px] px-2 py-2 gap-2 ">
-            <input
-              type="text"
-              className="px-2 text-tertiary w-[180px] active:border-0 text-sm"
-            />
+        <Search/>
+       
 
-            <Image
-              src={icons.search}
-              alt="searchButton"
-              width={100}
-              height={100}
-              className="w-6 h-6"
-            />
-          </div>
-        </div>
+        {/* Up */}
+         <Up/>
 
+        {/* the open and close section - sidebar */}
         <nav
-          // className={`${menu ? "flex" : "hidden"} justify-center items-center gap-3 text-secondary flex-col py-3`}
           className={`fixed top-24 bg-opacity-10 right-0 h-fit overflow-y-scroll-scroll w-[80%] bg-tertiary shadow-md z-50 transform  transition-transform duration-300 ease-in-out 
           ${menu ? "translate-x-0" : "translate-x-full"}
         flex flex-col items-center justify-center gap-4 text-secondary`}
         >
-          <ul className="flex flex-col justify-start items-start">
+          <div className="flex flex-col gap-2 justify-center items-center w-full px-20 py-5">
             <Link href={`/categories`}>
               <button onClick={() => setMenu(false)}>All Categories</button>
             </Link>
             <Link href={`/novel`}>
               <button onClick={() => setMenu(false)}>All Novels</button>
             </Link>
-            {/* {categories.map((category, index) => (
-              <Link href={"/categories"}>
-                <button
-                  onClick={() => setMenu(false)}
-                  key={index}
-                  className="active:text-primary"
-                >
-                  {category}
-                </button>
-              </Link>
-            ))} */}
-          </ul>
+
+            <div className="w-full border "></div>
+             <Link href={`/about`}>
+              <button onClick={() => setMenu(false)}>Latest</button>
+            </Link>
+            <Link href={`/about`}>
+              <button onClick={() => setMenu(false)}>Trending</button>
+            </Link>
+           
+            <Link href={`/about`}>
+              <button onClick={() => setMenu(false)}>Popular</button>
+            </Link>
+
+            <div className="w-full border "></div>
+             <Link href={`/about`}>
+              <button onClick={() => setMenu(false)}>About US</button>
+            </Link>
+            <Link href={`/contact`}>
+              <button onClick={() => setMenu(false)}>Contact US</button>
+            </Link>
+            <Link href={`/privacypolicy`}>
+              <button onClick={() => setMenu(false)}>Privacy Policy</button>
+            </Link>
+            <Link href={`/terms`}>
+              <button onClick={() => setMenu(false)}>Terms</button>
+            </Link>
+           
+          </div>
         </nav>
       </header>
     </>

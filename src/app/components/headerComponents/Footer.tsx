@@ -8,7 +8,7 @@ export default function Footer() {
       {/* footer */}
       <div className="flex flex-row px-10 pb-5 w-full justify-center items-center gap-10">
         {/* logo */}
-        <div className="w-fit border bg-primary px-3 py-2 rounded">
+        <div className="w-fit  bg-primary px-3 py-2 rounded">
           <Logo />
         </div>
         {/* pages */}

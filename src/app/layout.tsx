@@ -4,6 +4,7 @@ import "./globals.css";
 
 import Header from "../app/components/headerComponents/Header";
 import Footer from "./components/headerComponents/Footer";
+// import Up from "./components/headerComponents/Up";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +30,11 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-primary my-3">
         <Header />
-        <div className="px-5">{children}</div>
+        <div className="px-5">{children}
+          {/* <Up /> */}
+        </div>
+
+        
         <Footer />
       </body>
     </html>
