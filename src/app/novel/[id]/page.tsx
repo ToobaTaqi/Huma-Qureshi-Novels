@@ -7,7 +7,8 @@ export default function Page() {
   const params = useParams();
   const id = params.id;
   const [novel, setNovel] = useState<any>({});
-  const [body,setBody]=useState("")
+  const [body, setBody] = useState("");
+  const [pdfId, setPdfId] = useState("");
 
   useEffect(() => {
     const fetchNovels = async () => {
@@ -18,20 +19,16 @@ export default function Page() {
         console.log(response, "-----------");
         //
         const Novel = response.find((item: any) => item._id === id);
-        console.log(Novel.body, "---->>>");
-
-        // if (Category.length > 0) {
-        //   const match = Category[0];
-        //   if (match.genre._id === id) {
-        //     setCategoryName(match.genre.genrename);
-        //   } else if (match.writer._id === id) {
-        //     setCategoryName(match.writer.writername);
-        //   }
-        // }
+        // console.log(Novel.pdf.asset._ref, "---->>>");
 
         setNovel(Novel);
-        setBody(Novel.body)
-        // console.log("inside Category", Category);
+        setBody(Novel.body);
+        let ref = Novel.pdf.asset._ref.split("-");
+        // let lnk = ref?.split("-");
+        const Url=ref[1]
+        console.log(Url,'reffffffffffffffffffffff');
+        setPdfId(Url)
+        // console.log(lnk[1], "<--Link");
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -40,10 +37,9 @@ export default function Page() {
     fetchNovels();
   }, []);
 
-  // const Body = novel.body || ""; // Use full novel text here
+  // console.log(novel.title);
 
-  console.log(novel.title);
-
+  // pagination
   const words = body.trim().split(/\s+/);
   const wordsPerPage = 300;
   const totalPages = Math.ceil(words.length / wordsPerPage);
@@ -55,6 +51,7 @@ export default function Page() {
     const end = start + wordsPerPage;
     return words.slice(start, end).join(" ");
   }, [currentPage, words]);
+
 
   return (
     <div className="flex flex-col py-5 gap-5">
@@ -94,6 +91,17 @@ export default function Page() {
         ))}
       </div>
 
+      {/* download button */}
+      <div className="px-10 flex gap-2 justify-center flex-wrap">
+        <a
+          href={`https://cdn.sanity.io/files/92mgyrwt/production/${pdfId}.pdf`}
+          target="blank"
+          className="text-tertiary active:text-secondary"
+        >
+          Download PDF
+        </a>
+      </div>
+
       {/* meta */}
       <div className="px-10 text-secondary text-xs opacity-70 flex gap-5">
         <h1>Written by : {novel.writer?.writername || ""}</h1>
@@ -110,12 +118,6 @@ export default function Page() {
             {t}
           </p>
         ))}
-
-        {/* <p className="text-secondary border border-secondary px-2 py-1">tag1</p>
-        <p className="text-secondary border border-secondary px-2 py-1">tag2</p>
-        <p className="text-secondary border border-secondary px-2 py-1">tag3</p>
-        <p className="text-secondary border border-secondary px-2 py-1">tag4</p>
-        <p className="text-secondary border border-secondary px-2 py-1">tag5</p> */}
       </div>
     </div>
   );
