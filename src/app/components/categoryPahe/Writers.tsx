@@ -26,17 +26,15 @@ export default function Writers() {
   console.log("genre outside",writers[0])
 
   return (
-    <div className="flex flex-wrap gap-5 justify-center">
-      <ul className="flex flex-wrap gap-5 justify-center">
+    // <div className="flex flex-wrap gap-5 justify-center">
+      <ul className="flex flex-wrap gap-5 justify-center lg:justify-start lg:px-28 lg:gap-10">
         {writers.map((writer: any, index: number) => (
           <li key={index}>
             <CategoryCard href={writer._id} categoryName={writer.writername} />
           </li>
         ))}
       </ul>
-      {/* <CategoryCard />
-        <CategoryCard />
-        <CategoryCard /> */}
-    </div>
+     
+    // </div>
   );
 }

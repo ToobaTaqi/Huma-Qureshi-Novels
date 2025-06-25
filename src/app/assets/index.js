@@ -7,6 +7,7 @@ import logo from "./Logo.png";
 import up_tertiary from "./up-tertiary.png";
 import up_secondary from "./up-secondary.png";
 import up from "./up.png"
+import novelbanner from "./novelbanner.jpeg"
 
 export const icons = {
   list,
@@ -16,5 +17,5 @@ export const icons = {
   close,
   logo,
   up_tertiary,
-  up_secondary, up
+  up_secondary, up, novelbanner
 };

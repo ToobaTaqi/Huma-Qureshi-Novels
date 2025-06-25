@@ -69,7 +69,7 @@ export default function Header() {
         />
       )}
 
-      <header className="shadow-2xl px-5 pt-3 pb-5 flex flex-col gap-3">
+      <header className="shadow-2xl px-5 lg:px-20 pt-3 pb-5 flex flex-col gap-3">
         {/* logo and hamburger nav menu */}
         <div className="flex justify-between">
           <Logo />

@@ -26,17 +26,15 @@ export default function Genres() {
   // console.log("genre outside",genres[0]._id)
 
   return (
-    <div className="flex flex-wrap gap-5 justify-center">
-      <ul className="flex flex-wrap gap-5 justify-center">
+    // <div className="flex flex-wrap gap-5 justify-center ">
+      <ul className="flex flex-wrap gap-5 justify-center lg:justify-start lg:px-28 lg:gap-10">
         {genres.map((genre: any, index: number) => (
           <li key={index}>
             <CategoryCard href={genre._id} categoryName={genre.genrename} />
           </li>
         ))}
       </ul>
-      {/* <CategoryCard />
-        <CategoryCard />
-        <CategoryCard /> */}
-    </div>
+     
+    // </div>
   );
 }

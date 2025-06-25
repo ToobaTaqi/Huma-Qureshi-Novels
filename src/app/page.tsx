@@ -47,28 +47,51 @@ export default function page() {
   console.log("outside Poplular", popular);
 
   return (
-    <div className="text-tertiary flex flex-col gap-6">
-      <div className="py-5 flex flex-col gap-6">
+    <div className="text-tertiary flex flex-col gap-6 lg:py-10">
+      {/* latest */}
+      <div className="py-5 flex flex-col gap-6 lg:gap-10">
         <Heading name="Latest" />
-        <div className={`flex gap-5 flex-wrap justify-center`}>
+        <div className={`flex gap-5 flex-wrap justify-center lg:justify-start lg:px-28 lg:gap-10`}>
           {latest.map((l: any, index: any) => (
-            <Novel href={l._id} novelName={l.title} writer={l.writer.writername} genre={l.genre.genrename} key={index} />
+            <Novel
+              href={l._id}
+              novelName={l.title}
+              writer={l.writer.writername}
+              genre={l.genre.genrename}
+              key={index}
+            />
           ))}
         </div>
       </div>
+
+      {/* trending */}
       <div className="py-5 flex flex-col gap-6">
         <Heading name="Trending" />
-        <div className={`flex gap-5 flex-wrap justify-center`}>
+        <div className={`flex gap-5 flex-wrap justify-center lg:justify-start lg:px-28 lg:gap-10`}>
           {trending.map((t: any, index: any) => (
-            <Novel href={t._id} novelName={t.title} writer={t.writer.writername} genre={t.genre.genrename} key={index} />
+            <Novel
+              href={t._id}
+              novelName={t.title}
+              writer={t.writer.writername}
+              genre={t.genre.genrename}
+              key={index}
+            />
           ))}
         </div>
       </div>
+
+      {/* popular */}
       <div className="py-5 flex flex-col gap-6">
         <Heading name="Popular" />
-        <div className={`flex gap-5 flex-wrap justify-center`}>
+        <div className={`flex gap-5 flex-wrap justify-center lg:justify-start lg:px-28 lg:gap-10`}>
           {popular.map((p: any, index: any) => (
-            <Novel href={p._id} novelName={p.title} writer={p.writer.writername} genre={p.genre.genrename} key={index} />
+            <Novel
+              href={p._id}
+              novelName={p.title}
+              writer={p.writer.writername}
+              genre={p.genre.genrename}
+              key={index}
+            />
           ))}
         </div>
       </div>

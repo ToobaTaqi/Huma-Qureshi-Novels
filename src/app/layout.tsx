@@ -30,7 +30,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-primary my-3">
         <Header />
-        <div className="px-5">{children}
+        <div className="px-5 lg:px-20">{children}
           {/* <Up /> */}
         </div>
 

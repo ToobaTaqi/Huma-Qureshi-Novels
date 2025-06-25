@@ -1,4 +1,5 @@
 "use client";
+import { icons } from "@/app/assets";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import React, { useState, useMemo, useEffect } from "react";
@@ -25,9 +26,9 @@ export default function Page() {
         setBody(Novel.body);
         let ref = Novel.pdf.asset._ref.split("-");
         // let lnk = ref?.split("-");
-        const Url=ref[1]
-        console.log(Url,'reffffffffffffffffffffff');
-        setPdfId(Url)
+        const Url = ref[1];
+        console.log(Url, "reffffffffffffffffffffff");
+        setPdfId(Url);
         // console.log(lnk[1], "<--Link");
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -52,25 +53,24 @@ export default function Page() {
     return words.slice(start, end).join(" ");
   }, [currentPage, words]);
 
-
   return (
-    <div className="flex flex-col py-5 gap-5">
+    <div className="flex flex-col py-5 gap-6 lg:gap-10">
       {/* banner and title */}
       <div className="relative flex justify-center">
-        <img
-          src={`https://t4.ftcdn.net/jpg/07/64/23/43/360_F_764234350_QUDgtPXyvJsCuJr2bZpSNfCKtYYtlrVj.jpg`}
+        <Image
+          src={icons.novelbanner}
           alt=""
           width={100}
           height={100}
-          className="w-full h-[300px] object-cover"
+          className="w-full h-[300px] lg:h-[400px] object-cover lg:object-fill"
         />
-        <h1 className="text-2xl text-primary font-bold px-3 py-2 rounded absolute top-[130px] w-fit bg-tertiary text-center ">
+        <h1 className="text-2xl lg:text-4xl text-primary font-bold px-3 py-2 lg:py-5 lg:px-5 rounded absolute top-[130px] lg:top-[150px] w-fit bg-tertiary text-center ">
           {novel.title}
         </h1>
       </div>
 
       {/* novel content */}
-      <div className="px-10 text-right text-tertiary leading-7 whitespace-pre-wrap">
+      <div className="px-10 lg:px-24 text-right text-tertiary leading-7 whitespace-pre-wrap">
         <p dir="rtl">{paginatedText}</p>
       </div>
 
@@ -92,15 +92,20 @@ export default function Page() {
       </div>
 
       {/* download button */}
-      <div className="px-10 flex gap-2 justify-center flex-wrap">
-        <a
-          href={`https://cdn.sanity.io/files/92mgyrwt/production/${pdfId}.pdf`}
-          target="blank"
-          className="text-tertiary active:text-secondary"
-        >
-          Download PDF
-        </a>
-      </div>
+      <a
+        href={`https://cdn.sanity.io/files/92mgyrwt/production/${pdfId}.pdf`}
+        target="blank"
+        className="px-10 flex gap-1 justify-center flex-wrap border border-primary active:border-tertiary rounded py-2 w-fit self-center"
+      >
+        <p className="text-tertiary">Download PDF</p>
+        <Image
+          className="w-6 h-6"
+          src={icons.download}
+          width={100}
+          height={100}
+          alt=""
+        />
+      </a>
 
       {/* meta */}
       <div className="px-10 text-secondary text-xs opacity-70 flex gap-5">

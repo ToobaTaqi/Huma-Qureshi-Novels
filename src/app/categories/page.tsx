@@ -7,12 +7,12 @@ import Writers from "../components/categoryPahe/Writers";
 
 export default function page() {
   return (
-    <div className="py-5 flex flex-col gap-5">
-      <div className="flex flex-col gap-5 justify-center">
+    <div className="py-5 flex flex-col gap-6 lg:py-10">
+      <div className="flex flex-col gap-6 lg:gap-10 justify-center ">
         <Heading name="Genres" />
         <Genres />
       </div>
-      <div className="flex flex-wrap flex-col gap-5 justify-center">
+      <div className="flex flex-col gap-6 lg:gap-10 justify-center">
         <Heading name="Writers" />
         <Writers />
       </div>
