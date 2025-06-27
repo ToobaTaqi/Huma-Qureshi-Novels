@@ -8,7 +8,7 @@ import Up from "./Up";
 import Search from "./Search";
 // import Up from "./Up";
 
-export default function Header() {
+export default function MobileHeader() {
   const [menu, setMenu] = useState(false);
   const [menuIcon, setMenuIcon] = useState(icons.list);
   const [writers, setWriters] = useState([]);
@@ -69,7 +69,7 @@ export default function Header() {
         />
       )}
 
-      <header className="shadow-2xl px-5 lg:px-20 pt-3 pb-5 flex flex-col gap-3">
+      <header className="lg:hidden shadow-2xl px-5 lg:px-20 pt-3 pb-5 flex flex-col gap-3">
         {/* logo and hamburger nav menu */}
         <div className="flex justify-between">
           <Logo />
@@ -115,23 +115,23 @@ export default function Header() {
             </Link>
 
             <div className="w-full border "></div>
-            <Link href={`/about`} className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary">
+            <Link href={`/#latest`} className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary">
               <button onClick={() => setMenu(false)}>Latest</button>
             </Link>
-            <Link href={`/about`} className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary">
+            <Link href={`/#trending`} className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary">
               <button onClick={() => setMenu(false)}>Trending</button>
             </Link>
 
-            <Link href={`/about`} className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary">
+            <Link href={`/#popular`} className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary">
               <button onClick={() => setMenu(false)}>Popular</button>
             </Link>
 
             <div className="w-full border "></div>
             <Link href={`/about`} className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary">
-              <button onClick={() => setMenu(false)}>About US</button>
+              <button onClick={() => setMenu(false)}>About Me</button>
             </Link>
             <Link href={`/contact`} className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary">
-              <button onClick={() => setMenu(false)}>Contact US</button>
+              <button onClick={() => setMenu(false)}>Contact</button>
             </Link>
             <Link href={`/privacypolicy`} className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary">
               <button onClick={() => setMenu(false)}>Privacy Policy</button>

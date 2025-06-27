@@ -88,7 +88,7 @@ export default function Search() {
   //   };
 
   return (
-    <div className="w-full flex justify-center relative">
+    <div className="w-full lg:w-fit flex justify-center relative">
       <div className="border border-tertiary rounded-full flex justify-between items-center w-[230px] px-2 py-2 gap-2 ">
         <input
           type="text"
@@ -107,8 +107,9 @@ export default function Search() {
         />
       </div>
 
+{/* dropdown */}
       {results.length > 0 && (
-        <ul className="absolute bg-tertiary text-primary border mt-11 mr-8 w-fit shadow-md rounded-md max-h-60 overflow-y-auto">
+        <ul className="absolute bg-tertiary text-primary border mt-11 mr-8 w-fit shadow-md rounded-md max-h-60 overflow-y-auto z-100">
           {results.map((item, index) => (
             <li
               key={index}

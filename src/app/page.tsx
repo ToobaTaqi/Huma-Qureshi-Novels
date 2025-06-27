@@ -49,7 +49,7 @@ export default function page() {
   return (
     <div className="text-tertiary flex flex-col gap-6 lg:py-10">
       {/* latest */}
-      <div className="py-5 flex flex-col gap-6 lg:gap-10">
+      <div className="py-5 flex flex-col gap-6 lg:gap-10" id="latest">
         <Heading name="Latest" />
         <div className={`flex gap-5 flex-wrap justify-center lg:justify-start lg:px-28 lg:gap-10`}>
           {latest.map((l: any, index: any) => (
@@ -65,7 +65,7 @@ export default function page() {
       </div>
 
       {/* trending */}
-      <div className="py-5 flex flex-col gap-6">
+      <div className="py-5 flex flex-col gap-6" id="trending">
         <Heading name="Trending" />
         <div className={`flex gap-5 flex-wrap justify-center lg:justify-start lg:px-28 lg:gap-10`}>
           {trending.map((t: any, index: any) => (
@@ -81,7 +81,7 @@ export default function page() {
       </div>
 
       {/* popular */}
-      <div className="py-5 flex flex-col gap-6">
+      <div className="py-5 flex flex-col gap-6" id="popular">
         <Heading name="Popular" />
         <div className={`flex gap-5 flex-wrap justify-center lg:justify-start lg:px-28 lg:gap-10`}>
           {popular.map((p: any, index: any) => (

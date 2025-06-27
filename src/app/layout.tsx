@@ -4,6 +4,8 @@ import "./globals.css";
 
 import Header from "../app/components/headerComponents/Header";
 import Footer from "./components/headerComponents/Footer";
+import MobileHeader from "./components/headerComponents/MobileHeader";
+import DesktopHeader from "./components/headerComponents/DesktopHeader";
 // import Up from "./components/headerComponents/Up";
 
 const geistSans = Geist({
@@ -29,12 +31,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-primary my-3">
-        <Header />
-        <div className="px-5 lg:px-20">{children}
+        {/* <Header /> */}
+        <MobileHeader />
+        <DesktopHeader/>
+
+        <div className="px-5 lg:px-20">
+          {children}
           {/* <Up /> */}
         </div>
 
-        
         <Footer />
       </body>
     </html>
