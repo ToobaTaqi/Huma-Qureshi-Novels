@@ -6,15 +6,15 @@ import { icons } from "@/app/assets";
 
 export default function Footer() {
   return (
-    <div className="bg-tertiary w-full py-5 flex flex-col items-center mt-10">
+    <div className="bg-tertiary w-full py-5 flex flex-col items-center  mt-10">
       {/* footer */}
-      <footer className="flex flex-col px-10 pb-5 w-full justify-center items-start gap-10">
+      <footer className="flex flex-col px-10 pb-5 w-full justify-center lg:flex-row lg:flex-wrap lg:gap-20 items-start gap-10">
         {/* logo */}
         <div className="w-fit  bg-primary px-3 py-2 rounded">
           <Logo />
         </div>
         {/* pages */}
-        <div className="flex w-full gap-6 flex-wrap justify-between ">
+        <div className="flex w-full gap-[15vw] flex-wrap justify-center lg:w-fit  lg:gap-20 ">
           <div className="text-sm w-fit flex flex-col gap-1">
             <p className="font-bold">Useful Pages</p>
             <Link href="/" className="active:text-secondary">

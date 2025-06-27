@@ -109,7 +109,7 @@ export default function Search() {
 
 {/* dropdown */}
       {results.length > 0 && (
-        <ul className="absolute bg-tertiary text-primary border mt-11 mr-8 w-fit shadow-md rounded-md max-h-60 overflow-y-auto z-100">
+        <ul className="absolute bg-tertiary text-primary border mt-11 mr-8 w-fit shadow-md rounded-md max-h-60 overflow-y-auto z-50">
           {results.map((item, index) => (
             <li
               key={index}

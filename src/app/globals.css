@@ -8,8 +8,8 @@
     /* --color-secondary: #274060; */
     --color-tertiary: #FAF9F6;
 
-    --breakpoint-lg: 600px  ; /* filhal*/
-    /* --breakpoint-lg: 900px  ; */
+    /* --breakpoint-lg: 600px  ; */
+    --breakpoint-lg: 800px  ;
 }
 
 /*  theme: {
