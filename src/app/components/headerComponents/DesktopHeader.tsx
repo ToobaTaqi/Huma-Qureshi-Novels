@@ -83,7 +83,7 @@ export default function DesktopHeader() {
               href={`/about`}
               className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
             >
-              <button onClick={() => setMenu(false)}>About US</button>
+              <button onClick={() => setMenu(false)}>About Me</button>
             </Link>
             <Link
               href={`/categories`}
@@ -98,7 +98,7 @@ export default function DesktopHeader() {
               <button onClick={() => setMenu(false)}>All Novels</button>
             </Link>
             <Link
-              href={`/about`}
+              href={`/#latest`}
               className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
             >
               <button onClick={() => setMenu(false)}>Latest</button>

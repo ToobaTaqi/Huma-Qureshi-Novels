@@ -25,7 +25,7 @@ export default function page() {
   return (
     <div className="flex flex-col gap-5 py-5 justify-center">
       <Heading name="All Novels" />
-      <ul className="flex flex-wrap gap-5 justify-center">
+      <ul className="flex flex-wrap gap-5 justify-center lg:justify-start">
         {allNovels.map((novel: any, index: number) => (
           <Novel href={novel._id}
             novelName={novel.title}
