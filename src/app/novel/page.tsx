@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Heading from "../components/Heading";
 import Novel from "../components/Cards/Novel";
+import { client } from "@/sanity/lib/client";
 
 export default function page() {
   const [allNovels, setAllNovels] = useState<any>([]);
@@ -9,11 +10,9 @@ export default function page() {
   useEffect(() => {
     const fetchWriters = async () => {
       try {
-        const response = await fetch("/api/novel").then((response) =>
-          response.json()
-        );
+        const query = `*[_type == "novel"]{title, _id, body, genre->{genrename,_id}, latest ,popular, trending, writer->{writername,_id}, tags, pdf{asset{_ref}}}`;
+        const response = await client.fetch(query)
         setAllNovels(response);
-        console.log(response);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -27,7 +26,8 @@ export default function page() {
       <Heading name="All Novels" />
       <ul className="flex flex-wrap gap-5 justify-center lg:justify-start">
         {allNovels.map((novel: any, index: number) => (
-          <Novel href={novel._id}
+          <Novel
+            href={novel._id}
             novelName={novel.title}
             writer={novel.writer.writername}
             genre={novel.genre.genrename}

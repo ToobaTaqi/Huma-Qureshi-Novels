@@ -2,6 +2,7 @@
 import Novel from "@/app/components/Cards/Novel";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { client } from "@/sanity/lib/client";
 
 export default function page() {
   const params = useParams();
@@ -13,10 +14,12 @@ export default function page() {
   useEffect(() => {
     const fetchWriters = async () => {
       try {
-        const response = await fetch("/api/novel").then((response) =>
-          response.json()
-        );
-        console.log(response, "-----------");
+        const query = `*[_type == "novel"]{title,
+  _id, body, genre->{genrename,_id}, latest ,popular, trending, writer->{writername,_id}, tags, pdf{asset{_ref}}
+}
+  `;
+        const response = await client.fetch(query)
+        console.log(response, "newwwwww-----------");
         //
         const Category = response.filter(
           (item: any) => item.genre._id === id || item.writer._id === id
@@ -32,10 +35,8 @@ export default function page() {
         }
 
         console.log("find novel", Category);
-        // setSelectedNovel(novel);
         setCategory(Category);
 
-        // console.log("inside Category", Category);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -53,8 +54,9 @@ export default function page() {
       </div>
       {/* related novels */}
       <div className="flex gap-5 flex-wrap justify-center lg:justify-start lg:px-28 lg:gap-10">
-        {category.map((novel:any, index:number) => (
-          <Novel href={novel._id}
+        {category.map((novel: any, index: number) => (
+          <Novel
+            href={novel._id}
             novelName={novel.title}
             writer={novel.writer.writername}
             genre={novel.genre.genrename}

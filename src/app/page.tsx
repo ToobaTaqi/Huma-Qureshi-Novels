@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Category from "./components/homePageComponents/Category";
 import Novel from "./components/Cards/Novel";
 import Heading from "./components/Heading";
+import { client } from "@/sanity/lib/client";
 
 export default function page() {
   const [latest, setLatest] = useState<any>([]);
@@ -12,10 +13,8 @@ export default function page() {
   useEffect(() => {
     const fetching = async () => {
       try {
-        const response = await fetch("/api/novel").then((response) =>
-          response.json()
-        );
-
+        const query = `*[_type == "novel"]{title, _id, body, genre->{genrename,_id}, latest ,popular, trending, writer->{writername,_id}, tags, pdf{asset{_ref}}}`;
+        const response = await client.fetch(query)
         // console.log(response)
         console.log(response[0].latest);
 

@@ -53,12 +53,14 @@ export default function Footer() {
           </div>
           <div className="text-sm w-fit flex flex-col">
             <p className="font-bold">Connect Us on</p>
-            <Link href="https://www.facebook.com/share/1AjE5KhudS/" target="blank" className="hover:bg-primary w-fit p-2 active:bg-primary" >
+           <div className="flex justify-center items-center">
+             <Link href="https://www.facebook.com/share/1AjE5KhudS/" target="blank" className="hover:bg-primary w-fit p-2 active:bg-primary" >
               <Image src={icons.fb} alt="" width={100} height={100} className="w-6 h-6"/>
             </Link>
             <Link href="https://youtube.com/@humaqureshinovels?si=XeLDyX5ho0LUqPwl"  target="blank" className="hover:bg-primary w-fit p-2 active:bg-primary">
               <Image src={icons.yt} alt="" width={100} height={100} className="w-6 h-6"/>
             </Link>
+           </div>
            
           </div>
         </div>

@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import CategoryCard from "../Cards/CategoryCard";
+import { client } from "@/sanity/lib/client";
 
 export default function Writers() {
   const [writers, setWriters] = useState<any>([]);
@@ -8,9 +9,11 @@ export default function Writers() {
   useEffect(() => {
     const fetchWriters = async () => {
       try {
-        const response = await fetch("/api/writer").then((response) =>
-          response.json()
-        );
+         const query = `*[_type == "writer"]{
+  _id, writername 
+}
+  `;
+        const response = await client.fetch(query)
         // const responses = response.map((r: any) => r);
         // console.log("responses",responses)
         // setGenres(response.map((r: any) => r));

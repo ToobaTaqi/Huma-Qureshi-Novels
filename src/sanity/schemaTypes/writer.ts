@@ -10,5 +10,10 @@ export const writer = defineType({
       type: "string",
       title: "WriterName",
     }),
+    defineField({
+      name: "writercardImage",
+      type: "string",
+      title: "WriterCardImageUrl",
+    }),
   ],
 });

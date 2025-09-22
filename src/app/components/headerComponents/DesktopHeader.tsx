@@ -74,36 +74,41 @@ export default function DesktopHeader() {
         <div className="flex justify-between items-center w-full">
           <Logo />
 
-         
-
-          <Search />
+          <div className="flex gap-10">
+            {/* <Link href={"/login"}>
+            <button className="px-5 py-1 rounded border border-secondary text-secondary active:border-tertiary active:text-tertiary">
+              Login
+            </button>
+            </Link> */}
+            <Search />
+          </div>
         </div>
- <nav className="flex  justify-center items-center w-full gap-2 py-5 text-tertiary">
-            <Link
-              href={`/about`}
-              className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
-            >
-              <button onClick={() => setMenu(false)}>About Me</button>
-            </Link>
-            <Link
-              href={`/categories`}
-              className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
-            >
-              <button onClick={() => setMenu(false)}>All Categories</button>
-            </Link>
-            <Link
-              href={`/novel`}
-              className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
-            >
-              <button onClick={() => setMenu(false)}>All Novels</button>
-            </Link>
-            <Link
-              href={`/#latest`}
-              className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
-            >
-              <button onClick={() => setMenu(false)}>Latest</button>
-            </Link>
-          </nav>
+        <nav className="flex  justify-center items-center w-full gap-2 py-5 text-tertiary">
+          <Link
+            href={`/about`}
+            className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
+          >
+            <button onClick={() => setMenu(false)}>About Me</button>
+          </Link>
+          <Link
+            href={`/categories`}
+            className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
+          >
+            <button onClick={() => setMenu(false)}>All Categories</button>
+          </Link>
+          <Link
+            href={`/novel`}
+            className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
+          >
+            <button onClick={() => setMenu(false)}>All Novels</button>
+          </Link>
+          <Link
+            href={`/#latest`}
+            className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
+          >
+            <button onClick={() => setMenu(false)}>Latest</button>
+          </Link>
+        </nav>
         <Up />
       </header>
     </>

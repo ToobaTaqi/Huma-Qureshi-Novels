@@ -9,6 +9,11 @@ export const genre = defineType({
             name:"genrename",
             type:"string",
             title:"GenreName"
+        }),
+        defineField({
+            name:"genrecardurl",
+            type:"string",
+            title:"GenreCardUrl"
         })
     ]
 })

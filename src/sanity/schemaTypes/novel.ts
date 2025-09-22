@@ -19,7 +19,7 @@ export const novel = defineType({
     // }),
     defineField({
       name: "body",
-      type: "string",
+      type: "text",
       title: "Body",
     }),
     defineField({
@@ -55,11 +55,15 @@ export const novel = defineType({
     }),
     defineField({
       name: "pdf",
-      type: "file",
-      title: "PDF File",
-      options: {
-        accept: ".pdf",
-      },
+      type: "string",
+      title: "PDF Url",
+     
+    }),
+    defineField({
+      name: "bannerimage",
+      type: "string",
+      title: "BannerImage",
+     
     }),
     defineField({
       name: "tags",

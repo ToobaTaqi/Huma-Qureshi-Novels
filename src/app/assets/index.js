@@ -8,6 +8,8 @@ import up_tertiary from "./up-tertiary.png";
 import up_secondary from "./up-secondary.png";
 import up from "./up.png";
 import novelbanner from "./novelbanner.jpeg";
+import novelbannerdesktop from "./novelbannerdesktop.png";
+import novelbannermobile from "./novelbannermobile.png";
 import mail from "./mail.png";
 import location from "./location.png";
 import fb from "./facebook.png";
@@ -24,6 +26,8 @@ export const icons = {
   up_secondary,
   up,
   novelbanner,
+  novelbannerdesktop,
+  novelbannermobile,
   mail,
   location,
   fb,
