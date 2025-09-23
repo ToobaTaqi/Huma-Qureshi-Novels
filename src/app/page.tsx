@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Category from "./components/homePageComponents/Category";
+// import Category from "./components/homePageComponents/Category";
 import Novel from "./components/Cards/Novel";
 import Heading from "./components/Heading";
 import { client } from "@/sanity/lib/client";
@@ -13,13 +13,15 @@ export default function page() {
   useEffect(() => {
     const fetching = async () => {
       try {
-        const query = `*[_type == "novel"]{title, _id, body, genre->{genrename,_id}, latest ,popular, trending, writer->{writername,_id}, tags, pdf{asset{_ref}}}`;
+        // const query = `*[_type == "novel"]{title, cardbannerurl _id, body, genre->{genrename,_id}, latest ,popular, trending, writer->{writername,_id}, tags, pdf{asset{_ref}}}`;
+        const query = `*[_type == "novel"]{title,cardbannerurl , _id, genre->{genrename,_id}, writer->{writername,_id},latest ,popular, trending, }`;
         const response = await client.fetch(query)
         // console.log(response)
-        console.log(response[0].latest);
+        console.log(response,"-----------this is resss");
 
         // filtering latest
         let Latest = response.filter((l: any) => l.latest);
+        console.log(Latest,"------------==============")
 
         setLatest(Latest);
         console.log("inside Latest", Latest);
@@ -27,7 +29,7 @@ export default function page() {
         // filtering trending
         let Trending = response.filter((t: any) => t.trending);
 
-        setTrending(Latest);
+        setTrending(Trending);
         console.log("inside Trending", Trending);
 
         // filtering popular
@@ -51,9 +53,10 @@ export default function page() {
       <div className="py-5 flex flex-col gap-6 lg:gap-10" id="latest">
         <Heading name="Latest" />
         <div className={`flex gap-5 flex-wrap justify-center lg:justify-start lg:px-28 lg:gap-10`}>
-          {latest.map((l: any, index: any) => (
+          {latest?.map((l: any, index: any) => (
             <Novel
               href={l._id}
+              cardBanner={l.cardbannerurl}
               novelName={l.title}
               writer={l.writer.writername}
               genre={l.genre.genrename}
@@ -67,9 +70,10 @@ export default function page() {
       <div className="py-5 flex flex-col gap-6" id="trending">
         <Heading name="Trending" />
         <div className={`flex gap-5 flex-wrap justify-center lg:justify-start lg:px-28 lg:gap-10`}>
-          {trending.map((t: any, index: any) => (
+          {trending?.map((t: any, index: any) => (
             <Novel
               href={t._id}
+              cardBanner={t.cardbannerurl}
               novelName={t.title}
               writer={t.writer.writername}
               genre={t.genre.genrename}
@@ -83,9 +87,10 @@ export default function page() {
       <div className="py-5 flex flex-col gap-6" id="popular">
         <Heading name="Popular" />
         <div className={`flex gap-5 flex-wrap justify-center lg:justify-start lg:px-28 lg:gap-10`}>
-          {popular.map((p: any, index: any) => (
+          {popular?.map((p: any, index: any) => (
             <Novel
               href={p._id}
+              cardBanner={p.cardbannerurl}
               novelName={p.title}
               writer={p.writer.writername}
               genre={p.genre.genrename}

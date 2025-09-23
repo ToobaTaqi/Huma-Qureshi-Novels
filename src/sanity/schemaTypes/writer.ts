@@ -11,7 +11,7 @@ export const writer = defineType({
       title: "WriterName",
     }),
     defineField({
-      name: "writercardImage",
+      name: "writercardimageurl",
       type: "string",
       title: "WriterCardImageUrl",
     }),

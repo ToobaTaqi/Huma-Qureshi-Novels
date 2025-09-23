@@ -6,58 +6,37 @@ import { icons } from "../../assets";
 import Link from "next/link";
 import Up from "./Up";
 import Search from "./Search";
+import { client } from "@/sanity/lib/client";
 // import Up from "./Up";
 
 export default function DesktopHeader() {
   const [menu, setMenu] = useState(false);
-  const [menuIcon, setMenuIcon] = useState(icons.list);
-  const [writers, setWriters] = useState([]);
-
-  const openMenu = () => {
-    setMenu(!menu);
-    if (menu === false) {
-      console.log("closed");
-    } else {
-      console.log("opened");
-    }
-  };
-  useEffect(() => {
-    if (menu === false) {
-      setMenuIcon(icons.list);
-    } else {
-      setMenuIcon(icons.close);
-    }
-  }, [menu]);
-
-  // to prevent background from scrolling when sidebar is open
-  useEffect(() => {
-    if (menu) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-
-    return () => {
-      // Clean up in case the component unmounts
-      document.body.style.overflow = "auto";
-    };
-  }, [menu]);
+  const [writers, setWriters] = useState<any[]>([]);
+  const [genres, setGenres] = useState<any[]>([]);
 
   // fetching categories
   useEffect(() => {
-    const fetchWriters = async () => {
+    async function fetchData() {
       try {
-        const response = await fetch("/api/genre").then((response) =>
-          response.json()
-        );
-        console.log("navbar======", response);
-        setWriters(response);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
+        const [writerRes, genreRes] = await Promise.all([
+          // fetch("/api/novel"),
+          // fetch("/api/writer"),
+          // fetch("/api/genre"),
+          // client.fetch(
+          //   '*[_type == "novel"]{title, bannerimagemobile, bannerimagedesktop , _id, body, genre->{genrename,_id}, latest ,popular, trending, writer->{writername,_id}, tags, pdf}'
+          // ),
+          client.fetch('*[_type == "writer"]'),
+          client.fetch('*[_type == "genre"]'),
+        ]);
 
-    fetchWriters();
+        setWriters(writerRes);
+        setGenres(genreRes);
+      } catch (error) {
+        console.error("Error fetching search data:", error);
+      }
+    }
+
+    fetchData();
   }, []);
 
   return (

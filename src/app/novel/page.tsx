@@ -10,7 +10,7 @@ export default function page() {
   useEffect(() => {
     const fetchWriters = async () => {
       try {
-        const query = `*[_type == "novel"]{title, _id, body, genre->{genrename,_id}, latest ,popular, trending, writer->{writername,_id}, tags, pdf{asset{_ref}}}`;
+        const query = `*[_type == "novel"]{title, cardbannerurl, _id, body, genre->{genrename,_id}, latest ,popular, trending, writer->{writername,_id}, tags, pdf{asset{_ref}}}`;
         const response = await client.fetch(query)
         setAllNovels(response);
       } catch (error) {
@@ -28,6 +28,7 @@ export default function page() {
         {allNovels.map((novel: any, index: number) => (
           <Novel
             href={novel._id}
+            cardBanner={novel.cardbannerurl}
             novelName={novel.title}
             writer={novel.writer.writername}
             genre={novel.genre.genrename}

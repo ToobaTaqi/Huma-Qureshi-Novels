@@ -60,10 +60,19 @@ export const novel = defineType({
      
     }),
     defineField({
-      name: "bannerimage",
+      name: "bannerimagedesktop",
       type: "string",
-      title: "BannerImage",
-     
+      title: "BannerImageDesktop",
+    }),
+    defineField({
+      name: "bannerimagemobile",
+      type: "string",
+      title: "BannerImageMobile",
+    }),
+    defineField({
+      name: "cardbannerurl",
+      type: "string",
+      title: "CardBannerUrl",
     }),
     defineField({
       name: "tags",

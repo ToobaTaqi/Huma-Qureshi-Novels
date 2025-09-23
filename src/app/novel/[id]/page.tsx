@@ -9,26 +9,37 @@ export default function Page() {
   const params = useParams();
   const id = params.id;
   const [novel, setNovel] = useState<any>({});
+  const [bannerImageDesktop, setBannerImageDesktop] = useState<string>("");
+  const [bannerImageMobile, setBannerImageMobile] = useState<string>("");
   const [body, setBody] = useState("");
-  const [pdfId, setPdfId] = useState("");
+  const [pdf, setPdf] = useState<string>("");
 
   useEffect(() => {
     const fetchNovels = async () => {
       try {
-        const query = `*[_type == "novel"]{title, _id, body, genre->{genrename,_id}, latest ,popular, trending, writer->{writername,_id}, tags, pdf{asset{_ref}}}`;
+        const query = `*[_type == "novel"]{title, bannerimagemobile, bannerimagedesktop , _id, body, genre->{genrename,_id}, latest ,popular, trending, writer->{writername,_id}, tags, pdf}`;
         const response = await client.fetch(query);
-        console.log(response, "-----------");
+        // console.log(response, "-----------");
         //
         const Novel = response.find((item: any) => item._id === id);
-        // console.log(Novel.pdf.asset._ref, "---->>>");
+        console.log(Novel, "---->>>");
 
         setNovel(Novel);
         setBody(Novel.body);
-        let ref = Novel.pdf.asset._ref.split("-");
+        setBannerImageDesktop(Novel.bannerimagedesktop);
+        console.log(
+          Novel.bannerimagedesktop,
+          ".....................----------------"
+        );
+        setBannerImageMobile(Novel.bannerimagemobile);
+
+        let ref = Novel.pdf;
+        setPdf(Novel.pdf);
+        // console.log(ref,"pdffffffffffffffff")
         // let lnk = ref?.split("-");
-        const Url = ref[1];
-        console.log(Url, "reffffffffffffffffffffff");
-        setPdfId(Url);
+        // const Url = ref[1];
+        // console.log(Url, "reffffffffffffffffffffff");
+        // setPdfId(Url);
         // console.log(lnk[1], "<--Link");
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -37,7 +48,7 @@ export default function Page() {
 
     fetchNovels();
   }, []);
-
+  // console.log(bannerimage)
   // console.log(novel.title);
 
   // pagination
@@ -46,7 +57,7 @@ export default function Page() {
   const totalPages = Math.ceil(words.length / wordsPerPage);
 
   const [currentPage, setCurrentPage] = useState(1);
-  
+
   const paginatedText = useMemo(() => {
     const start = (currentPage - 1) * wordsPerPage;
     const end = start + wordsPerPage;
@@ -59,7 +70,8 @@ export default function Page() {
       <div className="relative flex justify-center">
         {/* desktop */}
         <Image
-          src={icons.novelbannerdesktop}
+          src={bannerImageDesktop}
+          // src={icons.novelbannerdesktop}
           alt=""
           width={100}
           height={100}
@@ -67,7 +79,8 @@ export default function Page() {
         />
         {/* mob */}
         <Image
-          src={icons.novelbanner}
+          src={bannerImageMobile}
+          // src={icons.novelbanner}
           alt=""
           width={100}
           height={100}
@@ -101,7 +114,24 @@ export default function Page() {
       </div>
 
       {/* download button */}
-      <a
+      {pdf && (
+        <a
+          href={pdf}
+          target="blank"
+          className="px-10 flex gap-1 justify-center flex-wrap border border-primary active:border-tertiary rounded py-2 w-fit self-center"
+        >
+          <p className="text-tertiary">Download PDF</p>
+          <Image
+            className="w-6 h-6"
+            src={icons.download}
+            width={100}
+            height={100}
+            alt=""
+          />
+        </a>
+      )}
+
+      {/* <a
         href={`https://cdn.sanity.io/files/92mgyrwt/production/${pdfId}.pdf`}
         target="blank"
         className="px-10 flex gap-1 justify-center flex-wrap border border-primary active:border-tertiary rounded py-2 w-fit self-center"
@@ -114,7 +144,7 @@ export default function Page() {
           height={100}
           alt=""
         />
-      </a>
+      </a> */}
 
       {/* meta */}
       <div className="px-10 text-secondary text-xs opacity-70 flex gap-5">

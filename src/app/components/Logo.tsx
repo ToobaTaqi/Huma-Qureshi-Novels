@@ -6,7 +6,7 @@ import Link from 'next/link'
 export default function Logo() {
   return (
     <Link href="/" className='w-[100px] h-[100px] lg:self-start'>
-      <Image src={icons.logo} alt='' width={100} height={100} className='w-[100px] h-[100px] object-contain'/>
+      <Image src={"https://res.cloudinary.com/dx1gryhqc/image/upload/v1758662209/Logo_ox1c8z.png"} alt='' width={100} height={100} className='w-[100px] h-[100px] object-contain'/>
     </Link>
   )
 }

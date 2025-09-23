@@ -14,7 +14,7 @@ export default function page() {
   useEffect(() => {
     const fetchWriters = async () => {
       try {
-        const query = `*[_type == "novel"]{title,
+        const query = `*[_type == "novel"]{title, cardbannerurl,
   _id, body, genre->{genrename,_id}, latest ,popular, trending, writer->{writername,_id}, tags, pdf{asset{_ref}}
 }
   `;
@@ -57,6 +57,7 @@ export default function page() {
         {category.map((novel: any, index: number) => (
           <Novel
             href={novel._id}
+            cardBanner={novel.cardbannerurl}
             novelName={novel.title}
             writer={novel.writer.writername}
             genre={novel.genre.genrename}

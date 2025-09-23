@@ -10,7 +10,7 @@ export default function Genres() {
     const fetchWriters = async () => {
       try {
         const query = `*[_type == "genre"]{
-  _id, genrename 
+  _id, genrename, genrecardimageurl 
 }`;
         const response = await client
           .fetch(query)
@@ -33,7 +33,7 @@ export default function Genres() {
     <ul className="flex flex-wrap gap-5 justify-center lg:justify-start lg:px-28 lg:gap-10">
       {genres.map((genre: any, index: number) => (
         <li key={index}>
-          <CategoryCard href={genre._id} categoryName={genre.genrename} />
+          <CategoryCard href={genre._id} categoryName={genre.genrename} imgUrl={genre.genrecardimageurl}/>
         </li>
       ))}
     </ul>

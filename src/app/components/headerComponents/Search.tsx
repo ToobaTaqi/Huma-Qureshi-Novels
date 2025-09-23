@@ -1,6 +1,7 @@
 "use client";
 
 import { icons } from "@/app/assets";
+import { client } from "@/sanity/lib/client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -19,18 +20,19 @@ export default function Search() {
     async function fetchData() {
       try {
         const [novelRes, writerRes, genreRes] = await Promise.all([
-          fetch("/api/novel"),
-          fetch("/api/writer"),
-          fetch("/api/genre"),
+          // fetch("/api/novel"),
+          // fetch("/api/writer"),
+          // fetch("/api/genre"),
+          client.fetch(
+            '*[_type == "novel"]{title, bannerimagemobile, bannerimagedesktop , _id, body, genre->{genrename,_id}, latest ,popular, trending, writer->{writername,_id}, tags, pdf}'
+          ),
+          client.fetch('*[_type == "writer"]'),
+          client.fetch('*[_type == "genre"]'),
         ]);
 
-        const novelData = await novelRes.json();
-        const writerData = await writerRes.json();
-        const genreData = await genreRes.json();
-
-        setNovels(novelData);
-        setWriters(writerData);
-        setGenres(genreData);
+        setNovels(novelRes);
+        setWriters(writerRes);
+        setGenres(genreRes);
       } catch (error) {
         console.error("Error fetching search data:", error);
       }
@@ -64,7 +66,8 @@ export default function Search() {
     } else {
       setResults([]);
     }
-  }, [query, novels, writers, genres]);
+    // }, [query, novels, writers, genres]);
+  }, [query]);
 
   // Handle result click
   const handleSelect = (item: any) => {
@@ -80,13 +83,6 @@ export default function Search() {
     setResults([]);
   };
 
-  //   const handleSelect = (item: any) => {
-  //     console.log(item.type)
-  //     router.push(`/${item.type}/${item._id}`);
-  //     setQuery("");
-  //     setResults([]);
-  //   };
-
   return (
     <div className="w-full lg:w-fit flex justify-center relative">
       <div className="border border-tertiary rounded-full flex justify-between items-center w-[230px] px-2 py-2 gap-2 ">
@@ -95,7 +91,8 @@ export default function Search() {
           placeholder="Search..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="px-3 text-tertiary w-[180px] active:border-0 text-sm bg-transparent focus:outline-none"
+          // className="px-3 text-tertiary w-[180px] active:border-0 text-sm bg-transparent focus:outline-none"
+          className="px-3 text-tertiary w-[180px] text-sm bg-transparent focus:outline-none"
         />
 
         <Image
@@ -107,8 +104,8 @@ export default function Search() {
         />
       </div>
 
-{/* dropdown */}
-      {results.length > 0 && (
+      {/* dropdown */}
+      {results.length >= 1 && (
         <ul className="absolute bg-tertiary text-primary border mt-11 mr-8 w-fit shadow-md rounded-md max-h-60 overflow-y-auto z-50">
           {results.map((item, index) => (
             <li

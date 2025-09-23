@@ -11,7 +11,7 @@ import Search from "./Search";
 export default function MobileHeader() {
   const [menu, setMenu] = useState(false);
   const [menuIcon, setMenuIcon] = useState(icons.list);
-  const [writers, setWriters] = useState([]);
+  // const [writers, setWriters] = useState([]);
 
   const openMenu = () => {
     setMenu(!menu);
@@ -44,21 +44,21 @@ export default function MobileHeader() {
   }, [menu]);
 
   // fetching categories
-  useEffect(() => {
-    const fetchWriters = async () => {
-      try {
-        const response = await fetch("/api/genre").then((response) =>
-          response.json()
-        );
-        console.log("navbar======", response);
-        setWriters(response);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchWriters = async () => {
+  //     try {
+  //       const response = await fetch("/api/genre").then((response) =>
+  //         response.json()
+  //       );
+  //       console.log("navbar======", response);
+  //       setWriters(response);
+  //     } catch (error) {
+  //       console.error("Error fetching products:", error);
+  //     }
+  //   };
 
-    fetchWriters();
-  }, []);
+  //   fetchWriters();
+  // }, []);
 
   return (
     <>
