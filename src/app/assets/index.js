@@ -14,6 +14,10 @@ import mail from "./mail.png";
 import location from "./location.png";
 import fb from "./facebook.png";
 import yt from "./youtube.png";
+import opentertiary from "./opentertiary.png";
+import opensecondary from "./opensecondary.png";
+import closetertiary from "./closetertiary.png";
+import closesecondary from "./closesecondary.png";
 
 export const icons = {
   list,
@@ -32,4 +36,8 @@ export const icons = {
   location,
   fb,
   yt,
+  opensecondary,
+  opentertiary,
+  closesecondary,
+  closetertiary,
 };

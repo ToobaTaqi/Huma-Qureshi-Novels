@@ -57,7 +57,6 @@ export const novel = defineType({
       name: "pdf",
       type: "string",
       title: "PDF Url",
-     
     }),
     defineField({
       name: "bannerimagedesktop",
@@ -84,6 +83,18 @@ export const novel = defineType({
         }),
       ],
       validation: (Rule) => Rule.max(5),
+    }),
+
+    defineField({
+      name: "comment",
+      type: "array",
+      title: "Comment",
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "comment" }],
+        },
+      ],
     }),
   ],
 });

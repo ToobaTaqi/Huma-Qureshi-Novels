@@ -3,12 +3,9 @@
 @theme {
     --color-primary: #2C2C2C;
     --color-secondary: #6495ED;
-    /* --color-secondary: #6763AC; */
-    /* --color-secondary: #395A88; */
-    /* --color-secondary: #274060; */
     --color-tertiary: #FAF9F6;
 
-    /* --breakpoint-lg: 600px  ; */
+    /* screns */
     --breakpoint-lg: 800px  ;
 }
 
