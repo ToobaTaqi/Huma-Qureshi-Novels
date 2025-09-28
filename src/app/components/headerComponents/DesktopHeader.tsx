@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Logo from "../Logo";
 import Image from "next/image";
-import { icons } from "../../assets";
+// import { icons } from "../../assets";
 import Link from "next/link";
 import Up from "./Up";
 import Search from "./Search";

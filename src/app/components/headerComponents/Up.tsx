@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { icons } from "../../assets"; // adjust path as needed
+// import { icons } from "../../assets"; 
 
 export default function Up() {
   const [visible, setVisible] = useState(false);

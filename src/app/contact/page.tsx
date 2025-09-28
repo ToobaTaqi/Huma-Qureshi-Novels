@@ -1,7 +1,7 @@
 import React from "react";
 import Heading from "../components/Heading";
 import Image from "next/image";
-import { icons } from "../assets";
+// import { icons } from "../assets";
 import Link from "next/link";
 
 export default function page() {
@@ -41,7 +41,9 @@ export default function page() {
         <Heading name="Contact Details" />
         <div className="flex items-center gap-6">
           <Image
-            src={icons.location}
+            src={
+              "https://res.cloudinary.com/dx1gryhqc/image/upload/v1758662210/location_o9fddb.png"
+            }
             alt=""
             width={100}
             height={100}
@@ -51,32 +53,61 @@ export default function page() {
         </div>
         <div className="flex justify-center items-center gap-6">
           <Link href="mailto:humaqureshiofficial73@gmail.com">
-          <Image
-            src={icons.mail}
-            alt=""
-            width={100}
-            height={100}
-            className="w-16 p-3 rounded hover:bg-tertiary active:bg-tertiary"
+            <Image
+              src={
+                "https://res.cloudinary.com/dx1gryhqc/image/upload/v1758662225/mail_psqetd.png"
+              }
+              alt=""
+              width={100}
+              height={100}
+              className="w-16 p-3 rounded hover:bg-tertiary active:bg-tertiary"
             />
-            </Link>
-          <Link href="https://youtube.com/@humaqureshinovels?si=XeLDyX5ho0LUqPwl" target="blank" className="flex justify-center items-center">
-          <Image
-            src={icons.yt}
-            alt=""
-            width={100}
-            height={100}
-            className="w-16 p-3 rounded hover:bg-tertiary active:bg-tertiary"
+          </Link>
+          <Link
+            href="https://youtube.com/@humaqureshinovels?si=XeLDyX5ho0LUqPwl"
+            target="blank"
+            className="flex justify-center items-center"
+          >
+            <Image
+              src={
+                "https://res.cloudinary.com/dx1gryhqc/image/upload/v1758664074/youtube_dpg3g8.png"
+              }
+              alt=""
+              width={100}
+              height={100}
+              className="w-16 p-3 rounded hover:bg-tertiary active:bg-tertiary"
             />
-            </Link>
-          <Link href="https://www.facebook.com/share/1AjE5KhudS/" target="blank" className="flex justify-center items-center">
-          <Image
-            src={icons.fb}
-            alt=""
-            width={100}
-            height={100}
-            className="w-16 p-3 rounded hover:bg-tertiary active:bg-tertiary"
+          </Link>
+          <Link
+            href="https://www.facebook.com/share/1AjE5KhudS/"
+            target="blank"
+            className="flex justify-center items-center"
+          >
+            <Image
+              src={
+                "https://res.cloudinary.com/dx1gryhqc/image/upload/v1758662209/facebook_vgnanl.png"
+              }
+              alt=""
+              width={100}
+              height={100}
+              className="w-16 p-3 rounded hover:bg-tertiary active:bg-tertiary"
             />
-            </Link>
+          </Link>
+          <Link
+            href="https://www.instagram.com/humaqureshinovels?igsh=amp6Y3B5OXJvb3lh"
+            target="blank"
+            className="flex justify-center items-center"
+          >
+            <Image
+              src={
+                "https://res.cloudinary.com/dx1gryhqc/image/upload/v1758663992/instagram_mxjgaa.png"
+              }
+              alt=""
+              width={100}
+              height={100}
+              className="w-16 p-3 rounded hover:bg-tertiary active:bg-tertiary"
+            />
+          </Link>
         </div>
       </div>
     </div>

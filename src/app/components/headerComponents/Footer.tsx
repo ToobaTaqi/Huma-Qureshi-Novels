@@ -2,7 +2,7 @@ import React from "react";
 import Logo from "../Logo";
 import Link from "next/link";
 import Image from "next/image";
-import { icons } from "@/app/assets";
+// import { icons } from "@/app/assets";
 
 export default function Footer() {
   return (
