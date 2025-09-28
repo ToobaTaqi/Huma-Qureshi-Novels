@@ -28,7 +28,7 @@ export default function Up() {
       }`}
     >
       <Image
-        src={icons.up_tertiary}
+        src={"https://res.cloudinary.com/dx1gryhqc/image/upload/v1758662383/up-tertiary_yvuory.png"}
         alt="Back to top"
         width={100}
         height={100}

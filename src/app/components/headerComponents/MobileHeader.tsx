@@ -10,7 +10,7 @@ import Search from "./Search";
 
 export default function MobileHeader() {
   const [menu, setMenu] = useState(false);
-  const [menuIcon, setMenuIcon] = useState(icons.list);
+  const [menuIcon, setMenuIcon] = useState("https://res.cloudinary.com/dx1gryhqc/image/upload/v1758662209/list_nnpk5k.png");
   // const [writers, setWriters] = useState([]);
 
   const openMenu = () => {
@@ -23,9 +23,9 @@ export default function MobileHeader() {
   };
   useEffect(() => {
     if (menu === false) {
-      setMenuIcon(icons.list);
+      setMenuIcon("https://res.cloudinary.com/dx1gryhqc/image/upload/v1758662209/list_nnpk5k.png");
     } else {
-      setMenuIcon(icons.close);
+      setMenuIcon("https://res.cloudinary.com/dx1gryhqc/image/upload/v1758662209/close_iwzjrg.png");
     }
   }, [menu]);
 
@@ -43,22 +43,6 @@ export default function MobileHeader() {
     };
   }, [menu]);
 
-  // fetching categories
-  // useEffect(() => {
-  //   const fetchWriters = async () => {
-  //     try {
-  //       const response = await fetch("/api/genre").then((response) =>
-  //         response.json()
-  //       );
-  //       console.log("navbar======", response);
-  //       setWriters(response);
-  //     } catch (error) {
-  //       console.error("Error fetching products:", error);
-  //     }
-  //   };
-
-  //   fetchWriters();
-  // }, []);
 
   return (
     <>

@@ -1,6 +1,6 @@
 "use client";
 
-import { icons } from "@/app/assets";
+// import { icons } from "@/app/assets";
 import { client } from "@/sanity/lib/client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -96,7 +96,7 @@ export default function Search() {
         />
 
         <Image
-          src={icons.search}
+          src={"https://res.cloudinary.com/dx1gryhqc/image/upload/v1758662383/search_a2yhvf.png"}
           alt="searchButton"
           width={100}
           height={100}

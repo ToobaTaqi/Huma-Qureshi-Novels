@@ -1,5 +1,5 @@
 "use client";
-import { icons } from "@/app/assets";
+// import { icons } from "@/app/assets";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import React, { useState, useMemo, useEffect } from "react";
@@ -8,6 +8,7 @@ import Heading from "@/app/components/Heading";
 import Heading2 from "@/app/components/Heading2";
 import { createClient } from "next-sanity";
 import { addCommentAction } from "@/app/actions/Comments";
+import Loader from "@/app/components/Loader";
 
 // export const clientc = createClient({
 //   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
@@ -28,17 +29,26 @@ export default function Page() {
   const [pdf, setPdf] = useState<string>("");
   const [commentsEnabled, setCommentsEnabled] = useState<boolean>(false);
   const [commentsEnabledIcon, setCommentsEnabledIcon] = useState(
-    icons.opentertiary
+    // icons.opentertiary
+    "https://res.cloudinary.com/dx1gryhqc/image/upload/v1759090313/opentertiary_xsoypy.png"
   );
   const [comments, setComments] = useState<
     { _id: string; name: string; comment: string; _createdAt: string }[]
   >([]);
   const [commentName, setCommentName] = useState("");
   const [commentText, setCommentText] = useState("");
+  const [loading, setLoading] = useState(true); // loading state
 
   useEffect(() => {
     const fetchNovels = async () => {
       try {
+        // delay for loader
+        await new Promise((resolve) => {
+          setTimeout(() => {
+            resolve("internal delay");
+          }, 2000);
+        });
+
         const query = `*[_type == "novel"]{title, bannerimagemobile, bannerimagedesktop , _id, body, genre->{genrename,_id}, latest ,popular, trending, writer->{writername,_id}, tags, pdf, comment[]->{name,_id,comment, _createdAt} }`;
         const response = await client.fetch(query);
         const Novel = response.find((item: any) => item._id === id);
@@ -53,6 +63,8 @@ export default function Page() {
         setComments(Novel.comment);
       } catch (error) {
         console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -84,9 +96,9 @@ export default function Page() {
   };
   useEffect(() => {
     if (commentsEnabled === false) {
-      setCommentsEnabledIcon(icons.closetertiary);
+      setCommentsEnabledIcon("https://res.cloudinary.com/dx1gryhqc/image/upload/v1759090353/closetertiary_xkhdd1.png");
     } else {
-      setCommentsEnabledIcon(icons.opentertiary);
+      setCommentsEnabledIcon("https://res.cloudinary.com/dx1gryhqc/image/upload/v1759090313/opentertiary_xsoypy.png");
     }
   }, [commentsEnabled]);
   // iief
@@ -141,6 +153,11 @@ export default function Page() {
     setCommentText("");
     alert("Comment posted Successfully");
   };
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <div className="flex flex-col py-5 gap-6 lg:gap-10">
       {/* banner and title */}
@@ -206,7 +223,7 @@ export default function Page() {
           <p className="text-tertiary">Download PDF</p>
           <Image
             className="w-6 h-6"
-            src={icons.download}
+            src={"https://res.cloudinary.com/dx1gryhqc/image/upload/v1758662209/download_tt1crr.png"}
             width={100}
             height={100}
             alt=""
@@ -275,9 +292,9 @@ export default function Page() {
                     className="border border-primary rounded-2xl px-2 py-4 flex gap-4 lg:gap-6 h-fit shadow-2xl  items-start"
                   >
                     {/* user icon */}
-                    <div className="border border-secondary p-6 rounded-full w-[50px] h-[50px]">
-                      {/* <Image src={''} alt=""/> */}
-                    </div>
+                    {/* <div className="border border-secondary p-6 rounded-full w-[50px] h-[50px]"> */}
+                      <Image src={'https://res.cloudinary.com/dx1gryhqc/image/upload/v1759090658/user_ibf2q1.png'} className="w-[50px] h-[50px] " alt="" width={100} height={100}/>
+                    {/* </div> */}
                     {/* username, date, and comment */}
                     <div className="flex flex-col gap-3 text-sm lg:gap-6 justify-center">
                       <div className="flex items-center flex-wrap text-secondary gap-4">
