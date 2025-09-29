@@ -29,7 +29,6 @@ export default function Page() {
   const [pdf, setPdf] = useState<string>("");
   const [commentsEnabled, setCommentsEnabled] = useState<boolean>(false);
   const [commentsEnabledIcon, setCommentsEnabledIcon] = useState(
-    // icons.opentertiary
     "https://res.cloudinary.com/dx1gryhqc/image/upload/v1759090313/opentertiary_xsoypy.png"
   );
   const [comments, setComments] = useState<
@@ -192,7 +191,7 @@ export default function Page() {
       </div>
 
       {/* novel content */}
-      <div className="px-10 lg:px-24 text-right text-tertiary leading-7 whitespace-pre-wrap">
+      <div className="px-10 lg:px-24 text-right text-tertiary leading-12 whitespace-pre-wrap font-urdu">
         <p dir="rtl">{paginatedText}</p>
       </div>
 
@@ -300,7 +299,8 @@ export default function Page() {
                       <div className="flex items-center flex-wrap text-secondary gap-4">
                         {/* username and date */}
                         <p className="text-sm">{c.name}</p>
-                        <p className="text-xs">{c._createdAt}</p>
+                        {/* <p className="text-xs">{c._createdAt}</p> */}
+                        <p className="text-xs">{new Date(c._createdAt).toDateString()}</p>
                       </div>
                       <p className="text-wrap text-tertiary">{c.comment}</p>
                     </div>

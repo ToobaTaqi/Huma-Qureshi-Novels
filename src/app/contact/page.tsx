@@ -25,8 +25,8 @@ export default function page() {
       </div>
       <div className="flex flex-col gap-3">
         <Heading name="Looking for Professional Collaboration?" />
-        <p className="leading-loose">
-          I’m open to:
+        <div>
+          <p className="leading-loose">I’m open to: </p>
           <br />
           <ul className="list-disc ps-6 flex flex-col gap-2">
             <li>Freelance writing</li>
@@ -35,7 +35,7 @@ export default function page() {
             <li>Screenplay or novel consultation</li>
             <li>Guest posts or interviews</li>
           </ul>
-        </p>
+        </div>
       </div>
       <div className="flex flex-col gap-3">
         <Heading name="Contact Details" />

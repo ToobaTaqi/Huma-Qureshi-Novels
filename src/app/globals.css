@@ -7,6 +7,10 @@
 
     /* screns */
     --breakpoint-lg: 800px  ;
+
+    /* fonts */
+    --font-sans: var(--font-english), sans-serif; /* default */
+  --font-urdu: var(--font-urdu), serif;  
 }
 
 /*  */
