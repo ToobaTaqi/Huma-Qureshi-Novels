@@ -1,22 +1,17 @@
 "use client";
-// import { icons } from "@/app/assets";
-import Image from "next/image";
 import { useParams } from "next/navigation";
 import React, { useState, useMemo, useEffect } from "react";
 import { client } from "@/sanity/lib/client";
-import Heading from "@/app/components/Heading";
-import Heading2 from "@/app/components/Heading2";
-import { createClient } from "next-sanity";
 import { addCommentAction } from "@/app/actions/Comments";
 import Loader from "@/app/components/Loader";
-
-// export const clientc = createClient({
-//   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-//   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
-//   apiVersion: "2025-06-12", // ya latest date
-//   token: process.env.SANITY_COMMENTS_TOKEN, // ⚡ write permission wala token
-//   useCdn: false,
-// });
+import NovelHeader from "@/app/components/novelPage/NovelHeader";
+import NovelBody from "@/app/components/novelPage/NovelBody";
+import DownloadPDFButton from "@/app/components/novelPage/DownloadPDFButton";
+import NovelMetaData from "@/app/components/novelPage/NovelMetaData";
+import Tags from "@/app/components/novelPage/Tags";
+import CommentsHeader from "@/app/components/novelPage/CommentsHeader";
+import CommentForm from "@/app/components/novelPage/CommentForm";
+import Comment from "@/app/components/novelPage/Comment";
 
 export default function Page() {
   const params = useParams();
@@ -48,18 +43,16 @@ export default function Page() {
           }, 2000);
         });
 
-        const query = `*[_type == "novel"]{title, bannerimagemobile, bannerimagedesktop , _id, body, genre->{genrename,_id}, latest ,popular, trending, writer->{writername,_id}, tags, pdf, comment[]->{name,_id,comment, _createdAt} }`;
+        const query = `*[_type == "novel" && _id == "${id}"][0]{title, bannerimagemobile, bannerimagedesktop , _id, body, genre->{genrename,_id}, latest ,popular, trending, writer->{writername,_id}, tags, pdf, comment[]->{name,_id,comment, _createdAt} }`;
         const response = await client.fetch(query);
-        const Novel = response.find((item: any) => item._id === id);
-        console.log(Novel, "---->>>");
+        // console.log(response, "---->>>");
 
-        setNovel(Novel);
-        setBody(Novel.body);
-        setBannerImageDesktop(Novel.bannerimagedesktop);
-        setBannerImageMobile(Novel.bannerimagemobile);
-        setPdf(Novel.pdf);
-        // console.log(Novel.comment)
-        setComments(Novel.comment);
+        setNovel(response);
+        setBody(response.body);
+        setBannerImageDesktop(response.bannerimagedesktop);
+        setBannerImageMobile(response.bannerimagemobile);
+        setPdf(response.pdf);
+        setComments(response.comment);
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -69,8 +62,6 @@ export default function Page() {
 
     fetchNovels();
   }, []);
-
-  // console.log(comments[0].name,"bahr")
 
   // pagination
   const words = body.split(/(\s+)/); // keep spaces + line breaks
@@ -95,51 +86,26 @@ export default function Page() {
   };
   useEffect(() => {
     if (commentsEnabled === false) {
-      setCommentsEnabledIcon("https://res.cloudinary.com/dx1gryhqc/image/upload/v1759090353/closetertiary_xkhdd1.png");
+      setCommentsEnabledIcon(
+        "https://res.cloudinary.com/dx1gryhqc/image/upload/v1759090353/closetertiary_xkhdd1.png"
+      );
     } else {
-      setCommentsEnabledIcon("https://res.cloudinary.com/dx1gryhqc/image/upload/v1759090313/opentertiary_xsoypy.png");
+      setCommentsEnabledIcon(
+        "https://res.cloudinary.com/dx1gryhqc/image/upload/v1759090313/opentertiary_xsoypy.png"
+      );
     }
   }, [commentsEnabled]);
-  // iief
-  async function addComment(
-    novelId: string,
-    name: string,
-    commentText: string
-  ) {
-    try {
-      // 1. naya comment doc create karna
-      const newComment = await client.create({
-        _type: "comment",
-        name: commentName,
-        comment: commentText,
-      });
 
-      // 2. novel ke comments[] me reference push karna
-      await client
-        .patch(novelId)
-        .setIfMissing({ comment: [] }) // agar array empty ho to initialize
-        .append("comment", [
-          {
-            _type: "reference",
-            _ref: newComment._id,
-          },
-        ])
-        .commit();
+  const commentNameHandle = (e: any) => setCommentName(e.target.value);
 
-      console.log("✅ Comment added successfully!");
-    } catch (error) {
-      console.error("❌ Error adding comment:", error);
-    }
-  }
+  const commentTextHandle = (e: any) => setCommentText(e.target.value);
+
   const handleCommentSubmit = async () => {
     if (!commentName || !commentText) return;
-
-    // await addComment(id, commentName, commentText);
     const newComment = await addCommentAction(id, commentName, commentText);
 
     // optionally UI refresh karna
     setComments((prev) => [
-      // ...prev,
       ...(prev || []),
       {
         _id: newComment._id,
@@ -160,40 +126,14 @@ export default function Page() {
   return (
     <div className="flex flex-col py-5 gap-6 lg:gap-10">
       {/* banner and title */}
-      <div className="relative flex justify-center">
-        {/* desktop */}
-        <Image
-          src={
-            bannerImageDesktop ||
-            "https://res.cloudinary.com/dx1gryhqc/image/upload/v1726319996/Resume_Builder_-_Google_Chrome_9_14_2024_6_12_43_PM_qpfxtc.png"
-          }
-          // src={icons.novelbannerdesktop}
-          alt=""
-          width={100}
-          height={100}
-          className="w-full h-[300px] lg:h-[400px] lg:object-cover hidden lg:block"
-        />
-        {/* mob */}
-        <Image
-          src={
-            bannerImageMobile ||
-            "https://res.cloudinary.com/dx1gryhqc/image/upload/v1726319996/Resume_Builder_-_Google_Chrome_9_14_2024_6_12_43_PM_qpfxtc.png"
-          }
-          // src={icons.novelbanner}
-          alt=""
-          width={100}
-          height={100}
-          className="w-full h-[300px] object-fill lg:hidden"
-        />
-        <h1 className="text-2xl lg:text-4xl text-primary font-bold px-3 py-2 lg:py-5 lg:px-5 rounded absolute top-[130px] lg:top-[150px] w-fit bg-tertiary text-center ">
-          {novel.title}
-        </h1>
-      </div>
+      <NovelHeader
+        bannerImageDesktop={bannerImageDesktop}
+        bannerImageMobile={bannerImageMobile}
+        novelTitle={novel.title}
+      />
 
       {/* novel content */}
-      <div className="px-10 lg:px-24 text-right text-tertiary leading-12 whitespace-pre-wrap font-urdu">
-        <p dir="rtl">{paginatedText}</p>
-      </div>
+      <NovelBody novelText={paginatedText} />
 
       {/* pagination buttons */}
       <div className="px-10 flex gap-2 justify-center flex-wrap">
@@ -213,68 +153,27 @@ export default function Page() {
       </div>
 
       {/* download button */}
-      {pdf && (
-        <a
-          href={pdf}
-          target="blank"
-          className="px-10 flex gap-1 justify-center flex-wrap border border-primary active:border-tertiary rounded py-2 w-fit self-center"
-        >
-          <p className="text-tertiary">Download PDF</p>
-          <Image
-            className="w-6 h-6"
-            src={"https://res.cloudinary.com/dx1gryhqc/image/upload/v1758662209/download_tt1crr.png"}
-            width={100}
-            height={100}
-            alt=""
-          />
-        </a>
-      )}
+      {pdf && <DownloadPDFButton pdf={pdf} />}
 
-      {/* meta */}
-      <div className="px-10 text-secondary text-xs opacity-70 flex gap-5">
-        <h1>Written by : {novel.writer?.writername || ""}</h1>
-        <h1>Genre : {novel.genre?.genrename}</h1>
-      </div>
+      {/* metadata */}
+      <NovelMetaData
+        writer={novel.writer?.writername}
+        genre={novel.genre?.genrename}
+      />
 
       {/* tags */}
-      <div className="flex flex-wrap gap-3 text-xs px-10 font-semibold opacity-70">
-        {novel.tags?.map((t: any, index: number) => (
-          <p
-            key={index}
-            className="text-secondary border border-secondary px-2 py-1 self-center"
-          >
-            {t}
-          </p>
-        ))}
-      </div>
+      <Tags tags={novel.tags} />
 
       {/* Comments */}
       <div className="flex flex-col gap-10">
-        {/* comments header */}
-        <div className="flex flex-wrap gap-10">
-          <div className="hidden lg:block">
-            <Heading name="Comments" />
-          </div>
-          <div className="block lg:hidden">
-            <Heading2 heading2="Comments" />
-          </div>
-
-          <button onClick={OpeCcommentsEnabled}>
-            <Image
-              src={commentsEnabledIcon}
-              width={100}
-              height={100}
-              className={`w-6 h-6 cursor-pointer`}
-              alt=""
-            />
-          </button>
-        </div>
-
-        {/* comments body - isko baad meyn dynamic krna h */}
+        <CommentsHeader
+          enabling={OpeCcommentsEnabled}
+          icon={commentsEnabledIcon}
+        />
+        {/* comments body */}
         {commentsEnabled && (
           <div className="flex flex-col gap-10 lg:mx-10">
             {/* comments- filhal for a single comment but make it dynamic later*/}
-            {/* ------------------ */}
             {comments &&
               comments.map(
                 (
@@ -286,53 +185,23 @@ export default function Page() {
                   },
                   index: number
                 ) => (
-                  <div
+                  <Comment
                     key={index}
-                    className="border border-primary rounded-2xl px-2 py-4 flex gap-4 lg:gap-6 h-fit shadow-2xl  items-start"
-                  >
-                    {/* user icon */}
-                    {/* <div className="border border-secondary p-6 rounded-full w-[50px] h-[50px]"> */}
-                      <Image src={'https://res.cloudinary.com/dx1gryhqc/image/upload/v1759090658/user_ibf2q1.png'} className="w-[50px] h-[50px] " alt="" width={100} height={100}/>
-                    {/* </div> */}
-                    {/* username, date, and comment */}
-                    <div className="flex flex-col gap-3 text-sm lg:gap-6 justify-center">
-                      <div className="flex items-center flex-wrap text-secondary gap-4">
-                        {/* username and date */}
-                        <p className="text-sm">{c.name}</p>
-                        {/* <p className="text-xs">{c._createdAt}</p> */}
-                        <p className="text-xs">{new Date(c._createdAt).toDateString()}</p>
-                      </div>
-                      <p className="text-wrap text-tertiary">{c.comment}</p>
-                    </div>
-                  </div>
+                    name={c.name}
+                    createdAt={c._createdAt}
+                    comment={c.comment}
+                  />
                 )
               )}
 
-            {/* ----------------- */}
             {/* comments form */}
-            <div className="border border-tertiary px-6 py-3  flex flex-col gap-3 text-tertiary lg:w-[40vw]">
-              <Heading2 heading2="Leave a comment" />
-              <input
-                type="text"
-                placeholder="Name"
-                value={commentName}
-                onChange={(e) => setCommentName(e.target.value)}
-                className=" border text-tertiary rounded px-2 py-1"
-              />
-              <textarea
-                placeholder="Comment"
-                rows={3}
-                value={commentText}
-                onChange={(e) => setCommentText(e.target.value)}
-                className=" border rounded px-2 py-1"
-              />
-              <button
-                onClick={handleCommentSubmit}
-                className="self-start border border-primary hover:border-secondary hover:text-secondary hover:bg-tertiary px-4 py-2 bg-secondary rounded text-xs"
-              >
-                Comment
-              </button>
-            </div>
+            <CommentForm
+              handleCommentSubmit={handleCommentSubmit}
+              commentName={commentName}
+              commentNameHandle={commentNameHandle}
+              commentText={commentText}
+              commentTextHandle={commentTextHandle}
+            />
           </div>
         )}
       </div>

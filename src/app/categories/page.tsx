@@ -1,6 +1,4 @@
 import React from "react";
-import CategoryCard from "../components/Cards/CategoryCard";
-// import Section from "../components/categoryPahe/Section";
 import Heading from "../components/Heading";
 import Genres from "../components/categoryPahe/Genres";
 import Writers from "../components/categoryPahe/Writers";

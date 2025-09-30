@@ -14,11 +14,8 @@ export default function Genres() {
 }`;
         const response = await client
           .fetch(query)
-        // const responses = response.map((r: any) => r);
-        // console.log("responses",responses)
-        // setGenres(response.map((r: any) => r));
-        // console.log("finalll", response);
         setGenres(response);
+        console.log(response,"->resssssss")
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -26,10 +23,8 @@ export default function Genres() {
 
     fetchWriters();
   }, []);
-  // console.log("genre outside",genres)
 
   return (
-    // <div className="flex flex-wrap gap-5 justify-center ">
     <ul className="flex flex-wrap gap-5 justify-center lg:justify-start lg:px-28 lg:gap-10">
       {genres.map((genre: any, index: number) => (
         <li key={index}>
@@ -37,7 +32,5 @@ export default function Genres() {
         </li>
       ))}
     </ul>
-
-    // </div>
   );
 }

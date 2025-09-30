@@ -22,28 +22,20 @@ export default function page() {
           }, 1000);
         });
 
-        const query = `*[_type == "novel"]{title, cardbannerurl,
-  _id, body, genre->{genrename,_id}, latest ,popular, trending, writer->{writername,_id}, tags, pdf{asset{_ref}}
-}
-  `;
+        const query = `*[_type == "novel" && (genre._ref == "${id}" || writer._ref == "${id}") ]{title, cardbannerurl,
+  _id, body, genre->{genrename,_id}, writer->{writername,_id}}`;
+       
         const response = await client.fetch(query);
-        // console.log(response, "newwwwww-----------");
-        //
-        const Category = response.filter(
-          (item: any) => item.genre._id === id || item.writer._id === id
-        );
+        console.log(response, "newwwwww-----------");
 
-        if (Category.length > 0) {
-          const match = Category[0];
-          if (match.genre._id === id) {
-            setCategoryName(match.genre.genrename);
-          } else if (match.writer._id === id) {
-            setCategoryName(match.writer.writername);
-          }
+
+        if(id==response[0].genre._id){
+          setCategoryName(response[0].genre.genrename)
+        } else if (id==response[0].writer._id){
+          setCategoryName(response[0].writer.writername)
         }
+        setCategory(response)
 
-        console.log("find novel", Category);
-        setCategory(Category);
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -67,7 +59,8 @@ export default function page() {
       </div>
       {/* related novels */}
       <div className="flex gap-5 flex-wrap justify-center lg:justify-start lg:px-28 lg:gap-10">
-        {category.map((novel: any, index: number) => (
+        { category.length !==0 && 
+        category?.map((novel: any, index: number) => (
           <Novel
             href={novel._id}
             cardBanner={novel.cardbannerurl}
