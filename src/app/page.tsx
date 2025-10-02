@@ -7,12 +7,6 @@ import { client } from "@/sanity/lib/client";
 import Loader from "./components/Loader";
 
 export default function page() {
-  // await new Promise((resolve)=>{
-  //   setTimeout(() => {
-  //     resolve("internal delay")
-  //   }, 200);
-  // })
-
   const [latest, setLatest] = useState<any>([]);
   const [trending, setTrending] = useState<any>([]);
   const [popular, setPopular] = useState<any>([]);
@@ -30,8 +24,6 @@ export default function page() {
         // const query = `*[_type == "novel"]{title, cardbannerurl _id, body, genre->{genrename,_id}, latest ,popular, trending, writer->{writername,_id}, tags, pdf{asset{_ref}}}`;
         const query = `*[_type == "novel"]{title,cardbannerurl , _id, genre->{genrename,_id}, writer->{writername,_id},latest ,popular, trending, }`;
         const response = await client.fetch(query);
-        // console.log(response)
-        // console.log(response, "-----------this is resss");
 
         // filtering latest
         let Latest = response.filter((l: any) => l.latest);
@@ -50,7 +42,7 @@ export default function page() {
         let Popular = response.filter((p: any) => p.popular);
 
         setPopular(Popular);
-        console.log("inside Popular", Popular);
+        // console.log("inside Popular", Popular);
       } catch (error) {
         console.error("Error fetching novels", error);
       } finally {
@@ -64,10 +56,6 @@ export default function page() {
   if (loading) {
     return <Loader/>
   }
-  // console.log("outside latest", latest);
-  // console.log("outside Trending", trending);
-  // console.log("outside Poplular", popular);
-
   return (
     <div className="text-tertiary flex flex-col gap-6 lg:py-10">
       {/* latest */}
