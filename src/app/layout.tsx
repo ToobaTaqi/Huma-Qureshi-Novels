@@ -4,6 +4,7 @@ import "./globals.css";
 import Footer from "./components/headerComponents/Footer";
 import MobileHeader from "./components/headerComponents/MobileHeader";
 import DesktopHeader from "./components/headerComponents/DesktopHeader";
+import Script from "next/script";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-english",
@@ -41,8 +42,31 @@ export default function RootLayout({
         <MobileHeader />
         <DesktopHeader />
         <div className="px-5 lg:px-20">{children}</div>
-
         <Footer />
+
+        {/* google analytics */}
+        {/* <!-- Google tag (gtag.js) --> */}
+        {/* <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-X7F51SY5RZ"
+        ></script>
+        <script>
+          window.dataLayer = window.dataLayer || []; function gtag()
+          {dataLayer.push(arguments)}
+          gtag('js', new Date()); gtag('config', 'G-X7F51SY5RZ');
+        </script> */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-X7F51SY5RZ"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive" >
+          {`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-X7F51SY5RZ');
+      `}
+        </Script>
       </body>
     </html>
   );
