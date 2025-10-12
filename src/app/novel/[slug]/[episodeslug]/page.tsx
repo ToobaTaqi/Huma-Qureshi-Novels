@@ -12,10 +12,16 @@ import Tags from "@/app/components/novelPage/Tags";
 import CommentsHeader from "@/app/components/novelPage/CommentsHeader";
 import CommentForm from "@/app/components/novelPage/CommentForm";
 import Comment from "@/app/components/novelPage/Comment";
+import Heading2 from "@/app/components/Heading2";
+import Image from "next/image";
+import Heading from "@/app/components/Heading";
 
 export default function Page() {
   const params = useParams();
-  const id = Array.isArray(params.id) ? params.id[0] : params.id || "";
+  const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug || "";
+  const episodeslug = Array.isArray(params.episodeslug)
+    ? params.episodeslug[0]
+    : params.episodeslug || "";
   // const id = params.id;
   const [novel, setNovel] = useState<any>({});
   const [bannerImageDesktop, setBannerImageDesktop] = useState<string>("");
@@ -43,18 +49,36 @@ export default function Page() {
           }, 2000);
         });
 
-        const query = `*[_type == "novel" && _id == "${id}"][0]{title, bannerimagemobile, bannerimagedesktop , _id, body, genre->{genrename,_id}, latest ,popular, trending, writer->{writername,_id}, tags, pdf, comment[]->{name,_id,comment, _createdAt} }`;
+        // const query = `*[_type == "novel" && episodeslug.current == "${episodeslug}"][0]{title, novelparent->{title,bannerimagedesktop, bannerimagemobile}, _id, "episodeslug": slug.current, body}`;
+        const query = `*[_type == "novel" && episodeslug.current == "${episodeslug}"][0]{name, "episodeslug": slug.current,_id, body, novelparent->{title, slug, bannerimagedesktop, bannerimagemobile}, genre->{genrename,_id}, writer->{writername,_id}, tags, pdfurl, comment[]->{name,_id,comment,_createdAt}}`;
         const response = await client.fetch(query);
-        // console.log(response, "---->>>");
+        console.log(response, "---->>>");
 
         setNovel(response);
         setBody(response.body);
-        setBannerImageDesktop(response.bannerimagedesktop);
-        setBannerImageMobile(response.bannerimagemobile);
+        setBannerImageDesktop(response.novelparent.bannerimagedesktop);
+        setBannerImageMobile(response.novelparent.bannerimagemobile);
         setPdf(response.pdf);
         setComments(response.comment);
+
+        // views api
+        // if (response._id) {
+        //   fetch("/api/incrementView", {
+        //     method: "POST",
+        //     headers: { "Content-Type": "application/json" },
+        //     body: JSON.stringify({ slug: response._id }), // or slug if you prefer
+        //   });
+        // }
+        if (response._id && !localStorage.getItem(`viewed_${response._id}`)) {
+          fetch("/api/views", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ slug: response._id }),
+          });
+          localStorage.setItem(`viewed_${response._id}`, "true");
+        }
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching views:", error);
       } finally {
         setLoading(false);
       }
@@ -102,7 +126,11 @@ export default function Page() {
 
   const handleCommentSubmit = async () => {
     if (!commentName || !commentText) return;
-    const newComment = await addCommentAction(id, commentName, commentText);
+    const newComment = await addCommentAction(
+      novel._id,
+      commentName,
+      commentText
+    );
 
     // optionally UI refresh karna
     setComments((prev) => [
@@ -127,11 +155,24 @@ export default function Page() {
     <div className="flex flex-col py-5 gap-6 lg:gap-10">
       {/* banner and title */}
       <NovelHeader
-        bannerImageDesktop={bannerImageDesktop}
-        bannerImageMobile={bannerImageMobile}
-        novelTitle={novel.title}
+        bannerImageDesktop={bannerImageDesktop || ""}
+        bannerImageMobile={bannerImageMobile || ""}
+        novelTitle={`${novel?.novelparent?.title ?? "Loading..."} by ${novel?.writer?.writername ?? "Unknown writer"}`}
       />
-
+      <div className="flex  lg:justify-between lg:flex-row flex-col items-start lg:items-center px-6 lg:px-24 ">
+        {/* <Heading2 heading2={`${novel?.title?? "Unknown Title"}`} /> */}
+        <Heading name={`${novel?.name ?? "Unknown Title"}`} />
+        <p className="text-secondary flex gap-2 items-center self-end lg:self-center">
+          {novel.views || 5}
+          <Image
+            className="w-6 h-6"
+            src={`https://res.cloudinary.com/dx1gryhqc/image/upload/v1760120134/view_1_nlipoq.png`}
+            alt=""
+            width={100}
+            height={100}
+          />
+        </p>
+      </div>
       {/* novel content */}
       <NovelBody novelText={paginatedText} />
 
@@ -157,8 +198,8 @@ export default function Page() {
 
       {/* metadata */}
       <NovelMetaData
-        writer={novel.writer?.writername}
-        genre={novel.genre?.genrename}
+        writer={novel.writer?.writername ?? "Unknown writer"}
+        genre={novel.genre?.genrename ?? "unknown genre"}
       />
 
       {/* tags */}

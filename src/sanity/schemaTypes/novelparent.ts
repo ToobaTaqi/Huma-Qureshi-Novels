@@ -1,43 +1,29 @@
 // import { rule } from "postcss";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
-export const novel = defineType({
-  name: "novel",
+export const novelparent = defineType({
+  name: "novelparent",
   type: "document",
-  title: "Novel Episode",
+  title: "Novel Main Details",
   fields: [
     defineField({
       name: "title",
       type: "string",
-      title: "Title",
+      title: "Novel Title",
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: "name",
-      type: "string",
-      title: "Episode Number/Name",
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: "episodeslug",
+      name: "slug",
       type: "slug",
-      title: "Episode Slug",
+      title: "Slug",
       options: {
-        source: "name", // title se auto-generate hoga
+        source: "title", // title se auto-generate hoga
         maxLength: 96, // SEO friendly
       },
     }),
-    defineField({
-      name: "novelparent",
-      type: "reference",
-      title: "Novel ",
-      to: {
-        type: "novelparent",
-      },
-    }),
-    defineField({
-      name: "episodereleasedate",
-      title: "Episode Release Date",
+     defineField({
+      name: "novelreleasedate",
+      title: "Novel Release Date",
       type: "datetime",
       options: {
         dateFormat: "YYYY-MM-DD",
@@ -46,16 +32,16 @@ export const novel = defineType({
         // calendarTodayLabel: 'Today',
       },
     }),
-
     defineField({
-      name: "episodeteaser",
-      type: "text",
-      title: "Episode Teaser",
+      name: "noveldescription",
+      type: "string",
+      title: "Novel Description",
     }),
     defineField({
-      name: "body",
-      type: "text",
-      title: "Body",
+      name: "descriptionlanguage",
+      type: "boolean",
+      title: "on this if Description is in urdu",
+      initialValue: false,
     }),
 
     defineField({
@@ -66,7 +52,6 @@ export const novel = defineType({
         type: "writer",
       },
     }),
-
     defineField({
       name: "genre",
       type: "reference",
@@ -75,17 +60,48 @@ export const novel = defineType({
         type: "genre",
       },
     }),
-
+    defineField({
+      name: "trending",
+      type: "boolean",
+      title: "Trending",
+      initialValue: false,
+    }),
+    defineField({
+      name: "latest",
+      type: "boolean",
+      title: "Latest",
+      initialValue: false,
+    }),
+    defineField({
+      name: "popular",
+      type: "boolean",
+      title: "Popular",
+      initialValue: false,
+    }),
+    defineField({
+      name: "pdfurl",
+      type: "string",
+      title: "PDF Url",
+    }),
     defineField({
       name: "youtubeurl",
       type: "string",
       title: "Youtube Url",
     }),
     defineField({
-      name: "views",
-      title: "Views",
-      type: "number",
-      initialValue: 0,
+      name: "bannerimagedesktop",
+      type: "string",
+      title: "BannerImageDesktop",
+    }),
+    defineField({
+      name: "bannerimagemobile",
+      type: "string",
+      title: "BannerImageMobile",
+    }),
+    defineField({
+      name: "cardbannerurl",
+      type: "string",
+      title: "CardBannerUrl",
     }),
     defineField({
       name: "tags",

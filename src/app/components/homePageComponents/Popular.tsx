@@ -1,0 +1,71 @@
+import React, { useEffect, useState } from "react";
+import LoadMoreButton from "../LoadMoreButton";
+import Novel from "../Cards/Novel";
+import Heading from "../Heading";
+import { client } from "@/sanity/lib/client";
+import Loader from "../Loader";
+import Loader2 from "../Loader2";
+
+export default function Popular() {
+  const [popular, setPopular] = useState<any>([]);
+  const [loading, setLoading] = useState(true); // loading state
+  const [loader, setLoader] = useState(<Loader />);
+  const [page, setPage] = useState(0); // page index
+  const [hasMore, setHasMore] = useState(true);
+  const limit = 4;
+
+  const fetching = async (pageIndex: number) => {
+    try {
+      setLoading(true);
+
+      // for latests
+      const query = `*[_type == "novelparent" && trending==true && defined(novelreleasedate) && novelreleasedate <= now()]| order(_createdAt desc) [${pageIndex * limit}...${(pageIndex + 1) * limit}] {title, cardbannerurl , slug, _id, genre->{genrename,_id}, writer->{writername,_id},latest ,popular, trending, }`;
+      const response = await client.fetch(query);
+      //
+      if (response.length < limit) {
+        setHasMore(false); // no more novels left
+      }
+      setPopular((prev: any) => [...prev, ...response]);
+    } catch (error) {
+      console.error("Error fetching novels", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetching(page);
+    if (page > 0) setLoader(<Loader2 />);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
+
+  return (
+    <div className="py-5 flex flex-col gap-6 lg:gap-10" id="latest">
+      <Heading name="Popular" />
+      <div
+        className={`flex gap-5 flex-wrap justify-center lg:justify-start lg:px-28 lg:gap-10`}
+      >
+        {popular?.map((p: any, index: any) => (
+          <Novel
+            href={p.slug?.current}
+            cardBanner={p.cardbannerurl}
+            novelName={p.title}
+            writer={p.writer.writername}
+            genre={p.genre.genrename}
+            key={index}
+          />
+        ))}
+      </div>
+
+      {loading && loader}
+      {!loading && hasMore && (
+        <LoadMoreButton onclick={() => setPage((prev) => prev + 1)} />
+      )}
+      {!hasMore && (
+        <p className="text-center text-tertiary opacity-50 py-3">
+          No more novels
+        </p>
+      )}
+    </div>
+  );
+}

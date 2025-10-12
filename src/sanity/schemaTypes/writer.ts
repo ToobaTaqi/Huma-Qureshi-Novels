@@ -10,6 +10,15 @@ export const writer = defineType({
       type: "string",
       title: "WriterName",
     }),
+     defineField({
+      name: "writerslug",
+      type: "slug",
+      title: "Writer Slug",
+      options: {
+        source: "writername", // title se auto-generate hoga
+        maxLength: 96, // SEO friendly
+      },
+    }),
     defineField({
       name: "writercardimageurl",
       type: "string",

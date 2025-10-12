@@ -3,7 +3,8 @@ import { novel } from "./novel";
 import { writer } from "./writer";
 import { genre } from "./genre";
 import { comment } from "./comment";
+import {novelparent} from "./novelparent"
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [novel, writer, genre, comment],
+  types: [novel, writer, genre, comment, novelparent],
 };
