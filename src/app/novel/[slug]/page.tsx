@@ -47,7 +47,7 @@ export default function Page() {
   const [loader, setLoader] = useState(<Loader />);
   const [page, setPage] = useState<number>(0);
   const [hasMore, setHasMore] = useState(true);
-  const limit = 1;
+  const limit = 4;
 
   // useEffect(() => {
   const fetchNovels = async (pageIndex: number, reset = false) => {
