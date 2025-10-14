@@ -34,7 +34,7 @@ export const novelparent = defineType({
     }),
     defineField({
       name: "noveldescription",
-      type: "string",
+      type: "text",
       title: "Novel Description",
     }),
     defineField({
