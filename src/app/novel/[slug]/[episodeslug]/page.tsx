@@ -15,10 +15,11 @@ import Comment from "@/app/components/novelPage/Comment";
 import Heading2 from "@/app/components/Heading2";
 import Image from "next/image";
 import Heading from "@/app/components/Heading";
+import Link from "next/link";
 
 export default function Page() {
   const params = useParams();
-  const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug || "";
+  // const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug || "";
   const episodeslug = Array.isArray(params.episodeslug)
     ? params.episodeslug[0]
     : params.episodeslug || "";
@@ -27,7 +28,7 @@ export default function Page() {
   const [bannerImageDesktop, setBannerImageDesktop] = useState<string>("");
   const [bannerImageMobile, setBannerImageMobile] = useState<string>("");
   const [body, setBody] = useState("");
-  const [pdf, setPdf] = useState<string>("");
+  // const [pdf, setPdf] = useState<string>("");
   const [commentsEnabled, setCommentsEnabled] = useState<boolean>(false);
   const [commentsEnabledIcon, setCommentsEnabledIcon] = useState(
     "https://res.cloudinary.com/dx1gryhqc/image/upload/v1759090313/opentertiary_xsoypy.png"
@@ -50,7 +51,7 @@ export default function Page() {
         });
 
         // const query = `*[_type == "novel" && episodeslug.current == "${episodeslug}"][0]{title, novelparent->{title,bannerimagedesktop, bannerimagemobile}, _id, "episodeslug": slug.current, body}`;
-        const query = `*[_type == "novel" && episodeslug.current == "${episodeslug}"][0]{name, "episodeslug": slug.current,_id, body, novelparent->{title, slug, bannerimagedesktop, bannerimagemobile}, genre->{genrename,_id}, writer->{writername,_id}, tags, pdfurl, comment[]->{name,_id,comment,_createdAt}}`;
+        const query = `*[_type == "novel" && episodeslug.current == "${episodeslug}"][0]{name, "episodeslug": slug.current,_id, body, novelparent->{title, slug, bannerimagedesktop, bannerimagemobile}, genre->{genrename,_id}, writer->{writername,_id}, tags, comment[]->{name,_id,comment,_createdAt}}`;
         const response = await client.fetch(query);
         console.log(response, "---->>>");
 
@@ -58,7 +59,7 @@ export default function Page() {
         setBody(response.body);
         setBannerImageDesktop(response.novelparent.bannerimagedesktop);
         setBannerImageMobile(response.novelparent.bannerimagemobile);
-        setPdf(response.pdf);
+        // setPdf(response.pdf);
         setComments(response.comment);
 
         // views api
@@ -194,7 +195,13 @@ export default function Page() {
       </div>
 
       {/* download button */}
-      {pdf && <DownloadPDFButton pdf={pdf} />}
+      <Link
+        href={`/novel/${novel?.novelparent?.slug?.current}`}
+        className="text-tertiary text-xl flex justify-center items-center gap-3 border border-primary hover:border-tertiary w-fit self-center px-4 py-2 active:text-secondary active:border-secondary"
+      >
+        Read full novel <Image src={`https://res.cloudinary.com/dx1gryhqc/image/upload/v1760053387/storytelling_ywnrib.png`} className="w-7 h-7" alt="" width={100} height={100}/>
+      </Link>
+      {/* {pdf && <DownloadPDFButton pdf={pdf} />} */}
 
       {/* metadata */}
       <NovelMetaData

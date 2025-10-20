@@ -142,8 +142,6 @@ export default function Page() {
     alert("Comment posted Successfully");
   };
 
- 
-
   return (
     <div className="flex flex-col py-5 gap-6 lg:gap-10">
       {/* banner and title */}
@@ -155,10 +153,10 @@ export default function Page() {
       />
 
       {/* download and Youtube link buttons */}
-      <div className="flex flex-wrap justify-center">
+      {/* <div className="flex flex-wrap justify-center">
         {pdf && <DownloadPDFButton pdf={pdf} />}
         {yt && <WatchOnYT YTurl={yt} />}
-      </div>
+      </div> */}
 
       {/* novel description */}
       {novel.noveldescription && (
@@ -171,18 +169,24 @@ export default function Page() {
 
       {/* all episodes */}
       <div className="flex flex-wrap gap-5 justify-center ">
+        <div className={`flex gap-5 flex-wrap justify-center lg:justify-start lg:px-28 lg:gap-10`}>
         {episodes.length > 0 ? (
           episodes.map((episode, index) => (
-            <Episode
-              key={index}
-              href={`/novel/${slug}/${episode.episodeslug?.current}`}
-              episodeTitle={episode?.name}
-              teaser={episode.episodeteaser}
-            />
+            // <div
+            //   className={`flex gap-5 flex-wrap justify-center lg:justify-start lg:px-28 lg:gap-10`}
+            // >
+              <Episode
+                key={index}
+                href={`/novel/${slug}/${episode.episodeslug?.current}`}
+                episodeTitle={episode?.name}
+                teaser={episode.episodeteaser}
+              />
+            // </div>
           ))
         ) : (
           <p className="text-tertiary opacity-50 px-10">no episodes yet</p>
         )}
+        </div>
 
         {loading && loader}
         {!loading && hasMore && (
@@ -193,6 +197,12 @@ export default function Page() {
             No more episodes
           </p>
         )}
+      </div>
+
+       {/* download and Youtube link buttons */}
+      <div className="flex flex-wrap justify-center">
+        {pdf && <DownloadPDFButton pdf={pdf} />}
+        {yt && <WatchOnYT YTurl={yt} />}
       </div>
 
       {/* metadata */}
