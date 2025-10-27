@@ -7,6 +7,7 @@ import Link from "next/link";
 import Up from "./Up";
 import Search from "./Search";
 import { client } from "@/sanity/lib/client";
+import LanguageToggle from "./LanguageToggle";
 // import Up from "./Up";
 
 export default function DesktopHeader() {
@@ -53,39 +54,47 @@ export default function DesktopHeader() {
         <div className="flex justify-between items-center w-full">
           <Logo />
 
-          <div className="flex gap-10">
+          <div className="flex items-center gap-10">
             {/* <Link href={"/login"}>
-            <button className="px-5 py-1 rounded border border-secondary text-secondary active:border-tertiary active:text-tertiary">
-              Login
-            </button>
+              <button className="px-5 py-1 rounded border border-secondary text-secondary active:border-tertiary active:text-tertiary">
+                Subscribe
+              </button>
             </Link> */}
             <Search />
+            {/* <LanguageToggle /> */}
           </div>
         </div>
         <nav className="flex  justify-center items-center w-full gap-2 py-5 text-tertiary">
           <Link
+            href={`/`}
+            className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
+          >
+            <button onClick={() => setMenu(false)}>Home</button>
+          </Link>
+          <Link
             href={`/about`}
             className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
           >
-            <button onClick={() => setMenu(false)}>About Me</button>
+            <button onClick={() => setMenu(false)}>About Us</button>
           </Link>
-          <Link
-            href={`/categories`}
-            className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
-          >
-            <button onClick={() => setMenu(false)}>All Categories</button>
-          </Link>
+          
           <Link
             href={`/novel`}
             className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
           >
-            <button onClick={() => setMenu(false)}>All Novels</button>
+            <button onClick={() => setMenu(false)}>Novels</button>
           </Link>
           <Link
-            href={`/#latest`}
+            href={`/article`}
             className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
           >
-            <button onClick={() => setMenu(false)}>Latest</button>
+            <button onClick={() => setMenu(false)}>Articles</button>
+          </Link>
+          <Link
+            href={`/articles`}
+            className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
+          >
+            <button onClick={() => setMenu(false)}>Ebooks</button>
           </Link>
         </nav>
         <Up />

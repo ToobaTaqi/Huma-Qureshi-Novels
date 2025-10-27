@@ -5,8 +5,9 @@ import Heading from "../Heading";
 import { client } from "@/sanity/lib/client";
 import Loader from "../Loader";
 import Loader2 from "../Loader2";
+import Article from "../Cards/Article";
 
-export default function Trending() {
+export default function FeaturedArticles() {
   const [trending, setTrending] = useState<any>([]);
   const [loading, setLoading] = useState(true); // loading state
   const [loader, setLoader] = useState(<Loader />);
@@ -19,8 +20,9 @@ export default function Trending() {
       setLoading(true);
 
       // for latests
-      const query = `*[_type == "novelparent" && trending==true && defined(novelreleasedate) && novelreleasedate <= now()]| order(_createdAt desc) [${pageIndex * limit}...${(pageIndex + 1) * limit}] {title, cardbannerurl , slug, _id, genre->{genrename,_id}, writer->{writername,_id},latest ,popular, trending, }`;
+      const query = `*[_type == "article" && defined(articlereleasedate) && articlereleasedate <= now()]| order(_createdAt desc) [${pageIndex * limit}...${(pageIndex + 1) * limit}] {title, cardbannerurl , articleslug, _id, articlecategory->{articlecategory, _id}, writer->{writername,_id}, }`;
       const response = await client.fetch(query);
+      // console.log(response)
       //
       if (response.length < limit) {
         setHasMore(false); // no more novels left
@@ -40,18 +42,18 @@ export default function Trending() {
   }, [page]);
 
   return (
-    <div className="py-5 flex flex-col gap-6 lg:gap-10" id="latest">
-      <Heading name="Trending Novels" />
+    <div className="py-5 flex flex-col gap-6 lg:gap-10" >
+      <Heading name="Latest Articles" />
       <div
         className={`flex gap-5 flex-wrap justify-center lg:justify-start lg:px-28 lg:gap-10`}
       >
         {trending?.map((t: any, index: any) => (
-          <Novel
+          <Article
             href={t.slug?.current}
             cardBanner={t.cardbannerurl}
-            novelName={t.title}
-            writer={t.writer.writername}
-            genre={t.genre.genrename}
+            articleName={t.title}
+            writer={t.writer?.writername}
+            category={t?.category?.title}
             key={index}
           />
         ))}
@@ -63,7 +65,7 @@ export default function Trending() {
       )}
       {!hasMore && (
         <p className="text-center text-tertiary opacity-50 py-3">
-          No more novels
+          No more articles
         </p>
       )}
     </div>

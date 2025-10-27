@@ -6,12 +6,15 @@ import Image from "next/image";
 import Link from "next/link";
 import Up from "./Up";
 import Search from "./Search";
+import SearchMobile from "./SearchMobile";
+import LanguageToggle from "./LanguageToggle";
 // import Up from "./Up";
 
 export default function MobileHeader() {
   const [menu, setMenu] = useState(false);
-  const [menuIcon, setMenuIcon] = useState("https://res.cloudinary.com/dx1gryhqc/image/upload/v1758662209/list_nnpk5k.png");
-  // const [writers, setWriters] = useState([]);
+  const [menuIcon, setMenuIcon] = useState(
+    "https://res.cloudinary.com/dx1gryhqc/image/upload/v1758662209/list_nnpk5k.png"
+  );
 
   const openMenu = () => {
     setMenu(!menu);
@@ -23,9 +26,13 @@ export default function MobileHeader() {
   };
   useEffect(() => {
     if (menu === false) {
-      setMenuIcon("https://res.cloudinary.com/dx1gryhqc/image/upload/v1758662209/list_nnpk5k.png");
+      setMenuIcon(
+        "https://res.cloudinary.com/dx1gryhqc/image/upload/v1758662209/list_nnpk5k.png"
+      );
     } else {
-      setMenuIcon("https://res.cloudinary.com/dx1gryhqc/image/upload/v1758662209/close_iwzjrg.png");
+      setMenuIcon(
+        "https://res.cloudinary.com/dx1gryhqc/image/upload/v1758662209/close_iwzjrg.png"
+      );
     }
   }, [menu]);
 
@@ -43,7 +50,6 @@ export default function MobileHeader() {
     };
   }, [menu]);
 
-
   return (
     <>
       {menu && (
@@ -59,12 +65,9 @@ export default function MobileHeader() {
           <Logo />
 
           {/* hamburger menu */}
-          <div className="flex gap-3">
-            {/* <Link href={"/login"}>
-              <button className="px-5 py-1 rounded border border-secondary text-secondary active:border-tertiary active:text-tertiary">
-                Login
-              </button>
-            </Link> */}
+          <div className="flex gap-4">
+            {/* <LanguageToggle /> */}
+
             <button
               onClick={openMenu}
               // className="transition-transform duration-300 ease-in-out"
@@ -84,77 +87,63 @@ export default function MobileHeader() {
         </div>
 
         {/* search bar */}
-        <Search />
+        {/* <Search /> */}
 
         {/* Up */}
         <Up />
 
         {/* the open and close section - sidebar */}
         <nav
-          className={`fixed top-24 bg-opacity-10 right-0 h-fit overflow-y-scroll-scroll w-[80%] bg-tertiary shadow-md z-50 transform  transition-transform duration-300 ease-in-out 
+          className={`fixed top-24 bg-opacity-10 right-0 overflow-y-scroll-scroll w-full h-full bg-primary shadow-md z-50 transform transition-transform duration-300 ease-in-out 
           ${menu ? "translate-x-0" : "translate-x-full"}
-        flex flex-col items-center justify-center gap-4 text-secondary`}
+        flex flex-col items-center justify-start gap-4 text-secondary overflow-y-visible`}
         >
-          <div className="flex flex-col gap-2 justify-center items-center w-full px-20 py-5">
-            <Link
-              href={`/categories`}
-              className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary"
-            >
-              <button onClick={() => setMenu(false)}>All Categories</button>
-            </Link>
+          <div className="flex flex-col gap-4 justify-center items-center w-full px-20 py-5">
+            <SearchMobile onResultSelect={() => setMenu(false)} />
             <Link
               href={`/novel`}
-              className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary"
+              className="px-5 py-1 active:rounded border border-primary active:border-tertiary active:text-tertiary"
             >
-              <button onClick={() => setMenu(false)}>All Novels</button>
-            </Link>
-
-            <div className="w-full border "></div>
-            <Link
-              href={`/#latest`}
-              className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary"
-            >
-              <button onClick={() => setMenu(false)}>Latest</button>
+              <button onClick={() => setMenu(false)}>Novels</button>
             </Link>
             <Link
-              href={`/#trending`}
-              className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary"
+              href={`/article`}
+              className="px-5 py-1 active:rounded border border-primary active:border-tertiary active:text-tertiary"
             >
-              <button onClick={() => setMenu(false)}>Trending</button>
+              <button onClick={() => setMenu(false)}>Articles</button>
             </Link>
-
             <Link
-              href={`/#popular`}
-              className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary"
+              href={`/ebooks`}
+              className="px-5 py-1 active:rounded border border-primary active:border-tertiary active:text-tertiary"
             >
-              <button onClick={() => setMenu(false)}>Popular</button>
+              <button onClick={() => setMenu(false)}>Ebooks</button>
             </Link>
 
-            <div className="w-full border "></div>
             <Link
               href={`/about`}
-              className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary"
+              className="px-5 py-1 active:rounded border border-primary active:border-tertiary active:text-tertiary"
             >
-              <button onClick={() => setMenu(false)}>About Me</button>
+              <button onClick={() => setMenu(false)}>About Us</button>
             </Link>
             <Link
               href={`/contact`}
-              className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary"
+              className="px-5 py-1 active:rounded border border-primary active:border-tertiary active:text-tertiary"
             >
               <button onClick={() => setMenu(false)}>Contact</button>
             </Link>
             <Link
               href={`/privacypolicy`}
-              className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary"
+              className="px-5 py-1 active:rounded border border-primary active:border-tertiary active:text-tertiary"
             >
               <button onClick={() => setMenu(false)}>Privacy Policy</button>
             </Link>
             <Link
               href={`/terms`}
-              className="px-5 py-1 active:rounded border border-tertiary active:border-primary active:text-primary"
+              className="px-5 py-1 active:rounded border border-primary active:border-tertiary active:text-tertiary"
             >
               <button onClick={() => setMenu(false)}>Terms</button>
             </Link>
+            {/* </div> */}
           </div>
         </nav>
       </header>

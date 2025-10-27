@@ -5,30 +5,23 @@ import { client } from "@/sanity/lib/client";
 import { addCommentAction } from "@/app/actions/Comments";
 import Loader from "@/app/components/Loader";
 import NovelHeader from "@/app/components/novelPage/NovelHeader";
-import NovelBody from "@/app/components/novelPage/NovelBody";
-import DownloadPDFButton from "@/app/components/novelPage/DownloadPDFButton";
-import NovelMetaData from "@/app/components/novelPage/NovelMetaData";
 import Tags from "@/app/components/novelPage/Tags";
 import CommentsHeader from "@/app/components/novelPage/CommentsHeader";
 import CommentForm from "@/app/components/novelPage/CommentForm";
 import Comment from "@/app/components/novelPage/Comment";
-import Heading2 from "@/app/components/Heading2";
 import Image from "next/image";
 import Heading from "@/app/components/Heading";
-import Link from "next/link";
+import ArticleBody from "@/app/components/articlePage/ArticleBody";
+import ArticleMedadata from "@/app/components/articlePage/ArticleMedadata";
 
 export default function Page() {
   const params = useParams();
   // const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug || "";
-  console.log(params.slug, "paramsss");
-  const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug || "";
-  console.log(slug, "episodeslug");
-  const episodeslug = Array.isArray(params.episodeslug)
-    ? params.episodeslug[0]
-    : params.episodeslug || "";
-  console.log(episodeslug, "episodeslug");
-  // const id = params.id;
-  const [novel, setNovel] = useState<any>({});
+  const articleslug = Array.isArray(params.articleslug)
+    ? params.articleslug[0]
+    : params.articleslug || "";
+  // console.log(articleslug, "articleslug");
+  const [article, setArticle] = useState<any>({});
   const [bannerImageDesktop, setBannerImageDesktop] = useState<string>("");
   const [bannerImageMobile, setBannerImageMobile] = useState<string>("");
   const [body, setBody] = useState("");
@@ -54,40 +47,23 @@ export default function Page() {
           }, 2000);
         });
 
-        // const query = `*[_type == "novel" && episodeslug.current == "${episodeslug}"][0]`
-        const query = `*[_type == "novel" && episodeslug.current == "${episodeslug}"][0]{name, episodeslug, _id, body, views, novelparent->{title, slug, bannerimagedesktop, bannerimagemobile}, genre->{genrename,_id}, writer->{writername,_id}, tags, comment[]->{name,_id,comment,_createdAt}}`;
+        const query = `*[_type == "article" && articleslug.current == "${articleslug}"][0]{title, articleslug, _id, body, views,bannerimagedesktop, bannerimagemobile, articlecategory->{title}, writer->{writername,_id}, tags, comment[]->{name,_id,comment,_createdAt}}`;
         const response = await client.fetch(query);
-        console.log(response, "---->>>");
-        // console.log(response._id, "this should be sanity _id");
+        console.log(response.views, "---->>>");
 
-        setNovel(response);
+        setArticle(response);
         setBody(response.body);
-        setBannerImageDesktop(response.novelparent.bannerimagedesktop);
-        setBannerImageMobile(response.novelparent.bannerimagemobile);
-        // setPdf(response.pdf);
+        setBannerImageDesktop(response.bannerImageDesktop);
+        setBannerImageMobile(response.bannerimagemobile);
         setComments(response.comment);
 
-        // views api
-        // if (response._id) {
-        //   fetch("/api/incrementView", {
-        //     method: "POST",
-        //     headers: { "Content-Type": "application/json" },
-        //     body: JSON.stringify({ slug: response._id }), // or slug if you prefer
-        //   });
-        // }
         if (response._id && !localStorage.getItem(`viewed_${response._id}`)) {
-          console.log(
-            "🔥 sending view request to /api/views with:",
-            response._id
-          );
-
           fetch("/api/views", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ slug: response._id }),
           });
           localStorage.setItem(`viewed_${response._id}`, "true");
-          console.log(response._id, "insode if/e;se");
         }
       } catch (error) {
         console.error("Error fetching views:", error);
@@ -139,7 +115,7 @@ export default function Page() {
   const handleCommentSubmit = async () => {
     if (!commentName || !commentText) return;
     const newComment = await addCommentAction(
-      novel._id,
+      article._id,
       commentName,
       commentText
     );
@@ -169,13 +145,13 @@ export default function Page() {
       <NovelHeader
         bannerImageDesktop={bannerImageDesktop || ""}
         bannerImageMobile={bannerImageMobile || ""}
-        novelTitle={`${novel?.novelparent?.title ?? "Loading..."} by ${novel?.writer?.writername ?? "Unknown writer"}`}
+        novelTitle={`${article.title ?? "Loading..."}`}
       />
       <div className="flex  lg:justify-between lg:flex-row flex-col items-start lg:items-center px-6 lg:px-24 ">
         {/* <Heading2 heading2={`${novel?.title?? "Unknown Title"}`} /> */}
-        <Heading name={`${novel?.name ?? "Unknown Title"}`} />
+        <Heading name={`${article?.title ?? "Unknown Title"}`} />
         <p className="text-secondary flex gap-2 items-center self-end lg:self-center">
-          {novel.views ?? 9}
+          {article.views}
           <Image
             className="w-6 h-6"
             src={`https://res.cloudinary.com/dx1gryhqc/image/upload/v1760120134/view_1_nlipoq.png`}
@@ -186,7 +162,7 @@ export default function Page() {
         </p>
       </div>
       {/* novel content */}
-      <NovelBody novelText={paginatedText} />
+      <ArticleBody text={paginatedText} />
 
       {/* pagination buttons */}
       <div className="px-10 flex gap-2 justify-center flex-wrap">
@@ -205,30 +181,14 @@ export default function Page() {
         ))}
       </div>
 
-      {/* download button */}
-      <Link
-        href={`/novel/${novel?.novelparent?.slug?.current}`}
-        className="text-tertiary text-xl flex justify-center items-center gap-3 border border-primary hover:border-tertiary w-fit self-center px-4 py-2 active:text-secondary active:border-secondary"
-      >
-        Read full novel{" "}
-        <Image
-          src={`https://res.cloudinary.com/dx1gryhqc/image/upload/v1760053387/storytelling_ywnrib.png`}
-          className="w-7 h-7"
-          alt=""
-          width={100}
-          height={100}
-        />
-      </Link>
-      {/* {pdf && <DownloadPDFButton pdf={pdf} />} */}
-
       {/* metadata */}
-      <NovelMetaData
-        writer={novel.writer?.writername ?? "Unknown writer"}
-        genre={novel.genre?.genrename ?? "unknown genre"}
+      <ArticleMedadata
+        writer={article.writer?.writername ?? "Unknown writer"}
+        category={article.articlecategory?.title ?? ""}
       />
 
       {/* tags */}
-      <Tags tags={novel.tags} />
+      <Tags tags={article.tags} />
 
       {/* Comments */}
       <div className="flex flex-col gap-10">
