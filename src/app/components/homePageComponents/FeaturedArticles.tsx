@@ -49,7 +49,7 @@ export default function FeaturedArticles() {
       >
         {trending?.map((t: any, index: any) => (
           <Article
-            href={t.slug?.current}
+            href={t.articleslug?.current}
             cardBanner={t.cardbannerurl}
             articleName={t.title}
             writer={t.writer?.writername}

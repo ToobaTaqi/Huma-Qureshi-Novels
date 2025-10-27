@@ -94,7 +94,7 @@ export default function MobileHeader() {
 
         {/* the open and close section - sidebar */}
         <nav
-          className={`fixed top-24 bg-opacity-10 right-0 overflow-y-scroll-scroll w-full h-full bg-primary shadow-md z-50 transform transition-transform duration-300 ease-in-out 
+          className={`fixed top-30 bg-opacity-10 right-0 overflow-y-scroll-scroll w-full h-full bg-primary shadow-md z-50 transform transition-transform duration-300 ease-in-out 
           ${menu ? "translate-x-0" : "translate-x-full"}
         flex flex-col items-center justify-start gap-4 text-secondary overflow-y-visible`}
         >
