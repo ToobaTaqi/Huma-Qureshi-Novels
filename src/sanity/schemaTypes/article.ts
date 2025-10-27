@@ -55,10 +55,24 @@ export const article = defineType({
       type: "string",
       title: "BannerImageMobile",
     }),
+    // defineField({
+    //   name: "body",
+    //   type: "text",
+    //   title: "Body",
+    // }),
     defineField({
       name: "body",
-      type: "text",
       title: "Body",
+      type: "array",
+      of: [
+        {
+          type: "block",
+        },
+        {
+          type: "image",
+          options: { hotspot: true },
+        },
+      ],
     }),
 
     defineField({
@@ -75,6 +89,7 @@ export const article = defineType({
       title: "Views",
       type: "number",
       initialValue: 0,
+      readOnly: true,
     }),
     defineField({
       name: "tags",

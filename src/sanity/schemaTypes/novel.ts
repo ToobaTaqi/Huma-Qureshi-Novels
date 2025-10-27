@@ -23,8 +23,9 @@ export const novel = defineType({
       type: "slug",
       title: "Episode Slug",
       options: {
-        source: "name", // title se auto-generate hoga
-        maxLength: 96, // SEO friendly
+        source: "name",
+        maxLength: 96,
+        isUnique: () => true,
       },
     }),
     defineField({
@@ -86,6 +87,7 @@ export const novel = defineType({
       title: "Views",
       type: "number",
       initialValue: 0,
+      readOnly: true,
     }),
     defineField({
       name: "tags",
