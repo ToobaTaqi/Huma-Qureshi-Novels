@@ -6,6 +6,7 @@ import { client } from "@/sanity/lib/client";
 import Loader from "../components/Loader";
 import LoadMoreButton from "../components/LoadMoreButton";
 import Loader2 from "../components/Loader2";
+import Filter from "../components/Filter";
 
 export default function Page() {
   const [allNovels, setAllNovels] = useState<any[]>([]);
@@ -14,6 +15,13 @@ export default function Page() {
   const [page, setPage] = useState(0); // page index
   const [hasMore, setHasMore] = useState(true); // check if more novels exist
   const limit = 4; // how many novels per fetch
+  // filter
+  const [writers, setWriters] = useState<string[]>([]);
+  const [genres, setGenres] = useState<string[]>([]);
+  const [selectedWriter, setSelectedWriter] = useState("");
+  const [selectedSort, setSelectedSort] = useState("");
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+  const [isPremium, setIsPremium] = useState(false);
 
   const fetchNovels = async (pageIndex: number) => {
     try {
@@ -28,6 +36,10 @@ export default function Page() {
         genre->{genrename,_id},
         writer->{writername,_id},
       }`;
+      const writerData = await client.fetch(`*[_type == "writer"]{writername}`);
+      const genreData = await client.fetch(`*[_type == "genre"]{genrename}`);
+      setWriters(writerData.map((w: { name: string }) => w.name));
+      setGenres(genreData.map((g: { title: string }) => g.title));
 
       const response = await client.fetch(query);
 
@@ -52,6 +64,46 @@ export default function Page() {
   return (
     <div className="flex flex-col gap-5 py-5 justify-center">
       <Heading name="All Novels" />
+
+     <div className="w-full max-w-5xl mx-auto mb-6">
+  {/* <Filter
+    dropdowns={[
+      {
+        label: "Writers",
+        options: writers,
+        value: selectedWriter,
+        onChange: setSelectedWriter,
+      },
+      {
+        label: "Sort By",
+        options: ["Latest", "Trending", "Popular", "Most Viewed"],
+        value: selectedSort,
+        onChange: setSelectedSort,
+      },
+    ]}
+    checkboxes={genres.map((genre) => ({
+      label: genre,
+      checked: selectedGenres.includes(genre),
+      onChange: (checked) =>
+        setSelectedGenres((prev) =>
+          checked ? [...prev, genre] : prev.filter((g) => g !== genre)
+        ),
+    }))}
+    toggle={{
+      label: "Show Premium Only",
+      value: isPremium,
+      onChange: setIsPremium,
+    }}
+  /> */}
+</div>
+
+      {/* Filtered Results */}
+      {/* <div className="text-sm text-gray-500">
+        <p>Writer: {selectedWriter || "All"}</p>
+        <p>Sort: {selectedSort || "Default"}</p>
+        <p>Genres: {selectedGenres.join(", ") || "All"}</p>
+        <p>Premium: {isPremium ? "Yes" : "No"}</p>
+      </div> */}
 
       <ul className="flex flex-wrap gap-5 justify-center lg:justify-start">
         {allNovels.map((novel, index) => (

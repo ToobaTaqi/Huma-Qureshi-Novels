@@ -24,7 +24,7 @@ export default function Page() {
   const [article, setArticle] = useState<any>({});
   const [bannerImageDesktop, setBannerImageDesktop] = useState<string>("");
   const [bannerImageMobile, setBannerImageMobile] = useState<string>("");
-  const [body, setBody] = useState("");
+  const [body, setBody] = useState([]);
   // const [pdf, setPdf] = useState<string>("");
   const [commentsEnabled, setCommentsEnabled] = useState<boolean>(false);
   const [commentsEnabledIcon, setCommentsEnabledIcon] = useState(
@@ -49,10 +49,10 @@ export default function Page() {
 
         const query = `*[_type == "article" && articleslug.current == "${articleslug}"][0]{title, articleslug, _id, body, views,bannerimagedesktop, bannerimagemobile, articlecategory->{title}, writer->{writername,_id}, tags, comment[]->{name,_id,comment,_createdAt}}`;
         const response = await client.fetch(query);
-        console.log(response.views, "---->>>");
+        console.log(response.body, "---->>>");
 
         setArticle(response);
-        setBody(response.body);
+        setBody(response.body || []);
         setBannerImageDesktop(response.bannerImageDesktop);
         setBannerImageMobile(response.bannerimagemobile);
         setComments(response.comment);
@@ -76,17 +76,28 @@ export default function Page() {
   }, []);
 
   // pagination
-  const words = body.split(/(\s+)/); // keep spaces + line breaks
-  const wordsPerPage = 500;
-  const totalPages = Math.ceil(words.length / wordsPerPage);
+  // const words = body.split(/(\s+)/); // keep spaces + line breaks
+  // const wordsPerPage = 500;
+  // const totalPages = Math.ceil(words.length / wordsPerPage);
+
+  // const [currentPage, setCurrentPage] = useState(1);
+
+  // const paginatedText = useMemo(() => {
+  //   const start = (currentPage - 1) * wordsPerPage;
+  //   const end = start + wordsPerPage;
+  //   return words.slice(start, end).join(""); // preserve formatting
+  // }, [currentPage, words]);
+
+  const blocksPerPage = 15;
+  const totalPages = Math.ceil(body.length / blocksPerPage);
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const paginatedText = useMemo(() => {
-    const start = (currentPage - 1) * wordsPerPage;
-    const end = start + wordsPerPage;
-    return words.slice(start, end).join(""); // preserve formatting
-  }, [currentPage, words]);
+  const paginatedBlocks = useMemo(() => {
+    const start = (currentPage - 1) * blocksPerPage;
+    const end = start + blocksPerPage;
+    return body.slice(start, end);
+  }, [currentPage, body]);
 
   const OpeCcommentsEnabled = () => {
     setCommentsEnabled(!commentsEnabled);
@@ -162,7 +173,7 @@ export default function Page() {
         </p>
       </div>
       {/* novel content */}
-      <ArticleBody text={paginatedText} />
+      <ArticleBody body={paginatedBlocks} />
 
       {/* pagination buttons */}
       <div className="px-10 flex gap-2 justify-center flex-wrap">

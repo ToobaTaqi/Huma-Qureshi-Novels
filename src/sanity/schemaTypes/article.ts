@@ -68,10 +68,7 @@ export const article = defineType({
         {
           type: "block",
         },
-        {
-          type: "image",
-          options: { hotspot: true },
-        },
+       
       ],
     }),
 
