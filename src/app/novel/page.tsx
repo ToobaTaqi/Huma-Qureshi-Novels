@@ -26,9 +26,7 @@ export default function Page() {
   const fetchNovels = async (pageIndex: number) => {
     try {
       setLoading(true);
-
-      // GROQ query with pagination
-
+      // setAllNovels([]);
       const query = `*[_type == "novelparent" && defined(novelreleasedate) && novelreleasedate <= now()] | order(_createdAt desc) [${pageIndex * limit}...${(pageIndex + 1) * limit}] {
         title,
         cardbannerurl,
@@ -38,8 +36,9 @@ export default function Page() {
       }`;
       const writerData = await client.fetch(`*[_type == "writer"]{writername}`);
       const genreData = await client.fetch(`*[_type == "genre"]{genrename}`);
-      setWriters(writerData.map((w: { name: string }) => w.name));
-      setGenres(genreData.map((g: { title: string }) => g.title));
+      setWriters(writerData.map((w: { writername: string }) => w.writername));
+      // console.log(writers);
+      setGenres(genreData.map((g: { genrename: string }) => g.genrename));
 
       const response = await client.fetch(query);
 
@@ -55,8 +54,87 @@ export default function Page() {
     }
   };
 
+  // useEffect(() => {
+  //   fetchNovels(page);
+  //   if (page > 0) setLoader(<Loader2 />);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [page]);
+
+  const handleApplyFilters = async (pageIndex: number = 0) => {
+    setLoading(true);
+    // setAllNovels([]);
+    try {
+      const filters: string[] = [];
+
+      // Writer filter
+      if (selectedWriter) {
+        filters.push(`writer->writername == "${selectedWriter}"`);
+      }
+
+      // Genres filter
+      if (selectedGenres.length > 0) {
+        const genresStr = selectedGenres.map((g) => `"${g}"`).join(", ");
+        console.log(genresStr, "-------------------------------");
+        filters.push(`genre->genrename in [${genresStr}]`);
+      }
+
+      // Premium filter
+      if (isPremium) {
+        filters.push(`isPremium == true`);
+      }
+
+      // Boolean filters for sorting
+      if (selectedSort === "Latest") filters.push(`latest == true`);
+      if (selectedSort === "Trending") filters.push(`trending == true`);
+      if (selectedSort === "Popular") filters.push(`popular == true`);
+
+      // Build GROQ query
+      let filterQuery = `*[_type == "novelparent" && defined(novelreleasedate) && novelreleasedate <= now()`;
+      if (filters.length > 0) {
+        filterQuery += ` && ${filters.join(" && ")}`;
+      }
+
+      filterQuery += `] | order(_createdAt desc) [${pageIndex * limit}...${(pageIndex + 1) * limit}] {
+      title,
+      cardbannerurl,
+      _id,
+      slug,
+      genre->{genrename},
+      writer->{writername},
+      trending,
+      popular,
+      latest
+    }`;
+      console.log(filterQuery, "query");
+      const filteredResults = await client.fetch(filterQuery);
+      console.log(filteredResults.length, "filtered resultsss");
+
+      if (filteredResults.length < limit) {
+        setHasMore(false); // no more novels left
+      } else {
+        setHasMore(true);
+      }
+      setAllNovels((prev) => [...prev, ...filteredResults]);
+      allNovels.map((i, g) => console.log(g, i.title, i.genre.genrename));
+    } catch (err) {
+      console.error("Error applying filters:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    fetchNovels(page);
+    if (
+      selectedWriter ||
+      selectedSort ||
+      selectedGenres.length > 0 ||
+      isPremium
+    ) {
+      handleApplyFilters(page);
+    } else {
+      fetchNovels(page);
+    }
+
     if (page > 0) setLoader(<Loader2 />);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
@@ -65,45 +143,98 @@ export default function Page() {
     <div className="flex flex-col gap-5 py-5 justify-center">
       <Heading name="All Novels" />
 
-     <div className="w-full max-w-5xl mx-auto mb-6">
-  {/* <Filter
-    dropdowns={[
-      {
-        label: "Writers",
-        options: writers,
-        value: selectedWriter,
-        onChange: setSelectedWriter,
-      },
-      {
-        label: "Sort By",
-        options: ["Latest", "Trending", "Popular", "Most Viewed"],
-        value: selectedSort,
-        onChange: setSelectedSort,
-      },
-    ]}
-    checkboxes={genres.map((genre) => ({
-      label: genre,
-      checked: selectedGenres.includes(genre),
-      onChange: (checked) =>
-        setSelectedGenres((prev) =>
-          checked ? [...prev, genre] : prev.filter((g) => g !== genre)
-        ),
-    }))}
-    toggle={{
-      label: "Show Premium Only",
-      value: isPremium,
-      onChange: setIsPremium,
-    }}
-  /> */}
-</div>
+      <div className="w-full max-w-5xl mx-auto mb-6">
+        <Filter
+          dropdowns={[
+            {
+              label: "Writers",
+              options: writers || [],
+              value: selectedWriter,
+              onChange: setSelectedWriter,
+            },
+            {
+              label: "Sort By",
+              options: ["Latest", "Trending", "Popular"],
+              value: selectedSort,
+              onChange: setSelectedSort,
+            },
+          ]}
+          checkboxes={genres.map((genre) => ({
+            label: genre,
+            checked: selectedGenres.includes(genre),
+            onChange: (checked) =>
+              setSelectedGenres((prev) =>
+                checked ? [...prev, genre] : prev.filter((g) => g !== genre)
+              ),
+          }))}
+          toggle={{
+            label: "Show Premium Only",
+            value: isPremium,
+            onChange: setIsPremium,
+          }}
+          onclick={() => {
+            setPage(0);
+            setAllNovels([]);
+            handleApplyFilters(0);
+          }}
+        />
+      </div>
 
       {/* Filtered Results */}
-      {/* <div className="text-sm text-gray-500">
-        <p>Writer: {selectedWriter || "All"}</p>
-        <p>Sort: {selectedSort || "Default"}</p>
-        <p>Genres: {selectedGenres.join(", ") || "All"}</p>
-        <p>Premium: {isPremium ? "Yes" : "No"}</p>
-      </div> */}
+      <div className="text-xs text-tertiary  flex flex-wrap gap-4 ">
+        {selectedWriter && (
+          <p className="opacity-50 whitespace-nowrap">
+            Writer: {selectedWriter}
+            <button className="px-2" onClick={() => setSelectedWriter("")}>
+              ✕
+            </button>
+          </p>
+        )}
+        {selectedSort && (
+          <p className="opacity-50 whitespace-nowrap">
+            Sort: {selectedSort}
+            <button className="px-2" onClick={() => setSelectedSort("")}>
+              ✕
+            </button>
+          </p>
+        )}
+        {selectedGenres.length > 0 && (
+          <p className="opacity-50 whitespace-nowrap">
+            Genres: {selectedGenres.join(", ")}
+            <button className="px-2" onClick={() => setSelectedGenres([])}>
+              ✕
+            </button>
+          </p>
+        )}
+
+        {isPremium && (
+          <p className="opacity-50 whitespace-nowrap ">
+            {isPremium ? "Premium novels" : "Free"}
+          </p>
+        )}
+
+        {/* Clear All button */}
+        {(selectedWriter ||
+          selectedSort ||
+          selectedGenres.length > 0 ||
+          isPremium) && (
+          <button
+            onClick={() => {
+              setSelectedWriter("");
+              setSelectedSort("");
+              setSelectedGenres([]);
+              setIsPremium(false);
+              setAllNovels([]);
+              setPage(0);
+              setHasMore(true);
+              fetchNovels(0);
+            }}
+            className="ml-auto text-secondary  text-sm px-2 py-1 rounded hover:bg-secondary/20 transition"
+          >
+            Clear All Filters
+          </button>
+        )}
+      </div>
 
       <ul className="flex flex-wrap gap-5 justify-center lg:justify-start">
         {allNovels.map((novel, index) => (
@@ -121,7 +252,46 @@ export default function Page() {
       {loading && loader}
 
       {!loading && hasMore && (
-        <LoadMoreButton onclick={() => setPage((prev) => prev + 1)} />
+        // <LoadMoreButton onclick={() => setPage((prev) => prev + 1)} />
+        <LoadMoreButton
+          onclick={() => {
+            const nextPage = page + 1;
+            setPage(nextPage);
+
+            // check if filters are active
+            if (
+              selectedWriter ||
+              selectedSort ||
+              selectedGenres.length > 0 ||
+              isPremium
+            ) {
+              handleApplyFilters(nextPage); // fetch filtered results for next page
+            } else {
+              fetchNovels(nextPage); // fetch normal results
+            }
+          }}
+        />
+
+        // <LoadMoreButton
+        //   onclick={() => {
+        //     setPage((prev) => {
+        //       const nextPage = prev + 1;
+
+        //       if (
+        //         selectedWriter ||
+        //         selectedSort ||
+        //         selectedGenres.length > 0 ||
+        //         isPremium
+        //       ) {
+        //         handleApplyFilters(nextPage);
+        //       } else {
+        //         fetchNovels(nextPage);
+        //       }
+
+        //       return nextPage;
+        //     });
+        //   }}
+        // />
       )}
 
       {!hasMore && (

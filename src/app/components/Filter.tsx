@@ -1,7 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
-
 type DropdownProps = {
   label: string;
   options: string[];
@@ -25,15 +23,18 @@ interface FilterProps {
   dropdowns?: DropdownProps[];
   checkboxes?: CheckboxProps[];
   toggle?: ToggleProps | null;
+  // onclick?: (...args: any) => void
+  onclick?: (...args: any[]) => void | Promise<void>;
 }
 
 export default function Filter({
   dropdowns = [],
   checkboxes = [],
   toggle = null,
+  onclick,
 }: FilterProps) {
   return (
-    <div className="w-full border border-secondary rounded-lg p-4 bg-white/5 backdrop-blur-sm space-y-6">
+    <div className="w-full lg:w-fit border border-secondary rounded-lg p-4 bg-white/5 backdrop-blur-sm space-y-6">
       {/* Dropdowns */}
       {dropdowns.length > 0 && (
         <div className="flex flex-wrap gap-3">
@@ -45,7 +46,7 @@ export default function Filter({
               <select
                 value={dropdown.value}
                 onChange={(e) => dropdown.onChange(e.target.value)}
-                className="bg-transparent border border-secondary rounded-lg px-3 py-2 text-sm text-tertiary focus:outline-none"
+                className="bg-primary border border-secondary rounded-lg px-3 py-2 text-sm text-tertiary focus:outline-none"
               >
                 <option value="">Select {dropdown.label}</option>
                 {dropdown.options.map((opt) => (
@@ -94,6 +95,15 @@ export default function Filter({
           </label>
         </div>
       )}
+
+      <div className="flex justify-center">
+        <button
+          onClick={onclick}
+          className="border border-tertiary text-tertiary px-3 py-2 text-sm rounded active:border-secondary active:text-secondary hover:border-secondary hover:text-secondary"
+        >
+          Apply filter
+        </button>
+      </div>
     </div>
   );
 }

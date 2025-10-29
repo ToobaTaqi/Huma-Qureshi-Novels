@@ -75,19 +75,6 @@ export default function Page() {
     fetchNovels();
   }, []);
 
-  // pagination
-  // const words = body.split(/(\s+)/); // keep spaces + line breaks
-  // const wordsPerPage = 500;
-  // const totalPages = Math.ceil(words.length / wordsPerPage);
-
-  // const [currentPage, setCurrentPage] = useState(1);
-
-  // const paginatedText = useMemo(() => {
-  //   const start = (currentPage - 1) * wordsPerPage;
-  //   const end = start + wordsPerPage;
-  //   return words.slice(start, end).join(""); // preserve formatting
-  // }, [currentPage, words]);
-
   const blocksPerPage = 15;
   const totalPages = Math.ceil(body.length / blocksPerPage);
 
