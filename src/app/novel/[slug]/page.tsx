@@ -16,6 +16,8 @@ import Episode from "@/app/components/Cards/Episode";
 import NovelDescription from "@/app/components/novelPage/NovelDescription";
 import Loader2 from "@/app/components/Loader2";
 import LoadMoreButton from "@/app/components/LoadMoreButton";
+import Image from "next/image";
+import Heading from "@/app/components/Heading";
 
 export default function Page() {
   const params = useParams();
@@ -31,8 +33,7 @@ export default function Page() {
   const [episodes, setEpisodes] = useState<
     { name: string; episodeteaser: any; episodeslug: any }[]
   >([]);
-  // const [episodeTitle,setEpisodeTitle]=useState<string>("")
-  // const [episodeTeaser]
+  const [views, setViews] = useState(0);
   const [commentsEnabled, setCommentsEnabled] = useState<boolean>(false);
   const [commentsEnabledIcon, setCommentsEnabledIcon] = useState(
     "https://res.cloudinary.com/dx1gryhqc/image/upload/v1759090313/opentertiary_xsoypy.png"
@@ -43,6 +44,7 @@ export default function Page() {
   const [commentName, setCommentName] = useState("");
   const [commentText, setCommentText] = useState("");
   const [loading, setLoading] = useState(true);
+
   // for episode loading
   const [loader, setLoader] = useState(<Loader />);
   const [page, setPage] = useState<number>(0);
@@ -55,22 +57,31 @@ export default function Page() {
       setLoading(true);
       const query = `*[_type == "novelparent" && slug.current == "${slug}"][0]{title, slug, noveldescription, descriptionlanguage, writer->{writername,_id}, genre->{genrename,_id}, latest ,popular, trending,  bannerimagemobile, bannerimagedesktop , _id, tags, pdfurl, youtubeurl, comment[]->{name,_id,comment, _createdAt} }`;
       const response = await client.fetch(query);
-      console.log(response, "---->>>");
-      // fetching episodes
+
       const episodeQuery = `*[_type == "novel" && references("${response._id}") && defined(episodereleasedate) && episodereleasedate <= now() ] | order(_createdAt asc) [${pageIndex * limit}...${(pageIndex + 1) * limit}] {name, episodeslug, _id, episodeteaser, "novelTitle": novelparent->title, writer->{writername,_id}
 }`;
       const episodes = await client.fetch(episodeQuery);
-      console.log(episodes, "episodsdsdssads");
-      // console.log(response.descriptionlanguage);
+
       setDescriptionLang(response.descriptionlanguage);
       setNovel(response);
-      // setEpisodes(episodes);
+
       setEpisodes((prev: any) => (reset ? episodes : [...prev, ...episodes]));
       if (page >= 0) {
         setLoader(<Loader2 />);
       }
       if (episodes.length < limit) setHasMore(false);
-      // setBody(response.body);
+
+      const viewsquery = `*[_type == "novel" && references("${response._id}") && defined(episodereleasedate) && episodereleasedate <= now() ]{views}`;
+      const viewsresponse = await client.fetch(viewsquery);
+      // console.log(viewsresponse)
+
+      const epviews = viewsresponse.map((ep: any, i: number) => ep.views);
+      const views = epviews.reduce(
+        (total: number, curr: number) => total + curr,
+        0
+      );
+      setViews(views);
+
       setBannerImageDesktop(response.bannerimagedesktop);
       setBannerImageMobile(response.bannerimagemobile);
       setPdf(response.pdfurl);
@@ -152,11 +163,24 @@ export default function Page() {
         novelTitle={`${novel?.title ?? "Loading..."} by ${novel?.writer?.writername ?? "Unknown writer"}`}
       />
 
-      {/* download and Youtube link buttons */}
-      {/* <div className="flex flex-wrap justify-center">
-        {pdf && <DownloadPDFButton pdf={pdf} />}
-        {yt && <WatchOnYT YTurl={yt} />}
-      </div> */}
+      {/* <div className="flex  lg:justify-between lg:flex-row flex-col items-start lg:items-center px-6 lg:px-24 ">
+       
+        <Heading name={`${novel?.name ?? "Unknown Title"}`} /> */}
+
+      {views >0 && (
+        <p className="text-secondary flex gap-2 items-center self-end lg:self-center px-6 lg:px-24">
+          {views}
+          <Image
+            className="w-6 h-6"
+            src={`https://res.cloudinary.com/dx1gryhqc/image/upload/v1760120134/view_1_nlipoq.png`}
+            alt=""
+            width={100}
+            height={100}
+          />
+        </p>
+      )}
+
+      {/* </div> */}
 
       {/* novel description */}
       {novel.noveldescription && (
@@ -169,23 +193,25 @@ export default function Page() {
 
       {/* all episodes */}
       <div className="flex flex-wrap gap-5 justify-center ">
-        <div className={`flex gap-5 flex-wrap justify-center lg:justify-start lg:px-28 lg:gap-10`}>
-        {episodes.length > 0 ? (
-          episodes.map((episode, index) => (
-            // <div
-            //   className={`flex gap-5 flex-wrap justify-center lg:justify-start lg:px-28 lg:gap-10`}
-            // >
+        <div
+          className={`flex gap-5 flex-wrap justify-center lg:justify-start lg:px-28 lg:gap-10`}
+        >
+          {episodes.length > 0 ? (
+            episodes.map((episode, index) => (
+              // <div
+              //   className={`flex gap-5 flex-wrap justify-center lg:justify-start lg:px-28 lg:gap-10`}
+              // >
               <Episode
                 key={index}
                 href={`/novel/${slug}/${episode.episodeslug?.current}`}
                 episodeTitle={episode?.name}
                 teaser={episode.episodeteaser}
               />
-            // </div>
-          ))
-        ) : (
-          <p className="text-tertiary opacity-50 px-10">no episodes yet</p>
-        )}
+              // </div>
+            ))
+          ) : (
+            <p className="text-tertiary opacity-50 px-10">no episodes yet</p>
+          )}
         </div>
 
         {loading && loader}
@@ -199,7 +225,7 @@ export default function Page() {
         )}
       </div>
 
-       {/* download and Youtube link buttons */}
+      {/* download and Youtube link buttons */}
       <div className="flex flex-wrap justify-center">
         {pdf && <DownloadPDFButton pdf={pdf} />}
         {yt && <WatchOnYT YTurl={yt} />}

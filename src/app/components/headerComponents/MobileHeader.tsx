@@ -18,11 +18,11 @@ export default function MobileHeader() {
 
   const openMenu = () => {
     setMenu(!menu);
-    if (menu === false) {
-      console.log("closed");
-    } else {
-      console.log("opened");
-    }
+    // if (menu === false) {
+    //   console.log("closed");
+    // } else {
+    //   console.log("opened");
+    // }
   };
   useEffect(() => {
     if (menu === false) {
@@ -100,6 +100,12 @@ export default function MobileHeader() {
         >
           <div className="flex flex-col gap-4 justify-center items-center w-full px-20 py-5">
             <SearchMobile onResultSelect={() => setMenu(false)} />
+            <Link
+              href={`/`}
+              className="px-5 py-1 active:rounded border border-primary active:border-tertiary active:text-tertiary"
+            >
+              <button onClick={() => setMenu(false)}>Home</button>
+            </Link>
             <Link
               href={`/novel`}
               className="px-5 py-1 active:rounded border border-primary active:border-tertiary active:text-tertiary"

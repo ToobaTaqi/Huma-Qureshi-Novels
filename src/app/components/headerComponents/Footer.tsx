@@ -53,27 +53,64 @@ export default function Footer() {
           </div>
           <div className="text-sm w-fit flex flex-col">
             <p className="font-bold">Connect Us on</p>
-           <div className="flex justify-center items-center">
-            {/* fb link */}
-             <Link href="https://www.facebook.com/share/1B79V4mZsR/" target="blank" className="hover:bg-primary w-fit p-2 active:bg-primary" >
-              <Image src={'https://res.cloudinary.com/dx1gryhqc/image/upload/v1758662209/facebook_vgnanl.png'} alt="" width={100} height={100} className="w-6 h-6"/>
-            </Link>
-            {/* yt link */}
-            <Link href="https://youtube.com/@humaqureshinovels?si=zxalQ_5j_yCrX4W8"  target="blank" className="hover:bg-primary w-fit p-2 active:bg-primary">
-              <Image src={"https://res.cloudinary.com/dx1gryhqc/image/upload/v1758664074/youtube_dpg3g8.png"} alt="" width={100} height={100} className="w-6 h-6"/>
-            </Link>
-            {/* instagram link */}
-            <Link href="https://www.instagram.com/humaqureshinovels?igsh=amp6Y3B5OXJvb3lh"  target="blank" className="hover:bg-primary w-fit p-2 active:bg-primary">
-              <Image src={"https://res.cloudinary.com/dx1gryhqc/image/upload/v1758663992/instagram_mxjgaa.png"} alt="" width={100} height={100} className="w-6 h-6"/>
-            </Link>
-           </div>
-           
+            <div className="flex justify-center items-center">
+              {/* fb link */}
+              <Link
+                href="https://www.facebook.com/share/1B79V4mZsR/"
+                target="blank"
+                className="hover:bg-primary w-fit p-2 active:bg-primary"
+              >
+                <Image
+                  src={
+                    "https://res.cloudinary.com/dx1gryhqc/image/upload/v1758662209/facebook_vgnanl.png"
+                  }
+                  alt=""
+                  width={100}
+                  height={100}
+                  className="w-6 h-6"
+                />
+              </Link>
+              {/* yt link */}
+              <Link
+                href="https://youtube.com/@humaqureshinovels?si=zxalQ_5j_yCrX4W8"
+                target="blank"
+                className="hover:bg-primary w-fit p-2 active:bg-primary"
+              >
+                <Image
+                  src={
+                    "https://res.cloudinary.com/dx1gryhqc/image/upload/v1758664074/youtube_dpg3g8.png"
+                  }
+                  alt=""
+                  width={100}
+                  height={100}
+                  className="w-6 h-6"
+                />
+              </Link>
+              {/* instagram link */}
+              <Link
+                href="https://www.instagram.com/humaqureshinovels?igsh=amp6Y3B5OXJvb3lh"
+                target="blank"
+                className="hover:bg-primary w-fit p-2 active:bg-primary"
+              >
+                <Image
+                  src={
+                    "https://res.cloudinary.com/dx1gryhqc/image/upload/v1758663992/instagram_mxjgaa.png"
+                  }
+                  alt=""
+                  width={100}
+                  height={100}
+                  className="w-6 h-6"
+                />
+              </Link>
+            </div>
           </div>
         </div>
         {/* about us */}
         {/* <div className="text-sm"><p>Contact US</p></div> */}
       </footer>
-
+      <p className=" pb-3 text-xs">
+        © {new Date().getFullYear()} Huma Qureshi Novels. All rights reserved.
+      </p>
       {/* line */}
       <div className="w-[70vw] h-[2px] rounded bg-primary"></div>
       {/* about developers */}

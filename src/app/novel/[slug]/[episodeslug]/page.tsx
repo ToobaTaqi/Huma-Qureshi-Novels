@@ -48,12 +48,12 @@ export default function Page() {
     const fetchNovels = async () => {
       try {
         // delay for loader
-        await new Promise((resolve) => {
-          setTimeout(() => {
-            resolve("internal delay");
-          }, 2000);
-        });
-
+        // await new Promise((resolve) => {
+        //   setTimeout(() => {
+        //     resolve("internal delay");
+        //   }, 2000);
+        // });
+setLoading(true)
         // const query = `*[_type == "novel" && episodeslug.current == "${episodeslug}"][0]`
         const query = `*[_type == "novel" && episodeslug.current == "${episodeslug}"][0]{name, episodeslug, _id, body, views, novelparent->{title, slug, bannerimagedesktop, bannerimagemobile}, genre->{genrename,_id}, writer->{writername,_id}, tags, comment[]->{name,_id,comment,_createdAt}}`;
         const response = await client.fetch(query);
