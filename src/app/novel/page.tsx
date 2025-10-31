@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Heading from "../components/Heading";
 import Novel from "../components/Cards/Novel";
 import { client } from "@/sanity/lib/client";
@@ -14,7 +14,7 @@ export default function Page() {
   const [loader, setLoader] = useState(<Loader />);
   const [page, setPage] = useState(0); // page index
   const [hasMore, setHasMore] = useState(true); // check if more novels exist
-  const limit = 4; // how many novels per fetch
+  const limit = 5; // how many novels per fetch
   // filter
   const [writers, setWriters] = useState<string[]>([]);
   const [genres, setGenres] = useState<string[]>([]);
@@ -22,6 +22,9 @@ export default function Page() {
   const [selectedSort, setSelectedSort] = useState("");
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [isPremium, setIsPremium] = useState(false);
+
+  // 1. Initialize the ref
+  const isInitialMount = useRef(true);
 
   const fetchNovels = async (pageIndex: number) => {
     try {
@@ -34,10 +37,10 @@ export default function Page() {
         genre->{genrename,_id},
         writer->{writername,_id},
       }`;
+      console.log(pageIndex * limit, "...", (pageIndex + 1) * limit);
       const writerData = await client.fetch(`*[_type == "writer"]{writername}`);
       const genreData = await client.fetch(`*[_type == "genre"]{genrename}`);
       setWriters(writerData.map((w: { writername: string }) => w.writername));
-      // console.log(writers);
       setGenres(genreData.map((g: { genrename: string }) => g.genrename));
 
       const response = await client.fetch(query);
@@ -62,6 +65,7 @@ export default function Page() {
 
   const handleApplyFilters = async (pageIndex: number = 0) => {
     setLoading(true);
+    setHasMore(true);
     // setAllNovels([]);
     try {
       const filters: string[] = [];
@@ -74,7 +78,7 @@ export default function Page() {
       // Genres filter
       if (selectedGenres.length > 0) {
         const genresStr = selectedGenres.map((g) => `"${g}"`).join(", ");
-        console.log(genresStr, "-------------------------------");
+        // console.log(genresStr, "-------------------------------");
         filters.push(`genre->genrename in [${genresStr}]`);
       }
 
@@ -105,9 +109,9 @@ export default function Page() {
       popular,
       latest
     }`;
-      console.log(filterQuery, "query");
+      // console.log(filterQuery, "query");
       const filteredResults = await client.fetch(filterQuery);
-      console.log(filteredResults.length, "filtered resultsss");
+      console.log(pageIndex * limit, "...", (pageIndex + 1) * limit);
 
       if (filteredResults.length < limit) {
         setHasMore(false); // no more novels left
@@ -115,7 +119,7 @@ export default function Page() {
         setHasMore(true);
       }
       setAllNovels((prev) => [...prev, ...filteredResults]);
-      allNovels.map((i, g) => console.log(g, i.title, i.genre.genrename));
+      // allNovels.map((i, g) => console.log(g, i.title, i.genre.genrename));
     } catch (err) {
       console.error("Error applying filters:", err);
     } finally {
@@ -124,20 +128,42 @@ export default function Page() {
   };
 
   useEffect(() => {
-    if (
-      selectedWriter ||
-      selectedSort ||
-      selectedGenres.length > 0 ||
-      isPremium
-    ) {
-      handleApplyFilters(page);
+    // Check if it's the initial mount
+    if (isInitialMount.current) {
+      // Set the ref to false for future renders
+      isInitialMount.current = false;
+      // Fetch initial data on first mount *outside* this specific useEffect
+      fetchNovels(0);
     } else {
-      fetchNovels(page);
+      // This runs on subsequent renders when 'page' changes
+      if (
+        selectedWriter ||
+        selectedSort ||
+        selectedGenres.length > 0 ||
+        isPremium
+      ) {
+        handleApplyFilters(page);
+      } else {
+        fetchNovels(page);
+      }
+      if (page > 0) setLoader(<Loader2 />);
     }
+  }, [page]); // Dependency array includes 'page'
 
-    if (page > 0) setLoader(<Loader2 />);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  // useEffect(() => {
+  //   if (
+  //     selectedWriter ||
+  //     selectedSort ||
+  //     selectedGenres.length > 0 ||
+  //     isPremium
+  //   ) {
+  //     handleApplyFilters(page);
+  //   } else {
+  //     fetchNovels(page);
+  //   }
+
+  //   if (page > 0) setLoader(<Loader2 />);
+  // }, [page]);
 
   return (
     <div className="flex flex-col gap-5 py-5 justify-center">
@@ -175,7 +201,7 @@ export default function Page() {
           onclick={() => {
             setPage(0);
             setAllNovels([]);
-            handleApplyFilters(0);
+            handleApplyFilters(page);
           }}
         />
       </div>
@@ -219,7 +245,7 @@ export default function Page() {
           selectedGenres.length > 0 ||
           isPremium) && (
           <button
-            onClick={() => {
+            onClick={async () => {
               setSelectedWriter("");
               setSelectedSort("");
               setSelectedGenres([]);
@@ -227,7 +253,7 @@ export default function Page() {
               setAllNovels([]);
               setPage(0);
               setHasMore(true);
-              fetchNovels(0);
+              await fetchNovels(page);
             }}
             className="ml-auto text-secondary  text-sm px-2 py-1 rounded hover:bg-secondary/20 transition"
           >
@@ -252,46 +278,7 @@ export default function Page() {
       {loading && loader}
 
       {!loading && hasMore && (
-        // <LoadMoreButton onclick={() => setPage((prev) => prev + 1)} />
-        <LoadMoreButton
-          onclick={() => {
-            const nextPage = page + 1;
-            setPage(nextPage);
-
-            // check if filters are active
-            if (
-              selectedWriter ||
-              selectedSort ||
-              selectedGenres.length > 0 ||
-              isPremium
-            ) {
-              handleApplyFilters(nextPage); // fetch filtered results for next page
-            } else {
-              fetchNovels(nextPage); // fetch normal results
-            }
-          }}
-        />
-
-        // <LoadMoreButton
-        //   onclick={() => {
-        //     setPage((prev) => {
-        //       const nextPage = prev + 1;
-
-        //       if (
-        //         selectedWriter ||
-        //         selectedSort ||
-        //         selectedGenres.length > 0 ||
-        //         isPremium
-        //       ) {
-        //         handleApplyFilters(nextPage);
-        //       } else {
-        //         fetchNovels(nextPage);
-        //       }
-
-        //       return nextPage;
-        //     });
-        //   }}
-        // />
+        <LoadMoreButton onclick={() => setPage((prev) => prev + 1)} />
       )}
 
       {!hasMore && (
