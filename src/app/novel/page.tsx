@@ -21,7 +21,7 @@ export default function Page() {
   const [selectedWriter, setSelectedWriter] = useState("");
   const [selectedSort, setSelectedSort] = useState("");
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const [isPremium, setIsPremium] = useState(false);
+  // const [isPremium, setIsPremium] = useState(false);
 
   // 1. Initialize the ref
   const isInitialMount = useRef(true);
@@ -57,12 +57,6 @@ export default function Page() {
     }
   };
 
-  // useEffect(() => {
-  //   fetchNovels(page);
-  //   if (page > 0) setLoader(<Loader2 />);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [page]);
-
   const handleApplyFilters = async (pageIndex: number = 0) => {
     setLoading(true);
     setHasMore(true);
@@ -83,9 +77,9 @@ export default function Page() {
       }
 
       // Premium filter
-      if (isPremium) {
-        filters.push(`isPremium == true`);
-      }
+      // if (isPremium) {
+      //   filters.push(`isPremium == true`);
+      // }
 
       // Boolean filters for sorting
       if (selectedSort === "Latest") filters.push(`latest == true`);
@@ -139,8 +133,8 @@ export default function Page() {
       if (
         selectedWriter ||
         selectedSort ||
-        selectedGenres.length > 0 ||
-        isPremium
+        selectedGenres.length > 0
+        // || isPremium
       ) {
         handleApplyFilters(page);
       } else {
@@ -149,21 +143,6 @@ export default function Page() {
       if (page > 0) setLoader(<Loader2 />);
     }
   }, [page]); // Dependency array includes 'page'
-
-  // useEffect(() => {
-  //   if (
-  //     selectedWriter ||
-  //     selectedSort ||
-  //     selectedGenres.length > 0 ||
-  //     isPremium
-  //   ) {
-  //     handleApplyFilters(page);
-  //   } else {
-  //     fetchNovels(page);
-  //   }
-
-  //   if (page > 0) setLoader(<Loader2 />);
-  // }, [page]);
 
   return (
     <div className="flex flex-col gap-5 py-5 justify-center">
@@ -193,11 +172,11 @@ export default function Page() {
                 checked ? [...prev, genre] : prev.filter((g) => g !== genre)
               ),
           }))}
-          toggle={{
-            label: "Show Premium Only",
-            value: isPremium,
-            onChange: setIsPremium,
-          }}
+          // toggle={{
+          //   label: "Show Premium Only",
+          //   value: isPremium,
+          //   onChange: setIsPremium,
+          // }}
           onclick={() => {
             setPage(0);
             setAllNovels([]);
@@ -233,23 +212,21 @@ export default function Page() {
           </p>
         )}
 
-        {isPremium && (
+        {/* {isPremium && (
           <p className="opacity-50 whitespace-nowrap ">
             {isPremium ? "Premium novels" : "Free"}
           </p>
-        )}
+        )} */}
 
         {/* Clear All button */}
-        {(selectedWriter ||
-          selectedSort ||
-          selectedGenres.length > 0 ||
-          isPremium) && (
+        {(selectedWriter || selectedSort || selectedGenres.length > 0) && (
+          // ||  isPremium
           <button
             onClick={async () => {
               setSelectedWriter("");
               setSelectedSort("");
               setSelectedGenres([]);
-              setIsPremium(false);
+              // setIsPremium(false);
               setAllNovels([]);
               setPage(0);
               setHasMore(true);

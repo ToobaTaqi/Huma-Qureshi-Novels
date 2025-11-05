@@ -72,30 +72,48 @@ export default function DesktopHeader() {
             <button onClick={() => setMenu(false)}>Home</button>
           </Link>
           <Link
+            href={`/novel`}
+            className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
+          >
+            <button onClick={() => setMenu(false)}>All Novels</button>
+          </Link>
+          <Link
             href={`/about`}
             className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
           >
             <button onClick={() => setMenu(false)}>About Us</button>
           </Link>
-          
           <Link
-            href={`/novel`}
+            href={`/contact`}
             className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
           >
-            <button onClick={() => setMenu(false)}>Novels</button>
+            <button onClick={() => setMenu(false)}>Contact us</button>
           </Link>
           <Link
+            href={`/privacypolicy`}
+            className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
+          >
+            <button onClick={() => setMenu(false)}>Privacy policy</button>
+          </Link>
+          <Link
+            href={`/terms`}
+            className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
+          >
+            <button onClick={() => setMenu(false)}>Terms</button>
+          </Link>
+
+          {/* <Link
             href={`/article`}
             className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
           >
             <button onClick={() => setMenu(false)}>Articles</button>
-          </Link>
-          <Link
+          </Link> */}
+          {/* <Link
             href={`/articles`}
             className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
           >
             <button onClick={() => setMenu(false)}>Ebooks</button>
-          </Link>
+          </Link> */}
         </nav>
         <Up />
       </header>
