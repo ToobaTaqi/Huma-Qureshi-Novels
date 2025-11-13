@@ -4,11 +4,8 @@ import React, { useState, useMemo, useEffect } from "react";
 import { client } from "@/sanity/lib/client";
 import { addCommentAction } from "@/app/actions/Comments";
 import Loader from "@/app/components/Loader";
-// import NovelHeader from "@/app/components/novelPage/NovelHeader";
 import DownloadPDFButton from "@/app/components/novelPage/DownloadPDFButton";
-// import NovelMetaData from "@/app/components/novelPage/NovelMetaData";
 import Tags from "@/app/components/novelPage/Tags";
-import CommentsHeader from "@/app/components/novelPage/CommentsHeader";
 import CommentForm from "@/app/components/novelPage/CommentForm";
 import Comment from "@/app/components/novelPage/Comment";
 import WatchOnYT from "@/app/components/novelPage/WatchOnYT";
@@ -22,22 +19,15 @@ import Heading from "@/app/components/Heading";
 export default function Page() {
   const params = useParams();
   const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug || "";
-  // const id = params.id;
   const [novel, setNovel] = useState<any>({});
   const [descriptionLang, setDescriptionLang] = useState<boolean>();
   const [banner, setBanner] = useState<string>("");
-  const [bannerImageMobile, setBannerImageMobile] = useState<string>("");
-  // const [body, setBody] = useState("");
   const [pdf, setPdf] = useState<string>("");
   const [yt, setYT] = useState<string>("");
   const [episodes, setEpisodes] = useState<
     { name: string; episodeteaser: any; episodeslug: any }[]
   >([]);
   const [views, setViews] = useState(0);
-  const [commentsEnabled, setCommentsEnabled] = useState<boolean>(false);
-  const [commentsEnabledIcon, setCommentsEnabledIcon] = useState(
-    "https://res.cloudinary.com/dx1gryhqc/image/upload/v1759090313/opentertiary_xsoypy.png"
-  );
   const [comments, setComments] = useState<
     { _id: string; name: string; comment: string; _createdAt: string }[]
   >([]);
@@ -51,7 +41,6 @@ export default function Page() {
   const [hasMore, setHasMore] = useState(true);
   const limit = 4;
 
-  // useEffect(() => {
   const fetchNovels = async (pageIndex: number, reset = false) => {
     try {
       setLoading(true);
@@ -73,7 +62,6 @@ export default function Page() {
 
       const viewsquery = `*[_type == "novel" && references("${response._id}") && defined(episodereleasedate) && episodereleasedate <= now() ]{views}`;
       const viewsresponse = await client.fetch(viewsquery);
-      // console.log(viewsresponse)
 
       const epviews = viewsresponse.map((ep: any, i: number) => ep.views);
       const views = epviews.reduce(
@@ -83,7 +71,6 @@ export default function Page() {
       setViews(views);
 
       setBanner(response.banner);
-      // setBannerImageMobile(response.bannerimagemobile);
       setPdf(response.pdfurl);
       setYT(response.youtubeurl);
       setComments(response.comment);
@@ -104,27 +91,6 @@ export default function Page() {
   useEffect(() => {
     if (page > 0) fetchNovels(page);
   }, [page]);
-  // }, []);
-
-  const OpeCcommentsEnabled = () => {
-    setCommentsEnabled(!commentsEnabled);
-    if (commentsEnabled === false) {
-      console.log("closed");
-    } else {
-      console.log("opened");
-    }
-  };
-  useEffect(() => {
-    if (commentsEnabled === false) {
-      setCommentsEnabledIcon(
-        "https://res.cloudinary.com/dx1gryhqc/image/upload/v1759090353/closetertiary_xkhdd1.png"
-      );
-    } else {
-      setCommentsEnabledIcon(
-        "https://res.cloudinary.com/dx1gryhqc/image/upload/v1759090313/opentertiary_xsoypy.png"
-      );
-    }
-  }, [commentsEnabled]);
 
   const commentNameHandle = (e: any) => setCommentName(e.target.value);
 
@@ -156,18 +122,16 @@ export default function Page() {
   return (
     <div className="flex flex-col py-5 gap-6 lg:gap-10">
       {/* banner and title */}
-
       <h1 className="text-2xl text-center lg:text-start lg:text-4xl font-bold px-3 py-2 lg:py-5 lg:px-5 rounded  text-tertiary">
         {`${novel?.title ?? "Loading..."} by ${novel?.writer?.writername ?? "Unknown writer"}`}
       </h1>
 
       {/* metadata */}
-      {/* <div className="px-10 lg:px-24 text-secondary text-xs lg:text-sm  flex flex-col lg:flex-row justify-between gap-5"> */}
-        <div className=" px-10 lg:px-24 text-secondary text-sm flex justify-start items-start  gap-5">
-          <h1>Written by : {novel.writer?.writername || ""}</h1>
-          <h1>Genre : {novel.genre?.genrename || ""}</h1>
-        </div>
-       
+      <div className=" px-10 lg:px-24 text-secondary text-sm flex justify-start items-start  gap-5">
+        <h1>Written by : {novel.writer?.writername || ""}</h1>
+        <h1>Genre : {novel.genre?.genrename || ""}</h1>
+      </div>
+
       {/* </div> */}
 
       <Image
@@ -180,23 +144,20 @@ export default function Page() {
         height={1080}
         priority
         quality={100}
-        // style={{ objectFit: "cover", width: "100%", height: "auto" }}
       />
 
-       {views > 0 && (
-          <p className="text-secondary px-10 lg:px-24 flex gap-2 items-center self-end ">
-            {views}
-            <Image
-              className="w-6 h-6"
-              src={`https://res.cloudinary.com/dx1gryhqc/image/upload/v1760120134/view_1_nlipoq.png`}
-              alt=""
-              width={100}
-              height={100}
-            />
-          </p>
-        )}
-
-      {/* </div> */}
+      {views > 0 && (
+        <p className="text-secondary px-10 lg:px-24 flex gap-2 items-center self-end ">
+          {views}
+          <Image
+            className="w-6 h-6"
+            src={`https://res.cloudinary.com/dx1gryhqc/image/upload/v1760120134/view_1_nlipoq.png`}
+            alt=""
+            width={100}
+            height={100}
+          />
+        </p>
+      )}
 
       {/* novel description */}
       {novel.noveldescription && (
@@ -214,16 +175,12 @@ export default function Page() {
         >
           {episodes.length > 0 ? (
             episodes.map((episode, index) => (
-              // <div
-              //   className={`flex gap-5 flex-wrap justify-center lg:justify-start lg:px-28 lg:gap-10`}
-              // >
               <Episode
                 key={index}
                 href={`/novel/${slug}/${episode.episodeslug?.current}`}
                 episodeTitle={episode?.name}
                 teaser={episode.episodeteaser}
               />
-              // </div>
             ))
           ) : (
             <p className="text-tertiary opacity-50 px-10">no episodes yet</p>
@@ -252,44 +209,37 @@ export default function Page() {
 
       {/* Comments */}
       <div className="flex flex-col gap-10">
-        <CommentsHeader
-          enabling={OpeCcommentsEnabled}
-          icon={commentsEnabledIcon}
-        />
+        <Heading name="Comments" />
         {/* comments body */}
-        {commentsEnabled && (
-          <div className="flex flex-col gap-10 lg:mx-10">
-            {/* comments- filhal for a single comment but make it dynamic later*/}
-            {comments &&
-              comments.map(
-                (
-                  c: {
-                    _id: string;
-                    name: string;
-                    comment: string;
-                    _createdAt: string;
-                  },
-                  index: number
-                ) => (
-                  <Comment
-                    key={index}
-                    name={c.name}
-                    createdAt={c._createdAt}
-                    comment={c.comment}
-                  />
-                )
-              )}
 
-            {/* comments form */}
-            <CommentForm
-              handleCommentSubmit={handleCommentSubmit}
-              commentName={commentName}
-              commentNameHandle={commentNameHandle}
-              commentText={commentText}
-              commentTextHandle={commentTextHandle}
-            />
-          </div>
-        )}
+        <div className="flex flex-col gap-10 lg:mx-10">
+          <CommentForm
+            handleCommentSubmit={handleCommentSubmit}
+            commentName={commentName}
+            commentNameHandle={commentNameHandle}
+            commentText={commentText}
+            commentTextHandle={commentTextHandle}
+          />
+          {comments &&
+            comments.map(
+              (
+                c: {
+                  _id: string;
+                  name: string;
+                  comment: string;
+                  _createdAt: string;
+                },
+                index: number
+              ) => (
+                <Comment
+                  key={index}
+                  name={c.name}
+                  createdAt={c._createdAt}
+                  comment={c.comment}
+                />
+              )
+            )}
+        </div>
       </div>
     </div>
   );
