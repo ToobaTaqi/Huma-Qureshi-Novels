@@ -32,7 +32,7 @@ export default function Page() {
       // setAllNovels([]);
       const query = `*[_type == "novelparent" && defined(novelreleasedate) && novelreleasedate <= now()] | order(_createdAt desc) [${pageIndex * limit}...${(pageIndex + 1) * limit}] {
         title,
-        cardbannerurl,
+        banner,
         _id, slug,
         genre->{genrename,_id},
         writer->{writername,_id},
@@ -243,7 +243,7 @@ export default function Page() {
         {allNovels.map((novel, index) => (
           <Novel
             href={novel?.slug?.current ?? ""}
-            cardBanner={novel.cardbannerurl}
+            cardBanner={novel.banner}
             novelName={novel.title}
             writer={novel.writer?.writername}
             genre={novel.genre?.genrename}

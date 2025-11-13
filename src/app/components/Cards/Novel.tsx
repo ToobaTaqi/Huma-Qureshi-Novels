@@ -18,15 +18,15 @@ export default function Novel({
   return (
     <Link
       href={`/novel/${href}`}
-      className="text-tertiary w-[200px] rounded-xl flex flex-col justify-center items-center py-4 gap-3 shadow-2xl border border-primary active:border-secondary"
+      className="text-tertiary w-[200px] rounded-xl flex flex-col justify-start items-center py-4 gap-3 shadow-2xl border border-primary active:border-secondary"
     >
       <Image
         alt=""
-        width={100}
-        height={100}
+        width={320}
+        height={180}
         src={cardBanner}
         // src={`https://cdn.pixabay.com/photo/2018/07/11/16/53/book-3531412_1280.jpg`}
-        className="w-[170px] h-[120px] bg-secondary flex items-center justify-center text-2xl text-wrap text-center object-cover"
+        className="w-[170px] h-[96px] self-center text-2xl text-center object-fit"
       />
 
       <div className="flex flex-col gap-2">

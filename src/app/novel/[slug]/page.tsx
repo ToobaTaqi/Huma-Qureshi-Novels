@@ -4,9 +4,9 @@ import React, { useState, useMemo, useEffect } from "react";
 import { client } from "@/sanity/lib/client";
 import { addCommentAction } from "@/app/actions/Comments";
 import Loader from "@/app/components/Loader";
-import NovelHeader from "@/app/components/novelPage/NovelHeader";
+// import NovelHeader from "@/app/components/novelPage/NovelHeader";
 import DownloadPDFButton from "@/app/components/novelPage/DownloadPDFButton";
-import NovelMetaData from "@/app/components/novelPage/NovelMetaData";
+// import NovelMetaData from "@/app/components/novelPage/NovelMetaData";
 import Tags from "@/app/components/novelPage/Tags";
 import CommentsHeader from "@/app/components/novelPage/CommentsHeader";
 import CommentForm from "@/app/components/novelPage/CommentForm";
@@ -25,7 +25,7 @@ export default function Page() {
   // const id = params.id;
   const [novel, setNovel] = useState<any>({});
   const [descriptionLang, setDescriptionLang] = useState<boolean>();
-  const [bannerImageDesktop, setBannerImageDesktop] = useState<string>("");
+  const [banner, setBanner] = useState<string>("");
   const [bannerImageMobile, setBannerImageMobile] = useState<string>("");
   // const [body, setBody] = useState("");
   const [pdf, setPdf] = useState<string>("");
@@ -55,7 +55,7 @@ export default function Page() {
   const fetchNovels = async (pageIndex: number, reset = false) => {
     try {
       setLoading(true);
-      const query = `*[_type == "novelparent" && slug.current == "${slug}"][0]{title, slug, noveldescription, descriptionlanguage, writer->{writername,_id}, genre->{genrename,_id}, latest ,popular, trending,  bannerimagemobile, bannerimagedesktop , _id, tags, pdfurl, youtubeurl, comment[]->{name,_id,comment, _createdAt} }`;
+      const query = `*[_type == "novelparent" && slug.current == "${slug}"][0]{title, slug, noveldescription, descriptionlanguage, writer->{writername,_id}, genre->{genrename,_id}, latest ,popular, trending,  banner , _id, tags, pdfurl, youtubeurl, comment[]->{name,_id,comment, _createdAt} }`;
       const response = await client.fetch(query);
 
       const episodeQuery = `*[_type == "novel" && references("${response._id}") && defined(episodereleasedate) && episodereleasedate <= now() ] | order(_createdAt asc) [${pageIndex * limit}...${(pageIndex + 1) * limit}] {name, episodeslug, _id, episodeteaser, "novelTitle": novelparent->title, writer->{writername,_id}
@@ -82,8 +82,8 @@ export default function Page() {
       );
       setViews(views);
 
-      setBannerImageDesktop(response.bannerimagedesktop);
-      setBannerImageMobile(response.bannerimagemobile);
+      setBanner(response.banner);
+      // setBannerImageMobile(response.bannerimagemobile);
       setPdf(response.pdfurl);
       setYT(response.youtubeurl);
       setComments(response.comment);
@@ -156,29 +156,45 @@ export default function Page() {
   return (
     <div className="flex flex-col py-5 gap-6 lg:gap-10">
       {/* banner and title */}
-      <NovelHeader
-        bannerImageDesktop={bannerImageDesktop}
-        bannerImageMobile={bannerImageMobile}
-        // novelTitle={novel.title}
-        novelTitle={`${novel?.title ?? "Loading..."} by ${novel?.writer?.writername ?? "Unknown writer"}`}
+
+      <h1 className="text-2xl text-center lg:text-start lg:text-4xl font-bold px-3 py-2 lg:py-5 lg:px-5 rounded  text-tertiary">
+        {`${novel?.title ?? "Loading..."} by ${novel?.writer?.writername ?? "Unknown writer"}`}
+      </h1>
+
+      {/* metadata */}
+      {/* <div className="px-10 lg:px-24 text-secondary text-xs lg:text-sm  flex flex-col lg:flex-row justify-between gap-5"> */}
+        <div className=" px-10 lg:px-24 text-secondary text-sm flex justify-start items-start  gap-5">
+          <h1>Written by : {novel.writer?.writername || ""}</h1>
+          <h1>Genre : {novel.genre?.genrename || ""}</h1>
+        </div>
+       
+      {/* </div> */}
+
+      <Image
+        src={banner}
+        alt=""
+        // width={100}
+        // height={100}
+        className="w-[1920px] h-auto object-cover"
+        width={1920}
+        height={1080}
+        priority
+        quality={100}
+        // style={{ objectFit: "cover", width: "100%", height: "auto" }}
       />
 
-      {/* <div className="flex  lg:justify-between lg:flex-row flex-col items-start lg:items-center px-6 lg:px-24 ">
-       
-        <Heading name={`${novel?.name ?? "Unknown Title"}`} /> */}
-
-      {views >0 && (
-        <p className="text-secondary flex gap-2 items-center self-end lg:self-center px-6 lg:px-24">
-          {views}
-          <Image
-            className="w-6 h-6"
-            src={`https://res.cloudinary.com/dx1gryhqc/image/upload/v1760120134/view_1_nlipoq.png`}
-            alt=""
-            width={100}
-            height={100}
-          />
-        </p>
-      )}
+       {views > 0 && (
+          <p className="text-secondary px-10 lg:px-24 flex gap-2 items-center self-end ">
+            {views}
+            <Image
+              className="w-6 h-6"
+              src={`https://res.cloudinary.com/dx1gryhqc/image/upload/v1760120134/view_1_nlipoq.png`}
+              alt=""
+              width={100}
+              height={100}
+            />
+          </p>
+        )}
 
       {/* </div> */}
 
@@ -230,12 +246,6 @@ export default function Page() {
         {pdf && <DownloadPDFButton pdf={pdf} />}
         {yt && <WatchOnYT YTurl={yt} />}
       </div>
-
-      {/* metadata */}
-      <NovelMetaData
-        writer={novel.writer?.writername}
-        genre={novel.genre?.genrename}
-      />
 
       {/* tags */}
       <Tags tags={novel.tags} />

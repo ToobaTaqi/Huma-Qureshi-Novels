@@ -4,10 +4,10 @@ import React, { useState, useMemo, useEffect } from "react";
 import { client } from "@/sanity/lib/client";
 import { addCommentAction } from "@/app/actions/Comments";
 import Loader from "@/app/components/Loader";
-import NovelHeader from "@/app/components/novelPage/NovelHeader";
+// import NovelHeader from "@/app/components/novelPage/NovelHeader";
 import NovelBody from "@/app/components/novelPage/NovelBody";
 import DownloadPDFButton from "@/app/components/novelPage/DownloadPDFButton";
-import NovelMetaData from "@/app/components/novelPage/NovelMetaData";
+// import NovelMetaData from "@/app/components/novelPage/NovelMetaData";
 import Tags from "@/app/components/novelPage/Tags";
 import CommentsHeader from "@/app/components/novelPage/CommentsHeader";
 import CommentForm from "@/app/components/novelPage/CommentForm";
@@ -29,8 +29,8 @@ export default function Page() {
   console.log(episodeslug, "episodeslug");
   // const id = params.id;
   const [novel, setNovel] = useState<any>({});
-  const [bannerImageDesktop, setBannerImageDesktop] = useState<string>("");
-  const [bannerImageMobile, setBannerImageMobile] = useState<string>("");
+  const [banner, setBanner] = useState<string>("");
+  // const [bannerImageMobile, setBannerImageMobile] = useState<string>("");
   const [body, setBody] = useState("");
   // const [pdf, setPdf] = useState<string>("");
   const [commentsEnabled, setCommentsEnabled] = useState<boolean>(false);
@@ -53,17 +53,17 @@ export default function Page() {
         //     resolve("internal delay");
         //   }, 2000);
         // });
-setLoading(true)
+        setLoading(true);
         // const query = `*[_type == "novel" && episodeslug.current == "${episodeslug}"][0]`
-        const query = `*[_type == "novel" && episodeslug.current == "${episodeslug}"][0]{name, episodeslug, _id, body, views, novelparent->{title, slug, bannerimagedesktop, bannerimagemobile}, genre->{genrename,_id}, writer->{writername,_id}, tags, comment[]->{name,_id,comment,_createdAt}}`;
+        const query = `*[_type == "novel" && episodeslug.current == "${episodeslug}"][0]{name, episodeslug, _id, body, views, novelparent->{title, slug, banner}, genre->{genrename,_id}, writer->{writername,_id}, tags, comment[]->{name,_id,comment,_createdAt}}`;
         const response = await client.fetch(query);
-        console.log(response, "---->>>");
+        // console.log(response, "---->>>");
         // console.log(response._id, "this should be sanity _id");
 
         setNovel(response);
         setBody(response.body);
-        setBannerImageDesktop(response.novelparent.bannerimagedesktop);
-        setBannerImageMobile(response.novelparent.bannerimagemobile);
+        setBanner(response.novelparent.banner);
+        // setBannerImageMobile(response.novelparent.bannerimagemobile);
         // setPdf(response.pdf);
         setComments(response.comment);
 
@@ -166,16 +166,38 @@ setLoading(true)
   return (
     <div className="flex flex-col py-5 gap-6 lg:gap-10">
       {/* banner and title */}
-      <NovelHeader
+      {/* <NovelHeader
         bannerImageDesktop={bannerImageDesktop || ""}
         bannerImageMobile={bannerImageMobile || ""}
         novelTitle={`${novel?.novelparent?.title ?? "Loading..."} by ${novel?.writer?.writername ?? "Unknown writer"}`}
+      /> */}
+
+      <h1 className="text-2xl text-center lg:text-start lg:text-4xl font-bold px-3 py-2 lg:py-5 lg:px-5 rounded  text-tertiary">
+        {`${novel?.novelparent?.title ?? "Loading..."} by ${novel?.writer?.writername ?? "Unknown writer"}`}
+      </h1>
+
+      {/* metadata */}
+      {/* <div className="px-10 lg:px-24 text-secondary text-xs lg:text-sm  flex flex-col lg:flex-row justify-between gap-5"> */}
+      <div className=" px-10 lg:px-24 text-secondary text-sm flex justify-start items-start  gap-5">
+        <h1>Written by : {novel.writer?.writername || ""}</h1>
+        <h1>Genre : {novel.genre?.genrename || ""}</h1>
+      </div>
+
+      <Image
+        src={banner}
+        alt=""
+        className="w-[1920px] h-auto object-cover"
+        width={1920}
+        height={1080}
+        priority
+        quality={100}
+        // style={{ objectFit: "cover", width: "100%", height: "auto" }}
       />
-      <div className="flex  lg:justify-between lg:flex-row flex-col items-start lg:items-center px-6 lg:px-24 ">
-        {/* <Heading2 heading2={`${novel?.title?? "Unknown Title"}`} /> */}
-        <Heading name={`${novel?.name ?? "Unknown Title"}`} />
-        <p className="text-secondary flex gap-2 items-center self-end lg:self-center">
-          {novel.views ?? 9}
+    
+
+      {novel.views > 0 && (
+        <p className="px-10 lg:px-24 text-secondary flex gap-2 items-center self-end ">
+          {novel.views}
           <Image
             className="w-6 h-6"
             src={`https://res.cloudinary.com/dx1gryhqc/image/upload/v1760120134/view_1_nlipoq.png`}
@@ -184,7 +206,13 @@ setLoading(true)
             height={100}
           />
         </p>
-      </div>
+      )}
+
+      {/* <div className="flex  lg:justify-between lg:flex-row flex-col items-start lg:items-center px-6 lg:px-24 "> */}
+      {/* <Heading2 heading2={`${novel?.title?? "Unknown Title"}`} /> */}
+      <Heading name={`${novel?.name ?? "Unknown Title"}`} />
+
+      {/* </div> */}
       {/* novel content */}
       <NovelBody novelText={paginatedText} />
 
@@ -222,10 +250,10 @@ setLoading(true)
       {/* {pdf && <DownloadPDFButton pdf={pdf} />} */}
 
       {/* metadata */}
-      <NovelMetaData
+      {/* <NovelMetaData
         writer={novel.writer?.writername ?? "Unknown writer"}
         genre={novel.genre?.genrename ?? "unknown genre"}
-      />
+      /> */}
 
       {/* tags */}
       <Tags tags={novel.tags} />

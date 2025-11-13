@@ -88,20 +88,20 @@ export const novelparent = defineType({
       type: "string",
       title: "Youtube Url",
     }),
+    // defineField({
+    //   name: "bannerimagedesktop",
+    //   type: "string",
+    //   title: "BannerImageDesktop",
+    // }),
+    // defineField({
+    //   name: "bannerimagemobile",
+    //   type: "string",
+    //   title: "BannerImageMobile",
+    // }),
     defineField({
-      name: "bannerimagedesktop",
+      name: "banner",
       type: "string",
-      title: "BannerImageDesktop",
-    }),
-    defineField({
-      name: "bannerimagemobile",
-      type: "string",
-      title: "BannerImageMobile",
-    }),
-    defineField({
-      name: "cardbannerurl",
-      type: "string",
-      title: "CardBannerUrl",
+      title: "BannerUrl",
     }),
     defineField({
       name: "tags",
