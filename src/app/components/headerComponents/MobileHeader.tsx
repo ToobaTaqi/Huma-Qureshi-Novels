@@ -110,7 +110,13 @@ export default function MobileHeader() {
               href={`/novel`}
               className="px-5 py-1 active:rounded border border-primary active:border-tertiary active:text-tertiary"
             >
-              <button onClick={() => setMenu(false)}>All Novels</button>
+              <button onClick={() => setMenu(false)}>Episodic Novels</button>
+            </Link>
+            <Link
+              href={`/pdf`}
+              className="px-5 py-1 active:rounded border border-primary active:border-tertiary active:text-tertiary"
+            >
+              <button onClick={() => setMenu(false)}>PDF Library</button>
             </Link>
             {/* <Link
               href={`/article`}

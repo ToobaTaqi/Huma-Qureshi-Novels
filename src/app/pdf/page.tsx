@@ -29,8 +29,7 @@ export default function Page() {
   const fetchNovels = async (pageIndex: number) => {
     try {
       setLoading(true);
-      // setAllNovels([]);
-      const query = `*[_type == "novelparent" && defined(novelreleasedate) && novelreleasedate <= now()] | order(_createdAt desc) [${pageIndex * limit}...${(pageIndex + 1) * limit}] {
+      const query = `*[_type == "pdf" && defined(pdfreleasedate) && pdfreleasedate <= now()] | order(_createdAt desc) [${pageIndex * limit}...${(pageIndex + 1) * limit}] {
         title,
         banner,
         _id, slug,
@@ -44,6 +43,7 @@ export default function Page() {
       setGenres(genreData.map((g: { genrename: string }) => g.genrename));
 
       const response = await client.fetch(query);
+      console.log(response)
 
       if (response.length < limit) {
         setHasMore(false); // no more novels left
@@ -87,14 +87,14 @@ export default function Page() {
       if (selectedSort === "Popular") filters.push(`popular == true`);
 
       // Build GROQ query
-      let filterQuery = `*[_type == "novelparent" && defined(novelreleasedate) && novelreleasedate <= now()`;
+      let filterQuery = `*[_type == "pdf" && defined(pdfreleasedate) && pdfreleasedate <= now()`;
       if (filters.length > 0) {
         filterQuery += ` && ${filters.join(" && ")}`;
       }
 
       filterQuery += `] | order(_createdAt desc) [${pageIndex * limit}...${(pageIndex + 1) * limit}] {
       title,
-      cardbannerurl,
+      banner,
       _id,
       slug,
       genre->{genrename},
@@ -146,7 +146,7 @@ export default function Page() {
 
   return (
     <div className="flex flex-col gap-5 py-5 justify-center">
-      <Heading name="All Episodic Novels" />
+      <Heading name="All PDFs" />
 
       <div className="w-full max-w-5xl mx-auto mb-6">
         <Filter
@@ -242,7 +242,7 @@ export default function Page() {
       <ul className="flex flex-wrap gap-5 justify-center lg:justify-start">
         {allNovels.map((novel, index) => (
           <Novel
-            href={`/novel/${novel?.slug?.current ?? ""}`}
+            href={`/pdf/${novel?.slug?.current ?? ""}`}
             cardBanner={novel.banner}
             novelName={novel.title}
             writer={novel.writer?.writername}

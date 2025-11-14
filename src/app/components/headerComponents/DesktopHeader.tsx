@@ -78,6 +78,12 @@ export default function DesktopHeader() {
             <button onClick={() => setMenu(false)}>All Novels</button>
           </Link>
           <Link
+            href={`/pdf`}
+            className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
+          >
+            <button onClick={() => setMenu(false)}>PDF Library</button>
+          </Link>
+          <Link
             href={`/about`}
             className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
           >
@@ -95,12 +101,12 @@ export default function DesktopHeader() {
           >
             <button onClick={() => setMenu(false)}>Privacy policy</button>
           </Link>
-          <Link
+          {/* <Link
             href={`/terms`}
             className="px-5 py-1 active:rounded border border-primary hover:border-tertiary active:text-secondary active:border-secondary"
           >
             <button onClick={() => setMenu(false)}>Terms</button>
-          </Link>
+          </Link> */}
 
           {/* <Link
             href={`/article`}
