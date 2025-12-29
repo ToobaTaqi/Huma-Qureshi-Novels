@@ -19,9 +19,12 @@ export default function Latest() {
       setLoading(true);
 
       // for latests
-      const query = `*[_type == "novelparent" && latest==true && defined(novelreleasedate) && novelreleasedate <= now() ]| order(_createdAt desc) [${pageIndex * limit}...${(pageIndex + 1) * limit}] {title, cardbannerurl , slug, _id, genre->{genrename,_id}, writer->{writername,_id},latest ,popular, trending, }`;
+      //     const query = `*[
+      // _type == "novelparent" && trending == true ] | order(_createdAt desc) `;
+
+      const query = `*[_type == "novelparent" && latest==true && defined(novelreleasedate) && novelreleasedate <= now() ]| order(_createdAt desc) [${pageIndex * limit}...${(pageIndex + 1) * limit}] {title, cardbannerurl , slug, _id, genre->{genrename,_id}, writer->{writername,_id},latest ,popular, trending}`;
       const response = await client.fetch(query);
-      console.log(response, "this is r4essdsdas");
+      // console.log(response, "this is r4essdsdas");
       //
       if (response.length < limit) {
         setHasMoreLatests(false); // no more novels left
@@ -41,32 +44,36 @@ export default function Latest() {
   }, [page]);
 
   return (
-    <div className="py-5 flex flex-col gap-6 lg:gap-10" id="latest">
-      <Heading name="Latest" />
-      <div
-        className={`flex gap-5 flex-wrap justify-center lg:justify-start lg:px-28 lg:gap-10`}
-      >
-        {latest?.map((l: any, index: any) => (
-          <Novel
-            href={l.slug?.current}
-            cardBanner={l.cardbannerurl}
-            novelName={l.title}
-            writer={l.writer.writername}
-            genre={l.genre.genrename}
-            key={index}
-          />
-        ))}
-      </div>
+    <>
+      {latest.length > 0 && (
+        <div className="py-5 flex flex-col gap-6 lg:gap-10" id="latest">
+          <Heading name="Latest" />
+          <div
+            className={`flex gap-5 flex-wrap justify-center lg:justify-start lg:px-28 lg:gap-10`}
+          >
+            {latest?.map((l: any, index: any) => (
+              <Novel
+                href={l.slug?.current}
+                cardBanner={l.cardbannerurl}
+                novelName={l.title}
+                writer={l.writer.writername}
+                genre={l.genre.genrename}
+                key={index}
+              />
+            ))}
+          </div>
 
-      {loading && loader}
-      {!loading && hasMoreLatests && (
-        <LoadMoreButton onclick={() => setPage((prev) => prev + 1)} />
+          {loading && loader}
+          {!loading && hasMoreLatests && (
+            <LoadMoreButton onclick={() => setPage((prev) => prev + 1)} />
+          )}
+          {!hasMoreLatests && (
+            <p className="text-center text-tertiary opacity-50 py-3">
+              No more novels
+            </p>
+          )}
+        </div>
       )}
-      {!hasMoreLatests && (
-        <p className="text-center text-tertiary opacity-50 py-3">
-          No more novels
-        </p>
-      )}
-    </div>
+    </>
   );
 }

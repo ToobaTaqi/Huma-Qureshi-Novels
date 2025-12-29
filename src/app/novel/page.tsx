@@ -242,7 +242,7 @@ export default function Page() {
       <ul className="flex flex-wrap gap-5 justify-center lg:justify-start">
         {allNovels.map((novel, index) => (
           <Novel
-            href={`/novel/${novel?.slug?.current ?? ""}`}
+            href={`${novel?.slug?.current ?? ""}`}
             cardBanner={novel.banner}
             novelName={novel.title}
             writer={novel.writer?.writername}

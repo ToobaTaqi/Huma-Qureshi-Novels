@@ -17,8 +17,8 @@ export default function Novel({
 }) {
   return (
     <Link
-      href={`${href}`}
-      // href={`/novel/${href}`}
+      // href={`${href}`}
+      href={`/novel/${href}`}
       className="text-tertiary w-[200px] rounded-xl flex flex-col justify-start items-center py-4 gap-3 shadow-2xl border border-primary active:border-secondary"
     >
       <Image
