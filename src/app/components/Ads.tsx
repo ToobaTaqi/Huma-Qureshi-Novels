@@ -2,13 +2,13 @@
 
 import { useEffect, useRef } from "react";
 
-type AdFormat = "banner" | "rectangle" | "horizontal";
+declare global {
+  interface Window {
+    adsbygoogle: unknown[];
+  }
+}
 
-const adSlots: Record<AdFormat, string> = {
-  banner: "8097528498",
-  rectangle: "5137809651",
-  horizontal: "2516737689",
-};
+type AdFormat = "banner" | "rectangle" | "horizontal";
 
 export default function Ads({ format = "rectangle" }: { format?: AdFormat }) {
   const adRef = useRef<HTMLModElement>(null);
@@ -24,8 +24,6 @@ export default function Ads({ format = "rectangle" }: { format?: AdFormat }) {
     }
   }, []);
 
-  const slot = adSlots[format] || adSlots.rectangle;
-
   const styleMap: Record<AdFormat, React.CSSProperties> = {
     banner: { display: "block", width: "100%", maxWidth: "728px", height: "90px", margin: "0 auto" },
     rectangle: { display: "block", width: "100%", maxWidth: "336px", height: "280px", margin: "0 auto" },
@@ -39,7 +37,7 @@ export default function Ads({ format = "rectangle" }: { format?: AdFormat }) {
         className="adsbygoogle"
         style={styleMap[format]}
         data-ad-client="ca-pub-9826860279589874"
-        data-ad-slot={slot}
+        data-ad-slot="auto"
         data-ad-format={format === "rectangle" ? "auto" : "horizontal"}
         data-full-width-responsive="true"
       />
