@@ -33,6 +33,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <Up />
       <Script src="https://www.googletagmanager.com/gtag/js?id=G-X7F51SY5RZ" strategy="afterInteractive" />
       <Script id="google-analytics" strategy="afterInteractive">{`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-X7F51SY5RZ');`}</Script>
+      <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9826860279589874" strategy="afterInteractive" crossOrigin="anonymous" />
     </PremiumThemeProvider></AuthProvider>
   </body></html>;
 }

@@ -15,6 +15,7 @@ import Heading from "@/app/components/Heading";
 import Heading2 from "@/app/components/Heading2";
 import AuthorNote from "@/app/components/novelPage/AuthoNote";
 import ViewsBadge from "@/app/components/ViewsBadge";
+import Ads from "@/app/components/Ads";
 import { client } from "@/sanity/lib/client";
 
 type EpisodeItem = { name: string; episodereleasedate: string; episodeteaser: string; episodeslug: { current: string } };
@@ -81,6 +82,8 @@ export default function NovelPageClient({ novel: initialNovel, episodes: initial
         </div>
       </section>
 
+      <Ads format="banner" />
+
       {novel.noveldescription && <NovelDescription descText={novel.noveldescription} font={novel.descriptionlanguage ? "font-urdu" : ""} dir={novel.descriptionlanguage ? "rtl" : "ltr"} />}
       {novel.authornote && <AuthorNote note={novel.authornote} font={novel.authornotelang ? "font-urdu" : ""} dir={novel.authornotelang ? "rtl" : "ltr"} />}
       <section aria-labelledby="episodes-heading">
@@ -91,6 +94,9 @@ export default function NovelPageClient({ novel: initialNovel, episodes: initial
         {hasMore && <div className="flex justify-center py-5"><LoadMoreButton onclick={loadMore} /></div>}
         {loadingMore && <p className="text-center opacity-60">Loading more episodes…</p>}
       </section>
+
+      <Ads format="rectangle" />
+
       <div className="flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-5 justify-center items-center px-4 sm:px-0">
         {novel.pdfurl && <DownloadPDFButton pdf={novel.pdfurl} />}
         {novel.youtubeurl && <WatchOnYT YTurl={novel.youtubeurl} />}

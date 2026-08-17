@@ -1,4 +1,4 @@
-<!-- Color Theme... follow this theme to designing bro....
+<!-- npm<!-- Color Theme... follow this theme to designing bro....
 
 | Purpose                  | Color           | Hex       |
 | ------------------------ | --------------- | --------- |
@@ -15,15 +15,8 @@
 | **Borders**              | Warm Beige      | `#DCCFC2` |
 | **White Text**           | `#FFFFFF`       |           |
 | **Accent**               | Soft Gold       | `#C9A96E` | -->
+ -->
 
-why show this in terminal?
+ Git Repo URl...
 
-git : The term 'git' is not recognized as the name of a cmdlet, function, script file, or operable program. 
-Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
-At line:1 char:1
-+ git init
-+ ~~~
-    + CategoryInfo          : ObjectNotFound: (git:String) [], CommandNotFoundException
-    + FullyQualifiedErrorId : CommandNotFoundException
- 
-PS D:\Huma-Qureshi-Novels-SEO-AdSense-ready\Huma-Qureshi-Novels-main> 
+ https://github.com/ToobaTaqi/Huma-Qureshi-Novels.git

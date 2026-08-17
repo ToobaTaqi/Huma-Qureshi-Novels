@@ -10,6 +10,7 @@ import CommentForm from "@/app/components/novelPage/CommentForm";
 import Comment from "@/app/components/novelPage/Comment";
 import Heading from "@/app/components/Heading";
 import ViewsBadge from "@/app/components/ViewsBadge";
+import Ads from "@/app/components/Ads";
 
 type CommentItem = { _id: string; name: string; comment: string; _createdAt: string };
 
@@ -97,12 +98,16 @@ export default function EpisodePageClient({ episode, initialComments }: { episod
       </div>
     </section>
 
+    <Ads format="banner" />
+
     <Heading name={episode.name} className="title-bright" />
 
     {/* reading area */}
     <div className="rounded-2xl border border-secondary/25 bg-secondary/5 shadow-xl">
       <NovelBody novelText={pages[currentPage - 1]} />
     </div>
+
+    <Ads format="rectangle" />
 
     {totalPages > 1 && (
       <nav className="flex flex-wrap items-center justify-center gap-2 px-10" aria-label="Pagination">
