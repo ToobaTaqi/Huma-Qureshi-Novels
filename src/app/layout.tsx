@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body className={`bg-primary my-3 ${nastaliq.variable} ${playfair.variable} ${geistMono.variable} ${geistSans.variable} ${inter.variable}`}>
+  return <html lang="en" className="overflow-x-hidden"><body className={`bg-primary my-3 overflow-x-hidden ${nastaliq.variable} ${playfair.variable} ${geistMono.variable} ${geistSans.variable} ${inter.variable}`}>
     <AuthProvider><PremiumThemeProvider><UserIdProvider><MobileHeader /><DesktopHeader /><div className="px-5 lg:px-20">{children}</div><Footer /></UserIdProvider>
       <Up />
       <Script src="https://www.googletagmanager.com/gtag/js?id=G-X7F51SY5RZ" strategy="afterInteractive" />
