@@ -1,0 +1,158 @@
+@import "tailwindcss";
+
+/* ===================================
+   DEFAULT THEME (CREAM + DEEP EMERALD)
+   ===================================
+   OLD COLORS (revert here if needed):
+     --color-primary: #111111;
+     --color-secondary: #6495ED;
+     --color-tertiary: #E5E5E5;
+   =================================== */
+@theme {
+    /* Light Theme - Deep Emerald + Warm Cream */
+    --color-primary: #F3EAE0;
+    --color-secondary: #1E5D50;
+    --color-tertiary: #111111;
+
+    /* Screens */
+    --breakpoint-lg: 900px;
+
+    /* Fonts */
+    --font-sans: var(--font-english), sans-serif; /* default */
+    --font-urdu: var(--font-urdu), serif;
+}
+
+/* Stylish heading for Summary / Author's Note (deep green for cream bg) */
+.heading-stylish {
+    font-family: var(--font-heading), Georgia, serif;
+    color: #8B6914;
+    letter-spacing: 0.02em;
+}
+
+/* Bright title with emerald glow (dark text for light bg) */
+.title-bright {
+    color: #111111;
+    text-shadow: 0 0 8px rgba(30, 93, 80, 0.4), 0 0 20px rgba(30, 93, 80, 0.2);
+}
+
+/* Standard word gap for Urdu text to improve readability */
+.font-urdu {
+    word-spacing: 0.1em;
+}
+
+/* Stylish colorful title for novel/episode names (deep emerald gradient) */
+.title-gradient {
+    color: var(--color-secondary, #1E5D50);
+    background-image: linear-gradient(90deg, #1E5D50 0%, #2F7565 55%, #16483E 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+    .title-gradient {
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+    }
+}
+
+/* ===================================
+   PREMIUM DARK THEME
+   (Same as default, but separate variables for customization)
+   =================================== */
+[data-premium-theme="dark"] {
+    --color-primary-premium: #111111;
+    --color-secondary-premium: #6495ED;
+    --color-tertiary-premium: #E5E5E5;
+}
+
+/* ===================================
+   PREMIUM LIGHT THEME
+   (New light theme for premium users)
+   =================================== */
+[data-premium-theme="light"] {
+    --color-primary-premium: #F3EAE0;
+    --color-secondary-premium: #111111;
+    --color-tertiary-premium: #1E5D50;
+}
+
+/* ===================================
+   THEME UTILITIES
+   =================================== */
+
+/* Dark theme classes (default) */
+.bg-primary-dark { background-color: var(--color-primary); }
+.bg-secondary-dark { background-color: var(--color-secondary); }
+.bg-tertiary-dark { background-color: var(--color-tertiary); }
+.text-primary-dark { color: var(--color-primary); }
+.text-secondary-dark { color: var(--color-secondary); }
+.text-tertiary-dark { color: var(--color-tertiary); }
+.border-primary-dark { border-color: var(--color-primary); }
+.border-secondary-dark { border-color: var(--color-secondary); }
+.border-tertiary-dark { border-color: var(--color-tertiary); }
+
+/* Light theme classes (premium) */
+.bg-primary-light { background-color: var(--color-primary-premium); }
+.bg-secondary-light { background-color: var(--color-secondary-premium); }
+.bg-tertiary-light { background-color: var(--color-tertiary-premium); }
+.text-primary-light { color: var(--color-primary-premium); }
+.text-secondary-light { color: var(--color-secondary-premium); }
+.text-tertiary-light { color: var(--color-tertiary-premium); }
+.border-primary-light { border-color: var(--color-primary-premium); }
+.border-secondary-light { border-color: var(--color-secondary-premium); }
+.border-tertiary-light { border-color: var(--color-tertiary-premium); }
+
+/* Premium theme classes (auto-switch based on data attribute) */
+.bg-primary-premium { background-color: var(--color-primary-premium, var(--color-primary)); }
+.bg-secondary-premium { background-color: var(--color-secondary-premium, var(--color-secondary)); }
+.bg-tertiary-premium { background-color: var(--color-tertiary-premium, var(--color-tertiary)); }
+.text-primary-premium { color: var(--color-primary-premium, var(--color-primary)); }
+.text-secondary-premium { color: var(--color-secondary-premium, var(--color-secondary)); }
+.text-tertiary-premium { color: var(--color-tertiary-premium, var(--color-tertiary)); }
+.border-primary-premium { border-color: var(--color-primary-premium, var(--color-primary)); }
+.border-secondary-premium { border-color: var(--color-secondary-premium, var(--color-secondary)); }
+.border-tertiary-premium { border-color: var(--color-tertiary-premium, var(--color-tertiary)); }
+
+/*  */
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: fit-content;
+  /* font-size: 40px; */
+  font-family: system-ui,sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #0000;
+  -webkit-text-stroke: 1px #111111;
+  background: 
+    linear-gradient(-60deg,#0000 45%,#111111 0 55%,#0000 0) 
+    0/300% 100% no-repeat text;
+  animation: l3 2s linear infinite;
+}
+.loader:before {
+  content: "Loading";
+}
+@keyframes l3 {
+  0%{background-position: 100%}
+}
+
+.fade_end{
+  mask-image: linear-gradient(to left, transparent 0%, black 12%, black 100%);
+
+}
+
+/* Text protection class that prevents selection but preserves mobile scrolling */
+.text-protected {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: default; /* Keep touch callout enabled for scrolling */
+  -webkit-user-drag: none;
+  pointer-events: auto; /* Ensure touch events still work */
+}
+
+.text-protected * {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+

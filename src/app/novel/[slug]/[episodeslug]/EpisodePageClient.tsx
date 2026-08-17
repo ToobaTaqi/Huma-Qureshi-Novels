@@ -1,0 +1,126 @@
+"use client";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
+import { addCommentAction } from "@/app/actions/Comments";
+import NovelBody from "@/app/components/novelPage/NovelBody";
+import Tags from "@/app/components/novelPage/Tags";
+import CommentForm from "@/app/components/novelPage/CommentForm";
+import Comment from "@/app/components/novelPage/Comment";
+import Heading from "@/app/components/Heading";
+import ViewsBadge from "@/app/components/ViewsBadge";
+
+type CommentItem = { _id: string; name: string; comment: string; _createdAt: string };
+
+const WORDS_PER_PAGE = 1200;
+
+function formatDate(value?: string) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toLocaleDateString("en-GB");
+}
+
+function paginateText(text: string, wordsPerPage: number): string[] {
+  const tokens = text.split(/(\s+)/).filter((t) => t.length > 0);
+  const pages: string[] = [];
+  let current: string[] = [];
+  let wordCount = 0;
+  for (const tok of tokens) {
+    const isWord = /\S/.test(tok);
+    if (isWord) {
+      if (wordCount >= wordsPerPage) {
+        pages.push(current.join(""));
+        current = [];
+        wordCount = 0;
+      }
+      current.push(tok);
+      wordCount++;
+    } else if (current.length) {
+      current.push(tok);
+    }
+  }
+  if (current.length) pages.push(current.join(""));
+  return pages.length ? pages : [text];
+}
+
+export default function EpisodePageClient({ episode, initialComments }: { episode: any; initialComments: CommentItem[] }) {
+  const [comments, setComments] = useState(initialComments || []);
+  const [commentName, setCommentName] = useState("");
+  const [commentText, setCommentText] = useState("");
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const pages = paginateText(episode.body || "", WORDS_PER_PAGE);
+  const totalPages = pages.length;
+  const rawPage = parseInt(searchParams.get("page") || "1", 10);
+  const currentPage = Math.min(Math.max(isNaN(rawPage) ? 1 : rawPage, 1), totalPages);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+  }, [currentPage]);
+
+  useEffect(() => {
+    if (!episode._id) return;
+    const key = `viewed_${episode._id}`;
+    if (localStorage.getItem(key)) return;
+    fetch("/api/views", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ slug: episode._id }) }).catch(() => {});
+    localStorage.setItem(key, "true");
+  }, [episode._id]);
+
+  async function submitComment() {
+    if (!commentName.trim() || !commentText.trim()) return;
+    const created = await addCommentAction(episode._id, commentName.trim(), commentText.trim());
+    setComments((old) => [...old, { _id: created._id, name: commentName.trim(), comment: commentText.trim(), _createdAt: created._createdAt }]);
+    setCommentName(""); setCommentText("");
+  }
+
+  const pageLink = (n: number) => `${pathname}?page=${n}` as any;
+
+  return <main className="flex flex-col py-5 gap-6 lg:gap-10">
+    {/* HERO */}
+    <section className="relative overflow-hidden rounded-3xl border border-secondary/25 bg-secondary/5 p-6 lg:p-10 shadow-2xl">
+      <div aria-hidden="true" className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-secondary/15 blur-3xl"></div>
+      <div aria-hidden="true" className="absolute -bottom-28 -left-20 w-80 h-80 rounded-full bg-[#C9A96E]/10 blur-3xl"></div>
+      <div className="relative flex flex-col gap-6">
+        <h1 className="text-2xl lg:text-4xl font-bold text-center lg:text-start title-bright">{episode.novelparent?.title} — {episode.name}</h1>
+        <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+          <p className="px-4 py-1.5 rounded-full border border-secondary text-secondary text-base font-medium bg-secondary/10">Written by: {episode.writer?.writername || ""}</p>
+          <p className="px-4 py-1.5 rounded-full border border-secondary text-secondary text-base font-medium bg-secondary/10">Genre: {episode.genre?.genrename || ""}</p>
+          {formatDate(episode.episodereleasedate) && <p className="px-4 py-1.5 rounded-full border border-secondary text-secondary text-base font-medium bg-secondary/10">Published: {formatDate(episode.episodereleasedate)}</p>}
+          <ViewsBadge views={episode.views} />
+        </div>
+        <div className="rounded-2xl overflow-hidden border border-secondary/30 shadow-2xl">
+          <Image src={episode.novelparent?.banner || "https://res.cloudinary.com/dx1gryhqc/image/upload/v1759093412/humaqureshi_writerbanner_ajh5nx.png"} alt={`${episode.novelparent?.title || "Novel"} banner`} width={1920} height={1080} priority quality={85} className="w-full h-auto object-cover" />
+        </div>
+      </div>
+    </section>
+
+    <Heading name={episode.name} className="title-bright" />
+
+    {/* reading area */}
+    <div className="rounded-2xl border border-secondary/25 bg-secondary/5 shadow-xl">
+      <NovelBody novelText={pages[currentPage - 1]} />
+    </div>
+
+    {totalPages > 1 && (
+      <nav className="flex flex-wrap items-center justify-center gap-2 px-10" aria-label="Pagination">
+        {currentPage > 1 && <Link href={pageLink(currentPage - 1)} className="px-4 py-2 rounded-full border border-secondary text-secondary hover:bg-secondary hover:text-primary transition">Prev</Link>}
+        {pages.map((_, i) => {
+          const n = i + 1;
+          const isCurrent = n === currentPage;
+          return <Link key={n} href={pageLink(n)} aria-current={isCurrent ? "page" : undefined} className={`w-10 h-10 flex items-center justify-center rounded-full border text-sm transition ${isCurrent ? "bg-secondary text-primary font-semibold border-secondary" : "border-secondary text-secondary hover:bg-secondary hover:text-primary"}`}>{n}</Link>;
+        })}
+        {currentPage < totalPages && <Link href={pageLink(currentPage + 1)} className="px-4 py-2 rounded-full border border-secondary text-secondary hover:bg-secondary hover:text-primary transition">Next</Link>}
+      </nav>
+    )}
+
+    <Link href={`/novel/${episode.novelparent?.slug?.current}`} className="flex items-center gap-2 bg-[#e65564] text-white font-bold text-lg w-fit self-center px-7 py-3 rounded-full shadow-lg hover:bg-[#c94050] active:scale-95 transition">
+      Read Full Novel
+    </Link>
+
+    <Tags tags={episode.tags || []} />
+    <section className="flex flex-col gap-10"><Heading name="Comments" /><div className="flex flex-col gap-10 lg:mx-10"><CommentForm handleCommentSubmit={submitComment} commentName={commentName} commentNameHandle={(e: any) => setCommentName(e.target.value)} commentText={commentText} commentTextHandle={(e: any) => setCommentText(e.target.value)} />{comments.map((c) => <Comment key={c._id} name={c.name} createdAt={c._createdAt} comment={c.comment} />)}</div></section>
+  </main>;
+}
