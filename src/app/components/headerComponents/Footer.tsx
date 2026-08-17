@@ -121,7 +121,7 @@ export default function Footer() {
         <p className="text-xs text-[#111111]/60 text-center">
           © {new Date().getFullYear()} Huma Qureshi Novels. All rights reserved.
         </p>
-        <div className="w-[70vw] h-px bg-secondary/20"></div>
+        <div className="w-full max-w-[70vw] h-px bg-secondary/20"></div>
         <p className="text-xs text-[#111111]/70 pt-1 flex flex-wrap justify-center items-center gap-1" dir="rtl">
           <span className="font-urdu">
             اپنی ویب سائٹ حاصل کرنے کے لیے

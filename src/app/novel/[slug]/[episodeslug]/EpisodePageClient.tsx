@@ -10,7 +10,6 @@ import CommentForm from "@/app/components/novelPage/CommentForm";
 import Comment from "@/app/components/novelPage/Comment";
 import Heading from "@/app/components/Heading";
 import ViewsBadge from "@/app/components/ViewsBadge";
-import Ads from "@/app/components/Ads";
 
 type CommentItem = { _id: string; name: string; comment: string; _createdAt: string };
 
@@ -98,19 +97,16 @@ export default function EpisodePageClient({ episode, initialComments }: { episod
       </div>
     </section>
 
-    <Ads format="banner" />
-
     <Heading name={episode.name} className="title-bright" />
 
-    {/* reading area */}
-    <div className="rounded-2xl border border-secondary/25 bg-secondary/5 shadow-xl">
-      <NovelBody novelText={pages[currentPage - 1]} />
-    </div>
+    {/* reading area + pagination */}
+    <div className="flex flex-col gap-3">
+      <div className="rounded-2xl border border-secondary/25 bg-secondary/5 shadow-xl">
+        <NovelBody novelText={pages[currentPage - 1]} />
+      </div>
 
-    <Ads format="rectangle" />
-
-    {totalPages > 1 && (
-      <nav className="flex flex-wrap items-center justify-center gap-2 px-10" aria-label="Pagination">
+      {totalPages > 1 && (
+        <nav className="flex flex-wrap items-center justify-center gap-2 px-10" aria-label="Pagination">
         {currentPage > 1 && <Link href={pageLink(currentPage - 1)} className="px-4 py-2 rounded-full border border-secondary text-secondary hover:bg-secondary hover:text-primary transition">Prev</Link>}
         {pages.map((_, i) => {
           const n = i + 1;
@@ -119,7 +115,8 @@ export default function EpisodePageClient({ episode, initialComments }: { episod
         })}
         {currentPage < totalPages && <Link href={pageLink(currentPage + 1)} className="px-4 py-2 rounded-full border border-secondary text-secondary hover:bg-secondary hover:text-primary transition">Next</Link>}
       </nav>
-    )}
+      )}
+    </div>
 
     <Link href={`/novel/${episode.novelparent?.slug?.current}`} className="flex items-center gap-2 bg-[#e65564] text-white font-bold text-lg w-fit self-center px-7 py-3 rounded-full shadow-lg hover:bg-[#c94050] active:scale-95 transition">
       Read Full Novel

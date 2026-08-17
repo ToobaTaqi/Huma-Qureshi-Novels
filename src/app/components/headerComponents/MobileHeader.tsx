@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Logo from "../Logo";
-import Image from "next/image";
 import Link from "next/link";
 import Search from "./Search";
 import { signOut, useSession } from "next-auth/react";
@@ -10,29 +9,10 @@ import ThemeToggle from "../ThemeToggle";
 export default function MobileHeader() {
   const { data: session, status } = useSession();
   const [menu, setMenu] = useState(false);
-  const [menuIcon, setMenuIcon] = useState(
-    "https://res.cloudinary.com/dx1gryhqc/image/upload/v1758662209/list_nnpk5k.png",
-  );
 
   const openMenu = () => {
     setMenu(!menu);
-    // if (menu === false) {
-    //   console.log("closed");
-    // } else {
-    //   console.log("opened");
-    // }
   };
-  useEffect(() => {
-    if (menu === false) {
-      setMenuIcon(
-        "https://res.cloudinary.com/dx1gryhqc/image/upload/v1758662209/list_nnpk5k.png",
-      );
-    } else {
-      setMenuIcon(
-        "https://res.cloudinary.com/dx1gryhqc/image/upload/v1758662209/close_iwzjrg.png",
-      );
-    }
-  }, [menu]);
 
   // to prevent background from scrolling when sidebar is open
   useEffect(() => {
@@ -62,7 +42,7 @@ export default function MobileHeader() {
         />
       )}
 
-      <header className="lg:hidden flex flex-col gap-3 sticky top-0 z-50 bg-primary/85 backdrop-blur-md border-b border-secondary/15 shadow-[0_2px_8px_rgba(0,0,0,0.06)] px-5 pt-3 pb-4">
+      <header className="lg:hidden flex flex-col gap-3 sticky top-0 z-50 bg-primary/85 backdrop-blur-md border-b border-secondary/15 shadow-[0_2px_8px_rgba(0,0,0,0.06)] px-5 pt-3 pb-4 overflow-hidden">
         {/* logo and hamburger nav menu */}
         <div className="flex justify-between items-center">
           <Logo />
@@ -74,16 +54,12 @@ export default function MobileHeader() {
             </div>
 
             {/* hamburger menu */}
-            <button onClick={openMenu}>
-              <Image
-                src={menuIcon}
-                alt="Logo"
-                width={100}
-                height={100}
-                className={`w-6 h-6 transition-transform duration-300 ease-in-out ${
-                  menu ? "rotate-180" : "rotate-0"
-                }`}
-              />
+            <button onClick={openMenu} className="w-8 h-8 flex items-center justify-center">
+              <div className={`flex flex-col gap-1.5 transition-all duration-300 ease-in-out ${menu ? "rotate-45" : "rotate-0"}`}>
+                <span className={`block w-6 h-0.5 bg-[#111111] rounded-full transition-all duration-300 ease-in-out ${menu ? "translate-y-2" : ""}`}></span>
+                <span className={`block w-6 h-0.5 bg-[#111111] rounded-full transition-all duration-300 ease-in-out ${menu ? "opacity-0 scale-0" : "opacity-100 scale-100"}`}></span>
+                <span className={`block w-6 h-0.5 bg-[#111111] rounded-full transition-all duration-300 ease-in-out ${menu ? "-translate-y-2" : ""}`}></span>
+              </div>
             </button>
           </div>
         </div>
@@ -92,11 +68,12 @@ export default function MobileHeader() {
 
         {/* search bar */}
         <Search />
+      </header>
 
         {/* the open and close section - sidebar */}
         <nav
-          className={`fixed top-28 right-0 w-full h-[calc(100vh-7rem)] bg-primary shadow-md z-50 transform transition-transform duration-300 ease-in-out 
-          ${menu ? "translate-x-0" : "translate-x-full"}
+          className={`fixed top-28 right-0 w-full h-[calc(100vh-7rem)] bg-primary shadow-md z-50 transform transition-all duration-300 ease-in-out 
+          ${menu ? "translate-x-0 visible" : "translate-x-full invisible"}
         flex flex-col items-center justify-start gap-4 text-secondary overflow-y-auto`}
         >
           <div className="flex flex-col gap-3 justify-start items-center w-full px-10 pt-4 pb-8">
@@ -166,7 +143,6 @@ export default function MobileHeader() {
             </button>
           </div>
         </nav>
-      </header>
     </>
   );
 }

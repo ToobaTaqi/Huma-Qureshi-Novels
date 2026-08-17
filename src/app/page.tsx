@@ -2,7 +2,6 @@ import Novel from "./components/Cards/Novel";
 import PDF from "./components/Cards/PDF";
 import Heading from "./components/Heading";
 import HomeFilter from "./components/HomeFilter";
-import Ads from "./components/Ads";
 import Link from "next/link";
 import { client } from "@/sanity/lib/client";
 import { cleanDescription } from "@/lib/seo";
@@ -239,8 +238,6 @@ export default async function HomePage({
       </section>
       )}
 
-      <Ads format="banner" />
-
       {/* BROWSE + FILTER */}
       <section aria-labelledby="browse-heading" className="py-2 bg-[#FAF7F2] rounded-3xl mx-4 lg:mx-0 px-6 py-8">
         <Heading name="Browse Novels" />
@@ -280,8 +277,6 @@ export default async function HomePage({
         </div>
         )}
       </section>
-
-      <Ads format="rectangle" />
 
       {/* POPULAR */}
       <section id="popular" aria-labelledby="popular-heading" className="py-2">
