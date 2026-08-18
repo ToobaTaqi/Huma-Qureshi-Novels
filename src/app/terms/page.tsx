@@ -28,15 +28,15 @@ export default function page() {
       </section>
 
       {/* Content */}
-      <div className="flex flex-col gap-5 max-w-4xl mx-auto px-4">
-        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-6 lg:p-8 flex flex-col gap-4">
+      <div className="flex flex-col gap-5 max-w-4xl mx-auto px-3 sm:px-4">
+        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-4 sm:p-6 lg:p-8 flex flex-col gap-4 break-words overflow-hidden">
           <h2 className="text-xl font-extrabold text-[#1E5D50]">General Terms</h2>
           <p className="leading-8">
             By accessing and using this website, you agree to the following terms and conditions. If you do not agree with any part of these terms, please refrain from using the website.
           </p>
         </div>
 
-        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-6 lg:p-8 flex flex-col gap-4">
+        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-4 sm:p-6 lg:p-8 flex flex-col gap-4 break-words overflow-hidden">
           <h2 className="text-xl font-extrabold text-[#1E5D50]">Content Ownership</h2>
           <p className="leading-8">
             All content published on this website — including novels, PDF books, episodes, stories, afsanas, articles, banners, and creative works — is the original intellectual property of Huma Qureshi. All PDFs and downloadable content are uploaded exclusively by the website owner.
@@ -46,14 +46,14 @@ export default function page() {
           </p>
         </div>
 
-        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-6 lg:p-8 flex flex-col gap-4">
+        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-4 sm:p-6 lg:p-8 flex flex-col gap-4 break-words overflow-hidden">
           <h2 className="text-xl font-extrabold text-[#1E5D50]">Fictional Disclaimer</h2>
           <p className="leading-8">
             All stories, characters, events, and places mentioned on this website are works of fiction unless clearly stated as real. Any resemblance to actual persons (living or dead), places, or incidents is purely coincidental.
           </p>
         </div>
 
-        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-6 lg:p-8 flex flex-col gap-4">
+        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-4 sm:p-6 lg:p-8 flex flex-col gap-4 break-words overflow-hidden">
           <h2 className="text-xl font-extrabold text-[#1E5D50]">No Plagiarism Allowed</h2>
           <p className="leading-8 font-medium">Visitors and readers are not allowed to:</p>
           <ul className="list-disc ps-6 flex flex-col gap-2 font-medium">
@@ -66,7 +66,7 @@ export default function page() {
           </p>
         </div>
 
-        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-6 lg:p-8 flex flex-col gap-4">
+        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-4 sm:p-6 lg:p-8 flex flex-col gap-4 break-words overflow-hidden">
           <h2 className="text-xl font-extrabold text-[#1E5D50]">Collaborations &amp; Permissions</h2>
           <p className="leading-8">
             For sharing, quoting, or collaborating professionally, please contact me directly through the Contact Page or email at{" "}
@@ -76,14 +76,14 @@ export default function page() {
           </p>
         </div>
 
-        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-6 lg:p-8 flex flex-col gap-4">
+        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-4 sm:p-6 lg:p-8 flex flex-col gap-4 break-words overflow-hidden">
           <h2 className="text-xl font-extrabold text-[#1E5D50]">Privacy &amp; Data Use</h2>
           <p className="leading-8">
             Any personal data submitted through contact forms (such as name or email) will be kept confidential and never shared with third parties without consent.
           </p>
         </div>
 
-        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-6 lg:p-8 flex flex-col gap-4">
+        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-4 sm:p-6 lg:p-8 flex flex-col gap-4 break-words overflow-hidden">
           <h2 className="text-xl font-extrabold text-[#1E5D50]">Disclaimer of Liability</h2>
           <p className="leading-8">
             While we try to keep all information accurate and updated, this website makes no guarantees about the completeness, reliability, or accuracy of the content.
@@ -99,21 +99,21 @@ export default function page() {
           </p>
         </div>
 
-        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-6 lg:p-8 flex flex-col gap-4">
+        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-4 sm:p-6 lg:p-8 flex flex-col gap-4 break-words overflow-hidden">
           <h2 className="text-xl font-extrabold text-[#1E5D50]">External Links Disclaimer</h2>
           <p className="leading-8">
             This website may contain links to external websites (e.g., YouTube, Facebook, Instagram, or PDF hosting services). We do not control the content or policies of these external websites and are not responsible for their content, privacy practices, or availability.
           </p>
         </div>
 
-        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-6 lg:p-8 flex flex-col gap-4">
+        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-4 sm:p-6 lg:p-8 flex flex-col gap-4 break-words overflow-hidden">
           <h2 className="text-xl font-extrabold text-[#1E5D50]">Download Responsibility</h2>
           <p className="leading-8">
             PDFs and files available for download on this website are provided for the reader&apos;s personal use. We are not responsible for how downloaded files are used, distributed, or stored by the user, or for any damage caused to devices during download.
           </p>
         </div>
 
-        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-6 lg:p-8 flex flex-col gap-4">
+        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-4 sm:p-6 lg:p-8 flex flex-col gap-4 break-words overflow-hidden">
           <h2 className="text-xl font-extrabold text-[#1E5D50]">Copyright Protection &amp; DMCA Policy</h2>
           <p className="leading-8">
             All novels, PDF books, stories, afsanas, and creative content published on this website are the original works of Huma Qureshi. Full copyright ownership is retained by the author.
@@ -132,7 +132,7 @@ export default function page() {
           </p>
         </div>
 
-        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-6 lg:p-8 flex flex-col gap-4">
+        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-4 sm:p-6 lg:p-8 flex flex-col gap-4 break-words overflow-hidden">
           <h2 className="text-xl font-extrabold text-[#1E5D50]">Copyright &amp; Content Removal Requests</h2>
           <p className="leading-8">
             All content on this website is the original work of Huma Qureshi unless otherwise stated. If you believe any content on this website infringes your copyright or has been published without proper authorization, please contact us at{" "}

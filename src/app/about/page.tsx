@@ -28,9 +28,9 @@ export default function page() {
       </section>
 
       {/* Content */}
-      <div className="flex flex-col gap-6 max-w-4xl mx-auto px-4">
+      <div className="flex flex-col gap-6 max-w-4xl mx-auto px-3 sm:px-4">
         {/* Intro */}
-        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-6 lg:p-8 flex flex-col gap-4">
+        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-4 sm:p-6 lg:p-8 flex flex-col gap-4 break-words overflow-hidden">
           <p className="text-lg leading-8 font-medium">
             Hi, I&apos;m <span className="font-bold text-[#1E5D50]">Huma Qureshi</span>, a passionate storyteller and novelist, and ghost writer.
           </p>
@@ -43,7 +43,7 @@ export default function page() {
         </div>
 
         {/* Writing Journey */}
-        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-6 lg:p-8 flex flex-col gap-4">
+        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-4 sm:p-6 lg:p-8 flex flex-col gap-4 break-words overflow-hidden">
           <h2 className="text-2xl font-extrabold text-[#1E5D50]">My Writing Journey</h2>
           <p className="leading-8">
             I began writing five years ago, publishing my earliest work on social platforms. From there, my stories spread across different mediums and platforms — not through marketing, but through readers who kept sharing, recommending, and reposting them. I have also published work on Amazon Kindle, including collaborative and ghost-written projects.
@@ -51,7 +51,7 @@ export default function page() {
         </div>
 
         {/* What I've Written */}
-        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-6 lg:p-8 flex flex-col gap-4">
+        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-4 sm:p-6 lg:p-8 flex flex-col gap-4 break-words overflow-hidden">
           <h2 className="text-2xl font-extrabold text-[#1E5D50]">Till Now, I Have Written</h2>
           <ul className="list-disc ps-6 flex flex-col gap-2 font-medium">
             <li>10 full-length Urdu novels</li>
@@ -63,7 +63,7 @@ export default function page() {
         </div>
 
         {/* Genres */}
-        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-6 lg:p-8 flex flex-col gap-4">
+        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-4 sm:p-6 lg:p-8 flex flex-col gap-4 break-words overflow-hidden">
           <h2 className="text-2xl font-extrabold text-[#1E5D50]">My Stories Often Explore</h2>
           <ul className="list-disc ps-6 flex flex-col gap-2 font-medium">
             <li>Romance &amp; Emotional Fiction</li>
@@ -75,7 +75,7 @@ export default function page() {
         </div>
 
         {/* Published On */}
-        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-6 lg:p-8 flex flex-col gap-4">
+        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-4 sm:p-6 lg:p-8 flex flex-col gap-4 break-words overflow-hidden">
           <h2 className="text-2xl font-extrabold text-[#1E5D50]">Published &amp; Available On</h2>
           <p className="leading-8">
             I strongly believe literature is a mirror. It reflects society as it is, and as it could be.
@@ -93,7 +93,7 @@ export default function page() {
         </div>
 
         {/* Why I Write */}
-        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-6 lg:p-8 flex flex-col gap-4">
+        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-4 sm:p-6 lg:p-8 flex flex-col gap-4 break-words overflow-hidden">
           <h2 className="text-2xl font-extrabold text-[#1E5D50]">Why I Write</h2>
           <ul className="list-disc ps-6 flex flex-col gap-2 font-medium">
             <li>Because stories matter.</li>
@@ -103,7 +103,7 @@ export default function page() {
         </div>
 
         {/* Connect */}
-        <div className="bg-[#1E5D50] rounded-2xl p-6 lg:p-8 flex flex-col gap-4 text-center">
+        <div className="bg-[#1E5D50] rounded-2xl p-4 sm:p-6 lg:p-8 flex flex-col gap-4 break-words overflow-hidden text-center">
           <h2 className="text-2xl font-extrabold text-white">Let&apos;s Connect</h2>
           <p className="leading-8 text-white/80">
             For collaborations, ghost writing requests, rights inquiries, or general messages, please visit the{" "}

@@ -5,7 +5,6 @@ import Footer from "./components/headerComponents/Footer";
 import MobileHeader from "./components/headerComponents/MobileHeader";
 import DesktopHeader from "./components/headerComponents/DesktopHeader";
 import Up from "./components/headerComponents/Up";
-import Ads from "./components/Ads";
 import Script from "next/script";
 import AuthProvider from "./components/AuthProvider";
 import { PremiumThemeProvider } from "./components/PremiumThemeProvider";
@@ -30,7 +29,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html lang="en" className="overflow-x-hidden"><body className={`bg-primary my-3 overflow-x-hidden ${nastaliq.variable} ${playfair.variable} ${geistMono.variable} ${geistSans.variable} ${inter.variable}`}>
-    <AuthProvider><PremiumThemeProvider><UserIdProvider><MobileHeader /><DesktopHeader /><div className="px-5 lg:px-20 overflow-x-hidden"><Ads format="banner" />{children}</div><Footer /></UserIdProvider>
+    <AuthProvider><PremiumThemeProvider><UserIdProvider><MobileHeader /><DesktopHeader /><div className="px-5 lg:px-20 overflow-x-hidden">{children}</div><Footer /></UserIdProvider>
       <Up />
       <Script src="https://www.googletagmanager.com/gtag/js?id=G-X7F51SY5RZ" strategy="afterInteractive" />
       <Script id="google-analytics" strategy="afterInteractive">{`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-X7F51SY5RZ');`}</Script>
