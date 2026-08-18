@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { createPortal } from "react-dom";
 
 function useDebounce<T>(value: T, delay: number): T {
   const [debounced, setDebounced] = useState(value);
@@ -26,6 +27,7 @@ export default function Search() {
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0, width: 0 });
 
   const isOpen = focused && debouncedQuery.trim().length >= 1;
 
@@ -100,6 +102,13 @@ export default function Search() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (isOpen && wrapperRef.current) {
+      const rect = wrapperRef.current.getBoundingClientRect();
+      setDropdownPos({ top: rect.bottom + 8, left: rect.left, width: Math.min(320, window.innerWidth - 32) });
+    }
+  }, [isOpen]);
+
   return (
     <div ref={wrapperRef} className="w-full lg:w-fit flex justify-center relative">
       <div
@@ -162,13 +171,14 @@ export default function Search() {
         )}
       </div>
 
-      {/* Dropdown */}
-      {isOpen && (
+      {/* Dropdown - rendered via portal to escape header overflow */}
+      {isOpen && typeof window !== "undefined" && createPortal(
         <div
           id="search-listbox"
           role="listbox"
           aria-label="Search results"
-          className="absolute top-full mt-2 right-0 w-[320px] max-w-[85vw] rounded-2xl max-h-80 overflow-y-auto z-50 border-2 border-[#DCCFC2] bg-[#FFFDF9] shadow-[0_8px_32px_rgba(30,93,80,0.15)]"
+          style={{ position: "fixed", top: dropdownPos.top, left: dropdownPos.left, width: dropdownPos.width }}
+          className="rounded-2xl max-h-80 overflow-y-auto z-[9999] border-2 border-[#DCCFC2] bg-[#FFFDF9] shadow-[0_8px_32px_rgba(30,93,80,0.15)]"
         >
           {loading && (
             <div className="flex items-center gap-3 p-4">
@@ -246,7 +256,8 @@ export default function Search() {
               ))}
             </ul>
           )}
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

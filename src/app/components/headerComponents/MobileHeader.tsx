@@ -17,14 +17,28 @@ export default function MobileHeader() {
   // to prevent background from scrolling when sidebar is open
   useEffect(() => {
     if (menu) {
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
       document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "auto";
+      const scrollY = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+      if (scrollY) window.scrollTo(0, parseInt(scrollY || "0") * -1);
     }
 
     return () => {
-      // Clean up in case the component unmounts
-      document.body.style.overflow = "auto";
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
     };
   }, [menu]);
 

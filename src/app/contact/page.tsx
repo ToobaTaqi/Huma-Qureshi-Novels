@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function page() {
   return (
-    <div className="flex flex-col gap-6 py-5">
+    <div className="flex flex-col gap-6 py-5 overflow-hidden">
       {/* Hero Banner */}
       <section className="relative mx-4 lg:mx-0 rounded-3xl overflow-hidden bg-[#1E5D50] shadow-2xl">
         <div aria-hidden="true" className="absolute inset-0 -z-0">
@@ -31,7 +31,7 @@ export default function page() {
       {/* Content */}
       <div className="flex flex-col gap-6 max-w-4xl mx-auto px-3 sm:px-4">
         {/* Let's Connect */}
-        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-4 sm:p-6 lg:p-8 flex flex-col gap-4 break-words overflow-hidden">
+        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-3 sm:p-5 lg:p-8 flex flex-col gap-4 break-words">
           <h2 className="text-2xl font-extrabold text-[#1E5D50]">Let&apos;s Connect</h2>
           <p className="leading-8">
             Have a project in mind? Want to discuss a story idea, a freelance opportunity, or just want to say hello? Feel free to drop a message. I personally read every email, and I&apos;ll get back to you as soon as possible.
@@ -39,7 +39,7 @@ export default function page() {
         </div>
 
         {/* Collaboration */}
-        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-4 sm:p-6 lg:p-8 flex flex-col gap-4 break-words overflow-hidden">
+        <div className="bg-[#FFFDF9] rounded-2xl border-2 border-[#DCCFC2] p-3 sm:p-5 lg:p-8 flex flex-col gap-4 break-words">
           <h2 className="text-2xl font-extrabold text-[#1E5D50]">Looking for Professional Collaboration?</h2>
           <p className="leading-8 font-medium">I&apos;m open to:</p>
           <ul className="list-disc ps-6 flex flex-col gap-2 font-medium">
@@ -73,7 +73,7 @@ export default function page() {
         </div>
 
         {/* Social Links */}
-        <div className="bg-[#1E5D50] rounded-2xl p-4 sm:p-6 lg:p-8 flex flex-col items-center gap-5 break-words overflow-hidden">
+        <div className="bg-[#1E5D50] rounded-2xl p-3 sm:p-5 lg:p-8 flex flex-col items-center gap-5 break-words">
           <h2 className="text-2xl font-extrabold text-white">Follow Me</h2>
           <div className="flex items-center gap-4">
             <Link href="mailto:humaqureshiofficial73@gmail.com" className="w-14 h-14 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-white/25 transition">
