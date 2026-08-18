@@ -42,8 +42,8 @@ export default function page() {
     <div className="py-5 lg:py-10 text-tertiary flex flex-col gap-10 font-urdu" dir="rtl">
 
       {/* ── Heading ── */}
-      <div className="flex flex-col gap-3 text-center">
-        <h1 className="leading-16 text-3xl text-tertiary">
+      <div className="flex flex-col gap-3 text-center px-4">
+        <h1 className="leading-snug text-xl sm:text-2xl lg:text-3xl text-tertiary break-words">
           کیا آپ بھی ایک لکھاری ہیں اور
           humaqureshinovels.com
           کی طرح اپنی ایک کسٹم ویب سائٹ بنوانا چاہتے ہیں؟
