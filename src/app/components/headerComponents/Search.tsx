@@ -30,6 +30,7 @@ export default function Search() {
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0, width: 0 });
 
   const isOpen = focused && debouncedQuery.trim().length >= 1;
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -94,7 +95,11 @@ export default function Search() {
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+      const target = e.target as Node;
+      if (
+        wrapperRef.current && !wrapperRef.current.contains(target) &&
+        dropdownRef.current && !dropdownRef.current.contains(target)
+      ) {
         setFocused(false);
       }
     };
@@ -174,6 +179,7 @@ export default function Search() {
       {/* Dropdown - rendered via portal to escape header overflow */}
       {isOpen && typeof window !== "undefined" && createPortal(
         <div
+          ref={dropdownRef}
           id="search-listbox"
           role="listbox"
           aria-label="Search results"
